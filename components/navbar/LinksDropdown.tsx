@@ -3,7 +3,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { LuAlignLeft } from "react-icons/lu";
 import Link from "next/link";
@@ -21,11 +20,11 @@ function LinksDropdown() {
       <DropdownMenuContent className="w-5" align="center">
         {links.map((item) => {
           return (
-            <DropdownMenuItem key={item.href}>
-              <Link href={item.href} className="capitalize ">
+            <Link href={item.href} key={item.href}>
+              <DropdownMenuItem className="capitalize">
                 {item.label}
-              </Link>
-            </DropdownMenuItem>
+              </DropdownMenuItem>
+            </Link>
           );
         })}
       </DropdownMenuContent>
