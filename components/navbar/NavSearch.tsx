@@ -2,12 +2,12 @@ import { Input } from "../ui/input";
 
 function NavSearch() {
   return (
-    <div>
+    <div className="w-full md:w-60">
       <Input
         name=""
         type="search"
         placeholder="search product..."
-        className="max-w-xl w-full md:w-full dark:bg-muted flex justify-center"
+        className="py-4 max-w-4xl w-full md:w-full dark:bg-muted flex justify-center"
       ></Input>
     </div>
   );

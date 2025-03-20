@@ -13,7 +13,6 @@ function FeaturedProducts() {
   useEffect(() => {
     const getProducts = async () => {
       const res = await axios("/api/products");
-      console.log(res);
       setFeaturedProd(res.data)
     };
     getProducts();
@@ -23,7 +22,10 @@ function FeaturedProducts() {
   if (featuredProd.length === 0) return <EmptyList />;
   return (
     <section className="pt-24">
-      <SectionTitle text="Featured Products" />
+      <SectionTitle
+        text="Super Fly provides"
+        text1="quality furniture."
+      />
       <ProductsGrid products={featuredProd} />
     </section>
   );

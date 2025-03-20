@@ -19,6 +19,7 @@ import Link from "next/link";
 import { Card, CardContent } from "../ui/card";
 import Image from "next/image";
 import FavoriteToggleButton from "./FavoriteToggleButton";
+import { describe } from "node:test";
 
 function ProductsGrid({ products }: { products: Product[] }) {
   return (
@@ -28,13 +29,14 @@ function ProductsGrid({ products }: { products: Product[] }) {
           id: productId,
           name,
           image,
+          description,
           price,
         } = item;
         const dollarsAmount = formatCurrency(price);
         return (
           <article key={productId} className="group relative">
             <Link href={`/products/${productId}`}>
-              <Card className="transform group-hover:shadow-xl transition-shadow duration-300 bg-accent">
+              <Card className="transform group-hover:shadow-xl transition-shadow duration-300 bg-primary-background">
                 <CardContent className="p-4">
                   <div className="relative h-64 md:h-48 rounded overflow-hidden">
                     <Image
@@ -48,15 +50,16 @@ function ProductsGrid({ products }: { products: Product[] }) {
                   </div>
                   <div className="mt-4 text-center">
                     <h2 className="capitalize text-lg">{name}</h2>
-                    <p className="mt-2 text-accent-foreground">
+                    <p className="mt-1 mb-1 text-accent-foreground">
                       {dollarsAmount}
                     </p>
+                    <p className="text-start">{description}</p>
                   </div>
                 </CardContent>
               </Card>
             </Link>
             <div className="absolute top-7 right-7 z-5">
-              <FavoriteToggleButton productId={productId}/>
+              <FavoriteToggleButton productId={productId} />
             </div>
           </article>
         );
