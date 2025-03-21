@@ -7,7 +7,11 @@ import ProductRating from "@/components/single-product/ProductRating";
 import db from "@/utils/db";
 import { Product } from "@prisma/client";
 
-async function SingleProduct({ params }: { params: { id: string } }) {
+type PageProps = {
+  params: { id: string };
+};
+
+async function SingleProduct({ params }: PageProps) {
   const result: Product | null = await db.product.findUnique({
     where: { id: params.id },
   });
