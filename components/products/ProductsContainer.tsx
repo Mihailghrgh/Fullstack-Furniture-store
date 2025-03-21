@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import axios from "axios";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Product } from "@prisma/client";
 
 function ProductsContainer({
@@ -17,24 +17,26 @@ function ProductsContainer({
   layout: string;
   search: string;
 }) {
-  const [searchedProducts, setSearchedProducts] = useState<Product[]>([]);
-
-  const getProducts = useCallback(async () => {
-    try {
-      const products = await axios("/api/products?type=featured");
-
-      setSearchedProducts(products.data);
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+  const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    getProducts();
-  }, [getProducts]);
+    const fetchProducts = async () => {
+      let url = `/api/products`;
+      const params = new URLSearchParams();
+      if (search) params.set("search", search);
+      if (layout) params.set("layout", layout);
+      if (search) {
+        params.set("type", "searching");
+      }
+      url += `?${params.toString()}`;
+      const { data } = await axios.get(url);
+      setProducts(data);
+    };
 
-  const data = searchedProducts;
-  const totalProducts = data.length;
+    fetchProducts();
+  }, [search, layout]);
+
+  const totalProducts = products.length;
   const searchTerm = search ? `&search=${search}` : "";
 
   return (
@@ -79,9 +81,9 @@ function ProductsContainer({
             Sorry , no products matched your search
           </h5>
         ) : layout === "grid" ? (
-          <ProductsGrid products={data} />
+          <ProductsGrid products={products} />
         ) : (
-          <ProductsList products={data} />
+          <ProductsList products={products} />
         )}
       </div>
     </>

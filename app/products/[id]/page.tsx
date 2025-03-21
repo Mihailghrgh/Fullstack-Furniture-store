@@ -1,0 +1,63 @@
+import BreadCrumbs from "@/components/single-product/BreadCrumbs";
+import Image from "next/image";
+import { formatCurrency } from "@/utils/format";
+import FavoriteToggleButton from "@/components/products/FavoriteToggleButton";
+import AddToCart from "@/components/single-product/AddToCart";
+import ProductRating from "@/components/single-product/ProductRating";
+import db from "@/utils/db";
+import { Product } from "@prisma/client";
+
+async function SingleProduct({ params }: { params: { id: string } }) {
+  const result: Product | null = await db.product.findUnique({
+    where: { id: params.id },
+  });
+
+  if (result === null) {
+    return new Response("Product ID is required", { status: 400 });
+  }
+
+  ////Since this is a server component and not a client one, no need to call axios await and can call directly the db method
+  //// SERVER side safe for calling directly
+  //// Client component ALWAYS AXIOS or API route for no leaks in the code base
+  // const { data } = await axios(
+  //   `http://localhost:3000/api/products?type=single&id=${params.id}`
+  // );
+  const { name, image, company, description, price } = result;
+
+  const dollarsAmount = formatCurrency(price);
+  return (
+    <section>
+      <BreadCrumbs name={name} />
+      <div className="mt-6 grid gap-y-8 lg:grid-cols-2 lg:gap-x-16">
+        {/* IMAGE FIRST COL */}
+        <div className="relative w-full h-64 lg:h-full">
+          <Image
+            src={image}
+            alt={name}
+            fill
+            // width={500} // Example width
+            // height={200} // Example height
+            sizes="(max-width:768px) 100vw,(max-width:1200px) 50vw,33vw"
+            priority
+            className="rounded object-cover"
+          />
+        </div>
+        {/* PRODUCT INFO SECOND COL */}
+        <div>
+          <div className="flex gap-x-8 items-center">
+            <h1 className="capitalize text-3xl font-bold">{name}</h1>
+            <FavoriteToggleButton productId={params.id} />
+          </div>
+          <ProductRating productId={params.id} />
+          <h4 className="text-xl mt-2">{company}</h4>
+          <p className="mt-3 text-md inline-block p-2 rounded">
+            {dollarsAmount}
+          </p>
+          <p className="mt-6 leading-8 text-muted-foreground">{description}</p>
+          <AddToCart productId={params.id} />
+        </div>
+      </div>
+    </section>
+  );
+}
+export default SingleProduct;
