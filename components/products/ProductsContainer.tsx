@@ -14,8 +14,8 @@ function ProductsContainer({
   layout,
   search,
 }: {
-  layout: string;
-  search: string;
+  layout: string | undefined;
+  search: string | undefined;
 }) {
   const [products, setProducts] = useState<Product[]>([]);
 
