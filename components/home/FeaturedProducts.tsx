@@ -17,7 +17,7 @@ function FeaturedProducts() {
     getProducts();
   }, []);
 
-  if (featuredProd.length === 0) return <EmptyList />;
+  if (featuredProd.length === 0) return <EmptyList heading="Nothing here..." />;
   return (
     <section className="pt-24">
       <SectionTitle text="Super Fly provides" text1="quality furniture." />
