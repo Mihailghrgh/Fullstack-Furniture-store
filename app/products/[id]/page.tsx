@@ -8,12 +8,13 @@ import db from "@/utils/db";
 import { Product } from "@prisma/client";
 
 type PageProps = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
 async function SingleProduct({ params }: PageProps) {
+  const { id } = await params;
   const result: Product | null = await db.product.findUnique({
-    where: { id: params.id },
+    where: { id: id },
   });
 
   if (result === null) {
