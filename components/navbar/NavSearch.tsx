@@ -3,7 +3,6 @@ import { Input } from "../ui/input";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 import { useState, useEffect } from "react";
-import axios from "axios";
 
 function NavSearch() {
   const searchParams = useSearchParams();

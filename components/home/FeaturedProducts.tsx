@@ -1,5 +1,4 @@
 "use client";
-import { fetchFeaturedProducts } from "@/utils/actions";
 import EmptyList from "../global/EmptyList";
 import SectionTitle from "../global/SectionTitle";
 import ProductsGrid from "../products/ProductsGrid";
@@ -18,7 +17,6 @@ function FeaturedProducts() {
     getProducts();
   }, []);
 
-  // const products = await fetchFeaturedProducts();
   if (featuredProd.length === 0) return <EmptyList />;
   return (
     <section className="pt-24">

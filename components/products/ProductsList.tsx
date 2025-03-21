@@ -4,7 +4,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Product } from "@prisma/client";
 import Image from "next/image";
 import FavoriteToggleButton from "./FavoriteToggleButton";
-import { Car } from "lucide-react";
 
 function ProductsList({ products }: { products: Product[] }) {
   return (

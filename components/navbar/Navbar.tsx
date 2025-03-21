@@ -6,7 +6,6 @@ import NavSearch from "./NavSearch";
 import CartButton from "./CartButton";
 import DarkMode from "./DarkMode";
 import LinksDropdown from "./LinksDropdown";
-import { useState } from "react";
 
 function Navbar() {
   return (
