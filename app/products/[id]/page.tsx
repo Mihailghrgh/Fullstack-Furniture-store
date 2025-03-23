@@ -5,9 +5,9 @@ import FavoriteToggleButton from "@/components/products/FavoriteToggleButton";
 import AddToCart from "@/components/single-product/AddToCart";
 import ProductRating from "@/components/single-product/ProductRating";
 import axios from "axios";
-type PageProps = {
-  params: Promise<{ id: string }>;
-};
+// type PageProps = {
+//   params: Promise<{ id: string }>;
+// };
 
 async function SingleProduct({ params }: { params: { id: string } }) {
   ////Since this is a server component and not a client one, no need to call axios await and can call directly the db method
