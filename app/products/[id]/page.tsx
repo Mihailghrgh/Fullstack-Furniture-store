@@ -17,7 +17,7 @@ async function SingleProduct({ params }: PageProps) {
   const { id } = await params;
 
   const { data } = await axios(
-    `http://localhost:3000/api/products?type=unique&id=${id}`
+    `https://furniture-shopping-4zt7x9x1a-mihailghrghs-projects.vercel.app//api/products?type=unique&id=${id}`
   );
   console.log(data);
   // const { data } = await axios(
