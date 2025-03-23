@@ -1,7 +1,6 @@
 "use client";
 
 import { LuUser } from "react-icons/lu";
-import { currentUser } from "@clerk/nextjs/server";
 import { useUser } from "@clerk/nextjs";
 
 function UserIcon() {

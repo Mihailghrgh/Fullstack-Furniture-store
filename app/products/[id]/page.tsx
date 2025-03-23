@@ -4,8 +4,6 @@ import { formatCurrency } from "@/utils/format";
 import FavoriteToggleButton from "@/components/products/FavoriteToggleButton";
 import AddToCart from "@/components/single-product/AddToCart";
 import ProductRating from "@/components/single-product/ProductRating";
-import db from "@/utils/db";
-import { Product } from "@prisma/client";
 import axios from "axios";
 type PageProps = {
   params: Promise<{ id: string }>;
