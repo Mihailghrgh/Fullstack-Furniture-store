@@ -9,12 +9,12 @@ type PageProps = {
   params: Promise<{ id: string }>;
 };
 
-async function SingleProduct({ params }: PageProps) {
+async function SingleProduct({ params }: { params: { id: string } }) {
   ////Since this is a server component and not a client one, no need to call axios await and can call directly the db method
   //// SERVER side safe for calling directly
   //// Client component ALWAYS AXIOS or API route for no leaks in the code base
 
-  const { id } = await params;
+  const { id } = params;
 
   const { data } = await axios(
     `http://localhost:3000/api/products?type=unique&id=${id}`
