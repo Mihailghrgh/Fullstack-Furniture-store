@@ -6,28 +6,26 @@ import AddToCart from "@/components/single-product/AddToCart";
 import ProductRating from "@/components/single-product/ProductRating";
 import db from "@/utils/db";
 import { Product } from "@prisma/client";
-
+import axios from "axios";
 type PageProps = {
   params: Promise<{ id: string }>;
 };
 
 async function SingleProduct({ params }: PageProps) {
-  const { id } = await params;
-  const result: Product | null = await db.product.findUnique({
-    where: { id: id },
-  });
-
-  if (result === null) {
-    return new Response("Product ID is required", { status: 400 });
-  }
-
   ////Since this is a server component and not a client one, no need to call axios await and can call directly the db method
   //// SERVER side safe for calling directly
   //// Client component ALWAYS AXIOS or API route for no leaks in the code base
+
+  const { id } = await params;
+
+  const { data } = await axios(
+    `http://localhost:3000/api/products?type=unique&id=${id}`
+  );
+  console.log(data);
   // const { data } = await axios(
   //   `http://localhost:3000/api/products?type=single&id=${params.id}`
   // );
-  const { name, image, company, description, price } = result;
+  const { name, image, company, description, price } = data;
 
   const dollarsAmount = formatCurrency(price);
   return (

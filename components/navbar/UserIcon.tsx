@@ -1,6 +1,20 @@
+"use client";
+
+import { LuUser } from "react-icons/lu";
+import { currentUser } from "@clerk/nextjs/server";
+import { useUser } from "@clerk/nextjs";
+
 function UserIcon() {
-  return (
-    <div>UserIcon</div>
-  )
+  const user = useUser();
+  const profileImage = user.user?.imageUrl;
+
+
+  if (profileImage) {
+    return (
+      <img src={profileImage} className="w-6 h-6 rounded-full object-cover" />
+    );
+  }
+
+  return <LuUser className="w-6 h-6 rounded-full ">UserIcon</LuUser>;
 }
-export default UserIcon
+export default UserIcon;

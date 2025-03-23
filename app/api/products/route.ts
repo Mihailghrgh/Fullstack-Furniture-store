@@ -9,12 +9,22 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const type = searchParams.get("type");
   const search = searchParams.get("search");
+  const id = searchParams.get("id");
 
   let result;
   switch (type) {
     case "featured":
       result = await db.product.findMany({
         where: { featured: true },
+      });
+      break;
+
+    case "unique":
+      if (!id) {
+        return new Response("Id is not available", { status: 400 });
+      }
+      result = await db.product.findUnique({
+        where: { id: id },
       });
       break;
 
