@@ -19,7 +19,6 @@ async function SingleProduct({ params }: PageProps) {
   const { data } = await axios(
     `https://furniture-shopping-eta.vercel.app/api/products?type=unique&id=${id}`
   );
-  console.log(data);
   // const { data } = await axios(
   //   `http://localhost:3000/api/products?type=single&id=${params.id}`
   // );

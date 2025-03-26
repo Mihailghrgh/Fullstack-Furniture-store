@@ -5,6 +5,7 @@ import Container from "@/components/global/Container";
 import Navbar from "@/components/navbar/Navbar";
 import Providers from "./providers";
 import { ClerkProvider } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -19,17 +20,20 @@ export const metadata: Metadata = {
   description: "An E-commerce store made with NextJS",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { userId } = await auth();
+  const isAdmin = userId === process.env.ADMIN_USER_ID;
+
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <body className={inter.className}>
           <Providers>
-            <Navbar />
+            <Navbar isAdmin={isAdmin} />
             <Container className="py-20">{children}</Container>
           </Providers>
         </body>

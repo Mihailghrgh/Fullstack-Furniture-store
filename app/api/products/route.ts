@@ -1,6 +1,8 @@
 import db from "@/utils/db";
 import { NextResponse } from "next/server";
-// GET /api/products
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
+import jacket from "/public/images/jacket.png"
 
 ////Logic kept in here for switch cases of different search params
 ////Instead of action because of issues with accessing base code on a request keeping it simple as an api request after an axios get request
@@ -51,4 +53,39 @@ export async function GET(request: Request) {
   }
 
   return NextResponse.json(result);
+}
+
+export async function POST(
+  request: Request
+): Promise<NextResponse<{ message: string }>> {
+  let newData = await request.formData();
+  const data = Object.fromEntries(newData);
+
+  const name = data.name as string;
+  const company = data.company as string;
+  const description = data.description as string;
+  const image = data.image as File;
+  const price = Number(data.price as string);
+  const featured = Boolean(data.featured as string);
+
+  const { userId } = await auth();
+
+  if (!userId) redirect("/");
+
+  try {
+    await db.product.create({
+      data: {
+        name,
+        company,
+        description,
+        price,
+        image: "/images/jacket.png",
+        featured,
+        clerkId: userId,
+      },
+    });
+    return NextResponse.json({ message: "created" });
+  } catch (error: any) {
+    return NextResponse.json({ message: error?.response?.data?.message });
+  }
 }

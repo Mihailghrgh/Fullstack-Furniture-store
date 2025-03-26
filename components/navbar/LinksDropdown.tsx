@@ -9,13 +9,12 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { links } from "@/utils/links";
 import UserIcon from "./UserIcon";
-// import { UserIcon } from "lucide-react";
 import { SignedOut } from "@clerk/nextjs";
 import { SignedIn, SignInButton, SignUpButton } from "@clerk/clerk-react";
 import { DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import SignOutLink from "./SignOutLink";
 
-function LinksDropdown() {
+function LinksDropdown({ isAdmin } :{isAdmin : boolean} ) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -40,6 +39,9 @@ function LinksDropdown() {
         </SignedOut>
         <SignedIn>
           {links.map((item) => {
+            if (item.label === "dashboard" && !isAdmin) {
+              return null;
+            }
             return (
               <Link href={item.href} key={item.href}>
                 <DropdownMenuItem className="capitalize">
@@ -50,7 +52,7 @@ function LinksDropdown() {
           })}
           <DropdownMenuSeparator />
           <DropdownMenuItem>
-            <SignOutLink/>
+            <SignOutLink />
           </DropdownMenuItem>
         </SignedIn>
       </DropdownMenuContent>
