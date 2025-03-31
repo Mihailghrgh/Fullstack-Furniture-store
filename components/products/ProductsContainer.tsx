@@ -25,9 +25,8 @@ function ProductsContainer({
       const params = new URLSearchParams();
       if (search) params.set("search", search);
       if (layout) params.set("layout", layout);
-      if (search) {
-        params.set("type", "searching");
-      }
+      if (search) params.set("type", "searching");
+
       url += `?${params.toString()}`;
       const { data } = await axios.get(url);
       setProducts(data);

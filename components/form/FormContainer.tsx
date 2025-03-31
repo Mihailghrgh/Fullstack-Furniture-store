@@ -2,22 +2,13 @@
 
 import { useActionState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { actionFunction } from "@/utils/type";
 import axios from "axios";
 
-const initialState = {
-  message: "",
-};
-
-function FormContainer({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function FormContainer({ children }: { children: React.ReactNode }) {
   const [state, formAction] = useActionState(
     async (prevState: any, formData: FormData) => {
       try {
-        const response = await axios.post("/api/products" , formData);
+        const response = await axios.post("/api/products", formData);
 
         return { message: response.data.message };
       } catch (error: any) {
@@ -28,7 +19,7 @@ function FormContainer({
         };
       }
     },
-    { message: "Sending Request" }
+    { message: "" }
   );
   const { toast } = useToast();
   useEffect(() => {
@@ -36,6 +27,14 @@ function FormContainer({
       toast({ description: state.message });
     }
   }, [state]);
-  return <form action={formAction}>{children}</form>;
+
+  const handleSubmit = () => {
+    toast({ description: "Form Submitted" });
+  };
+  return (
+    <form action={formAction} onSubmit={handleSubmit}>
+      {children}
+    </form>
+  );
 }
 export default FormContainer;

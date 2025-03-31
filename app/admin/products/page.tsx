@@ -1,6 +1,9 @@
-function CreateProductsPage() {
-  return (
-    <div>page</div>
-  )
+"use server";
+import AdminProducts from "@/components/products/AdminProducts";
+import axios from "axios";
+
+async function AdminProductsPage() {
+
+  return <AdminProducts />;
 }
-export default CreateProductsPage;
+export default AdminProductsPage;

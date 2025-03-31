@@ -1,5 +1,6 @@
 import ProductsContainer from "@/components/products/ProductsContainer";
 
+
 type searchParams = {
   searchParams: Promise<{ layout?: string; search?: string }>;
 };
