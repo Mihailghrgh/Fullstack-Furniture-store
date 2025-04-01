@@ -11,12 +11,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  
 } from "@/components/ui/table";
 import { useEffect, useState } from "react";
 import { redirect } from "next/navigation";
 import { Product } from "@prisma/client";
 import LoadingContainer from "../global/LoadingContainer";
+import { IconButton } from "../form/Buttons";
+import { Button } from "../ui/button";
+import { Ghost } from "lucide-react";
 
 function AdminProducts() {
   const [products, setProducts] = useState<Product[]>();
@@ -43,15 +45,18 @@ function AdminProducts() {
   }
   return (
     <section>
-      <h1 className="text-center capitalize mb-5 text-muted-foreground">total products : {products.length}</h1>
+      <h1 className="text-center capitalize mb-5 text-muted-foreground">
+        total products : {products.length}
+      </h1>
       <Table>
-    
         <TableHeader>
-          <TableRow>
+          <TableRow className="items-center">
             <TableHead>Product Name</TableHead>
             <TableHead>Company</TableHead>
             <TableHead>Price</TableHead>
-            <TableHead>Actions</TableHead>
+            <TableHead className="ml-0 md:flex items-center md:ml-8">
+              Actions
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -70,7 +75,20 @@ function AdminProducts() {
                 </TableCell>
                 <TableCell>{company}</TableCell>
                 <TableCell>{formatCurrency(price)}</TableCell>
-                <TableCell className="flex items-center gap-x-2"></TableCell>
+                <Link href={`/admin/products/${productId}/edit`}>
+                  <Button
+                    variant="ghost"
+                  >
+                    <IconButton actionType="edit" productId={productId} />
+                  </Button>
+                </Link>
+
+                <Button
+                  variant="ghost"
+                  onClick={() => DeleteProducts(productId)}
+                >
+                  <IconButton actionType="delete" productId={productId} />
+                </Button>
               </TableRow>
             );
           })}
@@ -78,5 +96,10 @@ function AdminProducts() {
       </Table>
     </section>
   );
+}
+
+async function DeleteProducts(productId: string) {
+  await axios.post("/api/products?type=delete", { data: productId });
+  window.location.reload()
 }
 export default AdminProducts;

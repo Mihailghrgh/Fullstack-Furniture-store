@@ -61,6 +61,7 @@ export async function GET(request: Request) {
       result = await db.product.findMany({
         orderBy: { createdAt: "desc" },
       });
+      break;
     default:
       result = await db.product.findMany();
       break;
@@ -72,48 +73,116 @@ export async function GET(request: Request) {
 export async function POST(
   request: Request
 ): Promise<NextResponse<{ message: string }>> {
-  try {
-    ////Getting the ADMIN Id to check if we have the wrong user making requests
-    const { userId } = await auth();
-    if (!userId) redirect("/");
+  const { searchParams } = new URL(request.url);
+  const type = searchParams.get("type");
+  const id = searchParams.get("id");
+  let result: string = "Empty message";
 
-    ////Formatting and Getting the key:data received in the request from the FormContainer
-    let newData = await request.formData();
-    const data = Object.fromEntries(newData);
+  switch (type) {
+    case "create":
+      try {
+        ////Getting the ADMIN Id to check if we have the wrong user making requests
+        const { userId } = await auth();
+        if (!userId) {
+          result = "Not allowed";
+          redirect("/");
+        }
 
-    ////This is the part where we check the image File as being correct
-    // ---- correct size and file type with imageSchema
-    // ---- and upload it to the supabase Bucket
-    const file = data.image as File;
-    const validatedFile = validateWithZodSchema(imageSchema, { image: file });
-    const fullPath = await uploadImage(validatedFile.image);
-    ////Special function that takes schema and the data to Validate and Create the error messages correctly
-    const validateFields = validateWithZodSchema(productSchema, data);
+        ////Formatting and Getting the key:data received in the request from the FormContainer
+        const newData = await request.formData();
+        const data = Object.fromEntries(newData);
 
-    await db.product.create({
-      data: {
-        ...validateFields,
-        image: fullPath,
-        clerkId: userId,
-      },
-    });
+        ////This is the part where we check the image File as being correct
+        // ---- correct size and file type with imageSchema
+        // ---- and upload it to the supabase Bucket
+        const file = data.image as File;
+        const validatedFile = validateWithZodSchema(imageSchema, {
+          image: file,
+        });
+        const fullPath = await uploadImage(validatedFile.image);
+        ////Special function that takes schema and the data to Validate and Create the error messages correctly
+        const validateFields = validateWithZodSchema(productSchema, data);
 
-    // await db.product.create({
-    //   data: {
-    //     name,
-    //     company,
-    //     description,
-    //     price,
-    //     image: "/images/jacket.png",
-    //     featured,
-    //     clerkId: userId,
-    //   },
-    // });
+        await db.product.create({
+          data: {
+            ...validateFields,
+            image: fullPath,
+            clerkId: userId,
+          },
+        });
 
-    return NextResponse.json({ message: "New Product Created" });
-  } catch (error: any) {
-    return NextResponse.json({ message: error.message });
-  } finally {
-    redirect("/admin/products");
+        // await db.product.create({
+        //   data: {
+        //     name,
+        //     company,
+        //     description,
+        //     price,
+        //     image: "/images/jacket.png",
+        //     featured,
+        //     clerkId: userId,
+        //   },
+        // });
+        result = "New Product Created";
+      } catch (error: any) {
+        result = error.message;
+      }
+    case "delete": {
+      try {
+        const { userId } = await auth();
+        if (!userId) {
+          result = "Not allowed";
+          redirect("/");
+        }
+        ////Simple deleting process , passing the {data: data} and not {headers: } required
+        const product = await request.json();
+        const productId = product.data;
+
+        const deletedItems = await db.product.delete({
+          where: { id: productId },
+        });
+        console.log(deletedItems);
+
+        result = "Product Delete";
+      } catch (error: any) {
+        console.log(error);
+        result = error.message;
+      }
+    }
+    case "edit": {
+      try {
+        const { userId } = await auth();
+        if (!userId) {
+          result = "Not allowed";
+          redirect("/");
+        }
+        //This way if you want to pass the data as { data: name, company, price , description , image}
+        // const { data } = await request.json();
+        // const { name, price, description, company, id } = data;
+
+        //Post method using the Object form a form and extracting it
+        const newData = await request.formData();
+        const formData = Object.fromEntries(newData);
+        console.log(formData);
+
+        const validateData = validateWithZodSchema(productSchema, formData);
+
+        if (!id) {
+          result = "Not allowed";
+          redirect("/");
+        }
+        await db.product.update({
+          where: { id: id },
+          data: {
+            ...validateData,
+          },
+        });
+
+        break;
+      } catch (error: any) {
+        console.log(error);
+        result = error.message;
+      }
+    }
   }
+  return NextResponse.json({ message: result });
 }

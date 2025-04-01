@@ -53,9 +53,15 @@ export function SubmitButton({
 }
 export default SubmitButton;
 
-type actionType = "edit" | "delete" ;
+type actionType =  'edit' | 'delete'
 
-export const IconButton = (actionType: actionType) => {
+export const IconButton = ({
+  actionType,
+  productId,
+}: {
+  actionType: actionType;
+  productId: string;
+}) => {
   const { pending } = useFormStatus();
 
   const renderIcon = () => {
@@ -66,8 +72,8 @@ export const IconButton = (actionType: actionType) => {
       case "delete":
         return <LuTrash2 />;
       default:
-        const never: never= actionType
-        throw new Error(`Invalid action type: ${never}`)
+        const never: never = actionType;
+        throw new Error(`Invalid action type: ${never}`);
     }
   };
 
