@@ -3,6 +3,7 @@
 import { useActionState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 function FormContainer({
   children,
@@ -13,6 +14,7 @@ function FormContainer({
   type: string;
   productId?: string;
 }) {
+  const router = useRouter();
   const [state, formAction] = useActionState(
     async (prevState: any, formData: FormData) => {
       try {
@@ -21,7 +23,7 @@ function FormContainer({
           formData
         );
 
-        return { message: response.data.message };
+        return { success: true , response: response.data.message };
       } catch (error: any) {
         return {
           message:
@@ -33,6 +35,12 @@ function FormContainer({
     { message: "Sent" }
   );
   const { toast } = useToast();
+
+  useEffect(()=>{
+    if(state.success){
+       router.refresh();
+    }
+  },[state.success])
 
   const handleSubmit = () => {
     toast({

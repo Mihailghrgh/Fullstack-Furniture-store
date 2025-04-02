@@ -7,7 +7,8 @@ import {
   productSchema,
   validateWithZodSchema,
 } from "@/utils/schema";
-import { uploadImage } from "@/utils/supabase";
+import { deleteImage, uploadImage } from "@/utils/supabase";
+import { revalidatePath } from "next/cache";
 
 ////Logic kept in here for switch cases of different search params
 ////Instead of action because of issues with accessing base code on a request keeping it simple as an api request after an axios get request
@@ -178,6 +179,47 @@ export async function POST(
         });
 
         break;
+      } catch (error: any) {
+        console.log(error);
+        result = error.message;
+      }
+    }
+    case "updatedImage": {
+      try {
+        const { userId } = await auth();
+        if (!userId) {
+          result = "Not allowed";
+          redirect("/");
+        }
+
+        if (!id) {
+          result = "No Id Detected for Product";
+          redirect("/");
+        }
+
+        const newData = await request.formData();
+        const data = Object.fromEntries(newData);
+
+        const imageUrl = data.url as string;
+        const image = data.image as File;
+        console.log(image);
+
+        //Validate Image
+        const validateFile = validateWithZodSchema(imageSchema, { image });
+
+        const fullPath = await uploadImage(validateFile.image);
+
+        await deleteImage(imageUrl);
+
+        await db.product.update({
+          where: {
+            id: id,
+          },
+          data: {
+            image: fullPath,
+          },
+        });
+        revalidatePath(`/admin/products/${id}/edit`);
       } catch (error: any) {
         console.log(error);
         result = error.message;
