@@ -6,6 +6,7 @@ import Navbar from "@/components/navbar/Navbar";
 import Providers from "./providers";
 import { ClerkProvider } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
+import axios from "axios";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -26,14 +27,17 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const { userId } = await auth();
-  const isAdmin = userId === process.env.ADMIN_USER_ID;
+
+  const { data } = await axios.get(
+    `http://localhost:3000/api/products?type=isAdmin&userId=${userId === null ? 'no_user_id': userId}`
+  );
 
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <body className={inter.className}>
           <Providers>
-            <Navbar isAdmin={isAdmin} />
+            <Navbar isAdmin={data} />
             <Container className="py-20">{children}</Container>
           </Providers>
         </body>

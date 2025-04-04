@@ -8,7 +8,6 @@ import {
   validateWithZodSchema,
 } from "@/utils/schema";
 import { deleteImage, uploadImage } from "@/utils/supabase";
-import { revalidatePath } from "next/cache";
 
 ////Logic kept in here for switch cases of different search params
 ////Instead of action because of issues with accessing base code on a request keeping it simple as an api request after an axios get request
@@ -22,13 +21,22 @@ export async function GET(request: Request) {
   let result;
 
   switch (type) {
-    case "featured":
+    case "isAdmin": {
+      const userId = searchParams.get("userId");
+
+      const isAdmin = userId === process.env.ADMIN_USER_ID;
+      console.log(isAdmin);
+
+      return NextResponse.json(isAdmin);
+    }
+    case "featured": {
       result = await db.product.findMany({
         where: { featured: true },
       });
       break;
+    }
 
-    case "unique":
+    case "unique": {
       if (!id) {
         return new Response("Id is not available", { status: 400 });
       }
@@ -36,8 +44,9 @@ export async function GET(request: Request) {
         where: { id: id },
       });
       break;
+    }
 
-    case "searching":
+    case "searching": {
       if (!search) {
         result = await db.product.findMany({
           orderBy: { createdAt: "desc" },
@@ -54,7 +63,8 @@ export async function GET(request: Request) {
         });
       }
       break;
-    case "admin":
+    }
+    case "admin": {
       const { userId } = await auth();
       if (userId !== process.env.ADMIN_USER_ID) {
         return NextResponse.json("unidentified");
@@ -63,9 +73,30 @@ export async function GET(request: Request) {
         orderBy: { createdAt: "desc" },
       });
       break;
-    default:
+    }
+    case "favorite": {
+      const { userId } = await auth();
+      if (!userId) {
+        result = "Not allowed";
+        redirect("/");
+      }
+      // result = await db.favorite.findFirst({
+      //   where: {
+      //     productId: id,
+      //     clerkId: userId,
+      //   },
+      //   select: {
+      //     id: true,
+      //   },
+      // });
+
+      // return result?.id || null;
+      return NextResponse.json("Works");
+    }
+    default: {
       result = await db.product.findMany();
       break;
+    }
   }
 
   return NextResponse.json(result);
@@ -80,7 +111,7 @@ export async function POST(
   let result: string = "Empty message";
 
   switch (type) {
-    case "create":
+    case "create": {
       try {
         ////Getting the ADMIN Id to check if we have the wrong user making requests
         const { userId } = await auth();
@@ -127,6 +158,8 @@ export async function POST(
       } catch (error: any) {
         result = error.message;
       }
+    }
+
     case "delete": {
       try {
         const { userId } = await auth();
@@ -149,6 +182,7 @@ export async function POST(
         result = error.message;
       }
     }
+
     case "edit": {
       try {
         const { userId } = await auth();
@@ -184,6 +218,7 @@ export async function POST(
         result = error.message;
       }
     }
+
     case "updatedImage": {
       try {
         const { userId } = await auth();
@@ -219,12 +254,13 @@ export async function POST(
             image: fullPath,
           },
         });
-        revalidatePath(`/admin/products/${id}/edit`);
       } catch (error: any) {
         console.log(error);
         result = error.message;
       }
     }
+
+    case "toggleFavorite":
   }
   return NextResponse.json({ message: result });
 }

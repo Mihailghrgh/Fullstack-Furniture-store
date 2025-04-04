@@ -2,11 +2,10 @@
 import EmptyList from "../global/EmptyList";
 import SectionTitle from "../global/SectionTitle";
 import ProductsGrid from "../products/ProductsGrid";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { Product } from "@prisma/client";
-import LoadingContainer from "../global/LoadingContainer";
-import LoadingTable from "../global/LoadingTable";
+
 
 function FeaturedProducts() {
   const [featuredProd, setFeaturedProd] = useState<Product[]>([]);

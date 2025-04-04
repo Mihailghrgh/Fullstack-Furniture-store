@@ -8,7 +8,6 @@ import { SignInButton } from "@clerk/nextjs";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { LuTrash2 } from "react-icons/lu";
 import { SquarePen } from "lucide-react";
-import axios from "axios";
 
 type btnSize = "default" | "lg" | "sm";
 
@@ -53,7 +52,7 @@ export function SubmitButton({
 }
 export default SubmitButton;
 
-type actionType =  'edit' | 'delete'
+type actionType = "edit" | "delete";
 
 export const IconButton = ({
   actionType,
@@ -91,6 +90,42 @@ export const IconButton = ({
         </>
       ) : (
         renderIcon()
+      )}
+    </Button>
+  );
+};
+
+export const CardSignInButton = () => {
+  return (
+    <SignInButton mode="modal">
+      <Button
+        type="button"
+        size="icon"
+        variant="outline"
+        className="p-2 cursor-pointer"
+      >
+        <FaRegHeart />
+      </Button>
+    </SignInButton>
+  );
+};
+
+export const CardSubmitButton = ({ isFavorite }: { isFavorite: boolean }) => {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button
+      type="submit"
+      size="icon"
+      variant="outline"
+      className="p-2 cursor-pointer"
+    >
+      {pending ? (
+        <Loader2 className="animate-spin"></Loader2>
+      ) : isFavorite ? (
+        <FaHeart />
+      ) : (
+        <FaRegHeart />
       )}
     </Button>
   );
