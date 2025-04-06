@@ -5,48 +5,46 @@ import { useUser } from "@clerk/nextjs";
 import { CardSignInButton } from "../form/Buttons";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import FavoriteToggleForm from "./FavoriteToggleForm";
 
 function FavoriteToggleButton({ productId }: { productId: string }) {
-  //getting the product Id
-  const prodId = productId;
-  console.log(prodId);
+  const [currentUser, setUser] = useState<string | null>(null);
+  const [favoriteId, setFavoriteId] = useState<string | null>(null);
+  const [refreshToggle, setRefreshToggle] = useState<boolean>(false);
 
+  //getting the product Id
   //getting the currentUser to show the current products
   const user = useUser();
-  console.log(user);
-  
-  // console.log(user.user);
-  // if (!user) {
-  //   return <CardSignInButton />;
-  // }
 
-  // const { data } = await axios.get(`/api/products?type=featured`);
-  // console.log(data);
-  const [currentUser, setUser] = useState<string | null>(null);
   useEffect(() => {
     const FetchData = async () => {
-
       if (!user.user?.id) {
         setUser(null);
         return;
       }
-
-      const { data } = await axios.get("/api/products?type=favorite");
-
+      const { data } = await axios.get(
+        `/api/products?type=favorite&id=${productId}`
+      );
+      console.log("fetched Id Data: ", data);
+      
       setUser(user?.user?.id);
+      setFavoriteId(data.id);
     };
     FetchData();
-  }, [currentUser]);
-
-  console.log(currentUser);
+  }, [currentUser, favoriteId, refreshToggle]);
 
   if (currentUser === null) {
     return <CardSignInButton />;
   }
   return (
-    <Button size="icon" variant="outline">
-      <FaHeart />
-    </Button>
+    <FavoriteToggleForm
+      favoriteId={favoriteId}
+      productId={productId}
+      onToggle={() => {
+        setRefreshToggle((prev) => !prev);
+        console.log(refreshToggle);
+      }}
+    />
   );
 }
 export default FavoriteToggleButton;

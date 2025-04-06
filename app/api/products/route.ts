@@ -8,6 +8,7 @@ import {
   validateWithZodSchema,
 } from "@/utils/schema";
 import { deleteImage, uploadImage } from "@/utils/supabase";
+import { log } from "util";
 
 ////Logic kept in here for switch cases of different search params
 ////Instead of action because of issues with accessing base code on a request keeping it simple as an api request after an axios get request
@@ -33,7 +34,8 @@ export async function GET(request: Request) {
       result = await db.product.findMany({
         where: { featured: true },
       });
-      break;
+
+      return NextResponse.json(result);
     }
 
     case "unique": {
@@ -76,22 +78,18 @@ export async function GET(request: Request) {
     }
     case "favorite": {
       const { userId } = await auth();
+      const prodId = searchParams.get("id");
       if (!userId) {
-        result = "Not allowed";
-        redirect("/");
+        return NextResponse.json("Not user Id provided in api call");
       }
-      // result = await db.favorite.findFirst({
-      //   where: {
-      //     productId: id,
-      //     clerkId: userId,
-      //   },
-      //   select: {
-      //     id: true,
-      //   },
-      // });
+      if (!prodId) {
+        return NextResponse.json("No item Id detected or existing in api Call");
+      }
+      const newResult = await db.favorite.findFirst({
+        where: { productId: prodId, clerkId: userId },
+      });
 
-      // return result?.id || null;
-      return NextResponse.json("Works");
+      return NextResponse.json(newResult);
     }
     default: {
       result = await db.product.findMany();
@@ -260,7 +258,50 @@ export async function POST(
       }
     }
 
-    case "toggleFavorite":
+    case "createFavorite": {
+      try {
+        const { userId } = await auth();
+        const id = searchParams.get("id");
+
+        if (!id) {
+          result = "Not allowed";
+          break;
+        }
+
+        if (!userId) {
+          result = "Not allowed";
+          redirect("/");
+        }
+
+        await db.favorite.create({
+          data: {
+            productId: id,
+            clerkId: userId,
+          },
+        });
+      } catch (error: any) {
+        console.log(error);
+        result = error.message;
+      }
+    }
+    case "deleteFavorite": {
+      try {
+        const favoriteId = searchParams.get("id");
+        console.log("Fav Id To Delete: ", favoriteId);
+
+        if (!favoriteId) {
+          break;
+        }
+        await db.favorite.delete({
+          where: {
+            id: favoriteId,
+          },
+        });
+      } catch (error: any) {
+        console.log(error);
+        result = error.message;
+      }
+    }
   }
   return NextResponse.json({ message: result });
 }

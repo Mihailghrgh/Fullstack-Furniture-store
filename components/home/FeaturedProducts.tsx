@@ -12,8 +12,9 @@ function FeaturedProducts() {
 
   useEffect(() => {
     const getProducts = async () => {
-      const res = await axios("/api/products?type=featured");
-      setFeaturedProd(res.data);
+      const {data} = await axios("/api/products?type=featured");
+      
+      setFeaturedProd(data);
     };
     getProducts();
   }, []);

@@ -110,7 +110,13 @@ export const CardSignInButton = () => {
   );
 };
 
-export const CardSubmitButton = ({ isFavorite }: { isFavorite: boolean }) => {
+export const CardSubmitButton = ({
+  isFavorite,
+  handleToggle,
+}: {
+  isFavorite: boolean;
+  handleToggle: () => void;
+}) => {
   const { pending } = useFormStatus();
 
   return (
@@ -119,10 +125,11 @@ export const CardSubmitButton = ({ isFavorite }: { isFavorite: boolean }) => {
       size="icon"
       variant="outline"
       className="p-2 cursor-pointer"
+      onClick={handleToggle}
     >
       {pending ? (
         <Loader2 className="animate-spin"></Loader2>
-      ) : isFavorite ? (
+      ) : isFavorite === true ? (
         <FaHeart />
       ) : (
         <FaRegHeart />
