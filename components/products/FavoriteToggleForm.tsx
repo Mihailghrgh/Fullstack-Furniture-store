@@ -11,41 +11,36 @@ import { useUser } from "@clerk/nextjs";
 
 type FavoriteToggleFormProps = {
   productId: string;
-  favoriteId: string | null;
-  onToggle: () => void;
 };
 
-function FavoriteToggleForm({
-  favoriteId,
-  productId,
-  onToggle,
-}: FavoriteToggleFormProps) {
+function FavoriteToggleForm({ productId }: FavoriteToggleFormProps) {
   const [favId, setFavId] = useState<string | null>(null);
   const user = useUser();
 
   const fetchFavorite = async () => {
-    const user = useUser();
     const { data } = await axios.get(
       `/api/products?type=favorite&id=${productId}`
     );
+    console.log(data);
 
     setFavId(data?.id ?? null);
   };
 
   useEffect(() => {
     fetchFavorite();
-  });
+  }, []);
 
   const handleToggle = async () => {
     try {
-      if (favoriteId) {
-        await axios.post(`/api/products?type=deleteFavorite&id=${favoriteId}`);
+      if (favId) {
+        await axios.post(`/api/products?type=deleteFavorite&id=${favId}`);
       } else {
         await axios.post(`/api/products?type=createFavorite&id=${productId}`);
       }
     } catch (err) {
       console.error("Toggle failed", err);
     }
+    fetchFavorite();
   };
 
   if (!user.user?.id) {

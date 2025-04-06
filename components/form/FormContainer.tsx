@@ -10,13 +10,11 @@ function FormContainer({
   type,
   productId,
   favoriteId,
-  onToggle,
 }: {
   children: React.ReactNode;
   type: string;
   productId?: string;
   favoriteId?: string | null;
-  onToggle: () => void;
 }) {
   const router = useRouter();
   const [state, formAction] = useActionState(
@@ -56,9 +54,6 @@ function FormContainer({
         "fixed top-5 left-1/2 transform -translate-x-1/2 w-80 shadow-lg bg-primary-foreground",
       description: "Form Submitted",
     });
-
-    onToggle()
-  
   };
   return (
     <form action={formAction} onSubmit={handleSubmit}>
