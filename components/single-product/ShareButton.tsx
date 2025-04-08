@@ -9,7 +9,6 @@ import { LuShare2 } from "react-icons/lu";
 
 import {
   XIcon,
-  RedditIcon,
   EmailIcon,
   FacebookIcon,
   BlueskyIcon,
