@@ -91,6 +91,22 @@ export async function GET(request: Request) {
 
       return NextResponse.json(newResult);
     }
+    case "allFavorite": {
+      const { userId } = await auth();
+
+      if (!userId) {
+        return NextResponse.json("No user Id present on this page");
+      }
+
+      const favorites = await db.favorite.findMany({
+        where: { clerkId: userId },
+        include: {
+          product: true,
+        },
+      });
+
+      return NextResponse.json(favorites);
+    }
     default: {
       result = await db.product.findMany();
       break;

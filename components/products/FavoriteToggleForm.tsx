@@ -21,8 +21,6 @@ function FavoriteToggleForm({ productId }: FavoriteToggleFormProps) {
     const { data } = await axios.get(
       `/api/products?type=favorite&id=${productId}`
     );
-    console.log(data);
-
     setFavId(data?.id ?? null);
   };
 
@@ -37,7 +35,7 @@ function FavoriteToggleForm({ productId }: FavoriteToggleFormProps) {
       } else {
         await axios.post(`/api/products?type=createFavorite&id=${productId}`);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Toggle failed", err);
     }
     fetchFavorite();
