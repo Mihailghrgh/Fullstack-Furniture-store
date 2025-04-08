@@ -6,7 +6,8 @@ import AddToCart from "@/components/single-product/AddToCart";
 import ProductRating from "@/components/single-product/ProductRating";
 import axios from "axios";
 import ShareButton from "@/components/single-product/ShareButton";
-
+import SubmitReview from "@/components/reviews/SubmitReview";
+import ProductReviews from "@/components/reviews/ProductReviews";
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -61,6 +62,8 @@ async function SingleProduct({ params }: PageProps) {
           <AddToCart productId={id} />
         </div>
       </div>
+      <ProductReviews productId={id} />
+      <SubmitReview productId={id}/>
     </section>
   );
 }

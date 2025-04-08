@@ -8,7 +8,7 @@ import {
   validateWithZodSchema,
 } from "@/utils/schema";
 import { deleteImage, uploadImage } from "@/utils/supabase";
-import { log } from "util";
+import { Prisma } from "@prisma/client";
 
 ////Logic kept in here for switch cases of different search params
 ////Instead of action because of issues with accessing base code on a request keeping it simple as an api request after an axios get request
@@ -98,7 +98,9 @@ export async function GET(request: Request) {
         return NextResponse.json("No user Id present on this page");
       }
 
-      const favorites = await db.favorite.findMany({
+      const favorites: Prisma.FavoriteGetPayload<{
+        include: { product: true };
+      }>[] = await db.favorite.findMany({
         where: { clerkId: userId },
         include: {
           product: true,
@@ -107,6 +109,22 @@ export async function GET(request: Request) {
 
       return NextResponse.json(favorites);
     }
+    case "productReviews": {
+      return NextResponse.json(" This is a return return return return ");
+    }
+    case "productReviewsByUser": {
+      return NextResponse.json(" This is a return return return return ");
+    }
+    case "deleteReviewAction": {
+      return NextResponse.json(" This is a return return return return ");
+    }
+    case "findExistingReview": {
+      return NextResponse.json(" This is a return return return return ");
+    }
+    case "productRating": {
+      return NextResponse.json(" This is a return return return return ");
+    }
+
     default: {
       result = await db.product.findMany();
       break;
@@ -318,6 +336,12 @@ export async function POST(
         result = error.message;
       }
     }
+    case "createReview": {
+      return NextResponse.json({
+        message: "This is a return returns a return that returns the return ",
+      });
+    }
   }
+
   return NextResponse.json({ message: result });
 }

@@ -2,14 +2,18 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Favorite } from "@prisma/client";
-
 import SectionTitle from "../global/SectionTitle";
 import ProductsGrid from "./ProductsGrid";
 import FavoriteLoading from "@/app/favorites/loading";
+import { Prisma } from "@prisma/client";
+
+type FavoriteWithProduct = Prisma.FavoriteGetPayload<{
+  include: { product: true };
+}>;
 
 function FavoritePage() {
-  const [favProducts, setFavProducts] = useState<Favorite[]>([]);
+  const [favProducts, setFavProducts] = useState<FavoriteWithProduct[]>([]);
+
   const [loading, setLoading] = useState<boolean>(true);
   const fetchFavoriteData = async () => {
     try {
