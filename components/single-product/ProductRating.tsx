@@ -1,17 +1,39 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
+import { Review } from "@prisma/client";
+import axios from "axios";
+
+type Reviews = {
+  rating: string;
+  count: string;
+};
 
 function ProductRating({ productId }: { productId: string }) {
-  ///temp
-  console.log(productId);
+  const [reviews, setReviews] = useState<Reviews>();
 
-  const rating = 4.2;
-  const count = 25;
+  const handleRating = async () => {
+    try {
+      const { data } = await axios.get(
+        `/api/products?type=productRating&id=${productId}`
+      );
+
+      setReviews(data);
+    } catch (error: any) {}
+  };
+
+  useEffect(() => {
+    handleRating();
+  }, []);
+
+
   const className = `flex gap-1 items-center text-md mt-1 mb-4`;
-  const countValue = `(${count}) reviews`;
+  const countValue = `(${reviews?.count}) reviews`;
   return (
     <span className={className}>
       <FaStar className="w-3 h-3" />
-      {rating}
+      {reviews?.rating}
       {countValue}
     </span>
   );

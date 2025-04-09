@@ -111,7 +111,22 @@ export async function GET(request: Request) {
       return NextResponse.json(favorites);
     }
     case "productReviews": {
-      return NextResponse.json(" This is a return return return return ");
+      const id = searchParams.get("id");
+
+      if (!id) {
+        return NextResponse.json(" No product Id provided to get reviews");
+      }
+
+      const reviews = await db.review.findMany({
+        where: {
+          productId: id,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
+
+      return NextResponse.json(reviews);
     }
     case "productReviewsByUser": {
       return NextResponse.json(" This is a return return return return ");
@@ -123,7 +138,31 @@ export async function GET(request: Request) {
       return NextResponse.json(" This is a return return return return ");
     }
     case "productRating": {
-      return NextResponse.json(" This is a return return return return ");
+      const id = searchParams.get("id");
+
+      if (!id) {
+        return NextResponse.json(" No product Id provided to get reviews");
+      }
+
+      const result = await db.review.groupBy({
+        by: ["productId"],
+        _avg: {
+          rating: true,
+        },
+        _count: {
+          rating: true,
+        },
+        where: {
+          productId: id,
+        },
+      });
+
+      const data = {
+        rating: result[0]._avg.rating?.toFixed(1) ?? 0,
+        count: result[0]._count.rating ?? 0
+      }
+
+      return NextResponse.json(data);
     }
 
     default: {

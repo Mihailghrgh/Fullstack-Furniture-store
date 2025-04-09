@@ -16,17 +16,20 @@ function SubmitReview({ productId }: { productId: string }) {
 
   return (
     <div>
-      <Button
-        size="lg"
-        className="capitalize"
-        onClick={() => {
-          setIsReviewFormVisible(!isReviewFormVisible);
-        }}
-      >
-        leave review
-      </Button>
+      <div className="flex justify-center my-2">
+        <Button
+          size="lg"
+          className="capitalize m-4 rounded-none"
+          onClick={() => {
+            setIsReviewFormVisible(!isReviewFormVisible);
+          }}
+        >
+          leave review
+        </Button>
+      </div>
+
       {isReviewFormVisible && (
-        <Card className="p-8 mt-8">
+        <Card className="relative mb-8">
           <FormContainer type="createReview" productId="" favoriteId="">
             <input type="hidden" name="productId" value={productId} />
             <input
@@ -37,11 +40,12 @@ function SubmitReview({ productId }: { productId: string }) {
             <input type="hidden" name="authorImageUrl" value={user?.imageUrl} />
             <RatingInput name="rating" labelText="" />
             <TextAreaInput
+            
               name="comment"
               labelText="feedback"
               defaultValue="Outstanding product"
             />
-            <SubmitButton className="mt-4 bg-blue-600 hover:bg-blue-700 text-white" />
+            <SubmitButton className="m-6 bg-blue-600 hover:bg-blue-700 text-white rounded-none" />
           </FormContainer>
         </Card>
       )}

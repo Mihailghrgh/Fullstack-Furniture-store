@@ -5,8 +5,6 @@ import Container from "@/components/global/Container";
 import Navbar from "@/components/navbar/Navbar";
 import Providers from "./providers";
 import { ClerkProvider } from "@clerk/nextjs";
-import { auth } from "@clerk/nextjs/server";
-import axios from "axios";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -26,8 +24,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  
-
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
