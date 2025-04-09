@@ -27,7 +27,7 @@ function SubmitReview({ productId }: { productId: string }) {
       </Button>
       {isReviewFormVisible && (
         <Card className="p-8 mt-8">
-          <FormContainer type="createReview">
+          <FormContainer type="createReview" productId="" favoriteId="">
             <input type="hidden" name="productId" value={productId} />
             <input
               type="hidden"
@@ -35,13 +35,13 @@ function SubmitReview({ productId }: { productId: string }) {
               value={user?.firstName || "user"}
             />
             <input type="hidden" name="authorImageUrl" value={user?.imageUrl} />
-            <RatingInput name="rating" labelText=""/>
+            <RatingInput name="rating" labelText="" />
             <TextAreaInput
               name="comment"
               labelText="feedback"
               defaultValue="Outstanding product"
             />
-            <SubmitButton className="mt-4"/>
+            <SubmitButton className="mt-4 bg-blue-600 hover:bg-blue-700 text-white" />
           </FormContainer>
         </Card>
       )}

@@ -8,6 +8,7 @@ import { SignInButton } from "@clerk/nextjs";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { LuTrash2 } from "react-icons/lu";
 import { SquarePen } from "lucide-react";
+import { useTheme } from "next-themes";
 
 type btnSize = "default" | "lg" | "sm";
 
@@ -62,14 +63,28 @@ export const IconButton = ({
   productId: string;
 }) => {
   const { pending } = useFormStatus();
+  const { theme, resolvedTheme } = useTheme();
+
 
   const renderIcon = () => {
     switch (actionType) {
       case "edit":
-        return <SquarePen />;
+        return (
+          <SquarePen
+            className={
+              resolvedTheme === "light" ? "text-blue-600" : "text-yellow-400"
+            }
+          />
+        );
 
       case "delete":
-        return <LuTrash2 />;
+        return (
+          <LuTrash2
+            className={
+              resolvedTheme === "light" ? "text-blue-600" : "text-yellow-400"
+            }
+          />
+        );
       default:
         const never: never = actionType;
         throw new Error(`Invalid action type: ${never}`);

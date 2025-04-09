@@ -6,7 +6,6 @@ import { formatCurrency } from "@/utils/format";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -15,14 +14,16 @@ import {
 import { Suspense, useEffect, useState } from "react";
 import { redirect } from "next/navigation";
 import { Product } from "@prisma/client";
-import LoadingContainer from "../global/LoadingContainer";
 import { IconButton } from "../form/Buttons";
 import { Button } from "../ui/button";
-import { Ghost } from "lucide-react";
 import LoadingTable from "../global/LoadingTable";
+import { LuTrash2 } from "react-icons/lu";
+import { PenSquare, SquarePen } from "lucide-react";
+import { useTheme } from "next-themes";
 
 function AdminProducts() {
   const [products, setProducts] = useState<Product[]>();
+  const { theme, resolvedTheme } = useTheme();
 
   useEffect(() => {
     const getData = async () => {
@@ -38,7 +39,7 @@ function AdminProducts() {
   }, []);
 
   if (!products) {
-    return <LoadingTable rows={10}/>;
+    return <LoadingTable rows={10} />;
   }
 
   if (products.length === 0) {
@@ -56,7 +57,7 @@ function AdminProducts() {
               <TableHead>Product Name</TableHead>
               <TableHead>Company</TableHead>
               <TableHead>Price</TableHead>
-              <TableHead className="ml-0 md:flex items-center md:ml-8">
+              <TableHead >
                 Actions
               </TableHead>
             </TableRow>
@@ -77,18 +78,33 @@ function AdminProducts() {
                   </TableCell>
                   <TableCell>{company}</TableCell>
                   <TableCell>{formatCurrency(price)}</TableCell>
-                  <Link href={`/admin/products/${productId}/edit`}>
-                    <Button variant="ghost">
-                      <IconButton actionType="edit" productId={productId} />
+                  <TableCell>
+                    <Link href={`/admin/products/${productId}/edit`}>
+                      <Button variant="ghost">
+                        <PenSquare
+                          className={
+                            resolvedTheme === "light"
+                              ? "text-blue-600"
+                              : "text-yellow-400"
+                          }
+                        />
+                      </Button>
+                    </Link>
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      variant="ghost"
+                      onClick={() => DeleteProducts(productId)}
+                    >
+                      <LuTrash2
+                        className={
+                          resolvedTheme === "light"
+                            ? "text-blue-600"
+                            : "text-yellow-400"
+                        }
+                      />
                     </Button>
-                  </Link>
-
-                  <Button
-                    variant="ghost"
-                    onClick={() => DeleteProducts(productId)}
-                  >
-                    <IconButton actionType="delete" productId={productId} />
-                  </Button>
+                  </TableCell>
                 </TableRow>
               );
             })}

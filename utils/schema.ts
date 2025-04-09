@@ -1,3 +1,4 @@
+import { Value } from "@radix-ui/react-select";
 import { z, ZodSchema } from "zod";
 
 export const productSchema = z.object({
@@ -23,6 +24,27 @@ export const productSchema = z.object({
       message: "description must be between 10 and 1000 words.",
     }
   ),
+});
+
+export const reviewSchema = z.object({
+  productId: z.string().refine((value) => value !== "", {
+    message: "Product Id cannot be empty",
+  }),
+  authorName: z.string().refine((value) => value !== "", {
+    message: "Author Name cannot be empty",
+  }),
+  authorImageUrl: z.string().refine((value) => value !== "", {
+    message: " Author Image cannot be empty",
+  }),
+  comment: z
+    .string()
+    .min(10, { message: "Comment must be at least 10 characters long" })
+    .max(1000, { message: "Comment must be at most 1000 characters long" }),
+  rating: z.coerce
+    .number()
+    .int()
+    .min(1, { message: "Rating must be at least 1" })
+    .max(5, { message: "Rating must be at most 5" }),
 });
 
 export const imageSchema = z.object({

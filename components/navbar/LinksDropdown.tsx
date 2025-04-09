@@ -14,7 +14,7 @@ import { SignedIn, SignInButton, SignUpButton } from "@clerk/clerk-react";
 import { DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import SignOutLink from "./SignOutLink";
 
-function LinksDropdown({ isAdmin } :{isAdmin : boolean} ) {
+function LinksDropdown({ isAdmin }: { isAdmin: boolean }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -44,14 +44,14 @@ function LinksDropdown({ isAdmin } :{isAdmin : boolean} ) {
             }
             return (
               <Link href={item.href} key={item.href}>
-                <DropdownMenuItem className="capitalize">
+                <DropdownMenuItem className="capitalize focus:bg-secondary">
                   {item.label}
                 </DropdownMenuItem>
               </Link>
             );
           })}
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
+          <DropdownMenuItem className="focus:bg-secondary">
             <SignOutLink />
           </DropdownMenuItem>
         </SignedIn>

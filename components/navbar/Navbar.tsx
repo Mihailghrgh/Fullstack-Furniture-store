@@ -7,8 +7,13 @@ import CartButton from "./CartButton";
 import DarkMode from "./DarkMode";
 import LinksDropdown from "./LinksDropdown";
 import { Suspense } from "react";
+import { useUser } from "@clerk/nextjs";
 
-function Navbar({ isAdmin }: { isAdmin : boolean}) {
+function Navbar() {
+  const { user } = useUser();
+
+  const isAdmin = user === null ? false : true;
+
   return (
     <nav className="border-b-4">
       <Container className="pb-5 lg:pb-0 flex flex-col justify-between items-center sm:flex-row flex-wrap gap-6">

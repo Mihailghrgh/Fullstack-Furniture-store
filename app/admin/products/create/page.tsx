@@ -47,7 +47,10 @@ function CreateProductPage() {
             <div>
               <CheckboxInput name="featured" label="featured" />
             </div>
-            <SubmitButton text="create product" className="mt-8" />
+            <SubmitButton
+              text="create product"
+              className="mt-4 bg-blue-600 hover:bg-blue-700 text-white"
+            />
           </FormContainer>
         </div>
       </section>

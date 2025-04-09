@@ -14,7 +14,13 @@ import {
   BlueskyIcon,
   LinkedinIcon,
 } from "react-share";
-import { TwitterShareButton, FacebookShareButton , BlueskyShareButton, LinkedinShareButton , EmailShareButton} from "react-share";
+import {
+  TwitterShareButton,
+  FacebookShareButton,
+  BlueskyShareButton,
+  LinkedinShareButton,
+  EmailShareButton,
+} from "react-share";
 
 function ShareButton({ productId, name }: { productId: string; name: string }) {
   const url = process.env.NEXT_PUBLIC_WEBSITE_URL;
@@ -33,19 +39,39 @@ function ShareButton({ productId, name }: { productId: string; name: string }) {
         className="flex gap-x-2 items-center justify-center w-full"
       >
         <TwitterShareButton url={shareLink} title={name}>
-          <XIcon size={24} round />
+          <XIcon
+            className="hover:scale-125 transition-transform duration-200"
+            size={24}
+            round
+          />
         </TwitterShareButton>
         <FacebookShareButton url={shareLink} title={name}>
-          <FacebookIcon size={24} round />
+          <FacebookIcon
+            className="hover:scale-125 transition-transform duration-200"
+            size={24}
+            round
+          />
         </FacebookShareButton>
         <BlueskyShareButton url={shareLink} title={name}>
-          <BlueskyIcon size={24} round />
+          <BlueskyIcon
+            className="hover:scale-125 transition-transform duration-200"
+            size={24}
+            round
+          />
         </BlueskyShareButton>
         <LinkedinShareButton url={shareLink} title={name}>
-          <LinkedinIcon size={24} round />
+          <LinkedinIcon
+            className="hover:scale-125 transition-transform duration-200"
+            size={24}
+            round
+          />
         </LinkedinShareButton>
         <EmailShareButton url={shareLink} title={name}>
-          <EmailIcon size={24} round />
+          <EmailIcon
+            className="hover:scale-125 transition-transform duration-200"
+            size={24}
+            round
+          />
         </EmailShareButton>
       </PopoverContent>
     </Popover>

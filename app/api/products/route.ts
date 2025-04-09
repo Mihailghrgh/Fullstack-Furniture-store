@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import {
   imageSchema,
   productSchema,
+  reviewSchema,
   validateWithZodSchema,
 } from "@/utils/schema";
 import { deleteImage, uploadImage } from "@/utils/supabase";
@@ -337,9 +338,29 @@ export async function POST(
       }
     }
     case "createReview": {
-      return NextResponse.json({
-        message: "This is a return returns a return that returns the return ",
-      });
+      try {
+        const { userId } = await auth();
+
+        if (!userId) {
+          return NextResponse.json({
+            message: "No user active please login to create a review ",
+          });
+        }
+        const newData = await request.formData();
+        console.log("new Data:", newData);
+
+        const data = Object.fromEntries(newData);
+        console.log("new Data:", data);
+        const validateFields = validateWithZodSchema(reviewSchema, data);
+
+        await db.review.create({
+          data: { ...validateFields, clerkId: userId },
+        });
+      } catch (error: any) {
+        console.log(error);
+
+        return NextResponse.json(error);
+      }
     }
   }
 

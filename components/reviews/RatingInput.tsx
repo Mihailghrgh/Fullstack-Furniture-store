@@ -28,7 +28,7 @@ function RatingInput({ name, labelText }: { name: string; labelText: string }) {
               <SelectItem
                 key={number}
                 value={number}
-                className="hover:bg-black transition-colors duration-300"
+                
               >
                 {number}
               </SelectItem>
