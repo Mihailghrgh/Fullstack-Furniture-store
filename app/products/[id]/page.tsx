@@ -63,7 +63,6 @@ async function SingleProduct({ params }: PageProps) {
         </div>
       </div>
       <ProductReviews productId={id} />
-      <SubmitReview productId={id}/>
     </section>
   );
 }

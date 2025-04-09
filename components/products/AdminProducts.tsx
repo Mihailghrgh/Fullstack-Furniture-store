@@ -14,7 +14,6 @@ import {
 import { Suspense, useEffect, useState } from "react";
 import { redirect } from "next/navigation";
 import { Product } from "@prisma/client";
-import { IconButton } from "../form/Buttons";
 import { Button } from "../ui/button";
 import LoadingTable from "../global/LoadingTable";
 import { LuTrash2 } from "react-icons/lu";
@@ -57,9 +56,7 @@ function AdminProducts() {
               <TableHead>Product Name</TableHead>
               <TableHead>Company</TableHead>
               <TableHead>Price</TableHead>
-              <TableHead >
-                Actions
-              </TableHead>
+              <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -81,13 +78,7 @@ function AdminProducts() {
                   <TableCell>
                     <Link href={`/admin/products/${productId}/edit`}>
                       <Button variant="ghost">
-                        <PenSquare
-                          className={
-                            resolvedTheme === "light"
-                              ? "text-blue-600"
-                              : "text-yellow-400"
-                          }
-                        />
+                        <PenSquare className="text-yellow-400" />
                       </Button>
                     </Link>
                   </TableCell>
@@ -96,13 +87,7 @@ function AdminProducts() {
                       variant="ghost"
                       onClick={() => DeleteProducts(productId)}
                     >
-                      <LuTrash2
-                        className={
-                          resolvedTheme === "light"
-                            ? "text-blue-600"
-                            : "text-yellow-400"
-                        }
-                      />
+                      <LuTrash2 className="text-yellow-400" />
                     </Button>
                   </TableCell>
                 </TableRow>

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { Dispatch, useState, SetStateAction } from "react";
 import { SubmitButton } from "@/components/form/Buttons";
 import FormContainer from "@/components/form/FormContainer";
 import { Card } from "@/components/ui/card";
@@ -7,6 +7,7 @@ import RatingInput from "@/components/reviews/RatingInput";
 import TextAreaInput from "@/components/form/TextAreaInput";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@clerk/nextjs";
+import { Review } from "@prisma/client";
 
 function SubmitReview({ productId }: { productId: string }) {
   const [isReviewFormVisible, setIsReviewFormVisible] =
@@ -40,7 +41,6 @@ function SubmitReview({ productId }: { productId: string }) {
             <input type="hidden" name="authorImageUrl" value={user?.imageUrl} />
             <RatingInput name="rating" labelText="" />
             <TextAreaInput
-            
               name="comment"
               labelText="feedback"
               defaultValue="Outstanding product"

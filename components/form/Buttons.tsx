@@ -16,19 +16,16 @@ type SubmitButtonProps = {
   className?: string;
   text?: string;
   size?: btnSize;
+
 };
 
 export function SubmitButton({
   className = "",
   text = "submit",
   size = "lg",
+
 }: SubmitButtonProps) {
   const { pending } = useFormStatus();
-
-  // const submitRequest = async() => {
-  //     axios.post('/api/products')
-  //     console.log('Search');
-  // }
 
   return (
     <div>
@@ -37,7 +34,6 @@ export function SubmitButton({
         disabled={pending}
         className={cn("capitalize", className)}
         size={size}
-        // onSubmit={submitRequest}
       >
         {pending ? (
           <>
@@ -64,7 +60,6 @@ export const IconButton = ({
 }) => {
   const { pending } = useFormStatus();
   const { theme, resolvedTheme } = useTheme();
-
 
   const renderIcon = () => {
     switch (actionType) {

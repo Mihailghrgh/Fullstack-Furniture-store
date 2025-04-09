@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import SectionTitle from "../global/SectionTitle";
 import ReviewCard from "./ReviewCard";
+import SubmitReview from "./SubmitReview";
 
 function ProductReviews({ productId }: { productId: string }) {
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -40,6 +41,7 @@ function ProductReviews({ productId }: { productId: string }) {
           return <ReviewCard key={review.id} reviewInfo={reviewInfo} />;
         })}
       </div>
+      <SubmitReview productId={productId} />
     </div>
   );
 }

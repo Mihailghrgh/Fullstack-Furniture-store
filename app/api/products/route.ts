@@ -129,10 +129,27 @@ export async function GET(request: Request) {
       return NextResponse.json(reviews);
     }
     case "productReviewsByUser": {
-      return NextResponse.json(" This is a return return return return ");
-    }
-    case "deleteReviewAction": {
-      return NextResponse.json(" This is a return return return return ");
+      const { userId } = await auth();
+
+      if (!userId) {
+        return NextResponse.json("No userId detected to complete action");
+      }
+
+      const result = await db.review.findMany({
+        where: { clerkId: userId },
+        select: {
+          id: true,
+          rating: true,
+          comment: true,
+          product: {
+            select: {
+              image: true,
+              name: true,
+            },
+          },
+        },
+      });
+      return NextResponse.json(result);
     }
     case "findExistingReview": {
       return NextResponse.json(" This is a return return return return ");
@@ -159,8 +176,8 @@ export async function GET(request: Request) {
 
       const data = {
         rating: result[0]._avg.rating?.toFixed(1) ?? 0,
-        count: result[0]._count.rating ?? 0
-      }
+        count: result[0]._count.rating ?? 0,
+      };
 
       return NextResponse.json(data);
     }
@@ -246,12 +263,34 @@ export async function POST(
         const deletedItems = await db.product.delete({
           where: { id: productId },
         });
-        console.log(deletedItems);
 
         result = "Product Delete";
       } catch (error: any) {
         console.log(error);
         result = error.message;
+      }
+    }
+    case "deleteReview": {
+      const { userId } = await auth();
+
+      if (!userId) {
+        return NextResponse.json({
+          message: "No userId present to complete this action",
+        });
+      }
+      const { data } = await request.json();
+      console.log(data);
+      const reviewId = data;
+      
+      await db.review.delete({
+        where: {
+          id: reviewId,
+          clerkId: userId,
+        },
+      });
+      try {
+      } catch (error) {
+        console.log(error);
       }
     }
 

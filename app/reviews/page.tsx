@@ -1,6 +1,6 @@
+import ReviewPage from "@/components/reviews/ReviewPage";
+
 function ReviewsPage() {
-  return (
-    <div className="">page</div>
-  )
+  return <ReviewPage />;
 }
 export default ReviewsPage;
