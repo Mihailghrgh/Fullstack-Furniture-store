@@ -8,7 +8,13 @@ import TextAreaInput from "@/components/form/TextAreaInput";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@clerk/nextjs";
 
-function SubmitReview({ productId }: { productId: string }) {
+function SubmitReview({
+  productId,
+  handleRefetch,
+}: {
+  productId: string;
+  handleRefetch: () => void;
+}) {
   const [isReviewFormVisible, setIsReviewFormVisible] =
     useState<boolean>(false);
 
@@ -32,7 +38,12 @@ function SubmitReview({ productId }: { productId: string }) {
 
       {isReviewFormVisible && (
         <Card className="relative mb-8">
-          <FormContainer type="createReview" productId="" favoriteId="">
+          <FormContainer
+            type="createReview"
+            productId=""
+            favoriteId=""
+            handleRefetch={handleRefetch}
+          >
             <input type="hidden" name="productId" value={productId} />
             <input
               type="hidden"
@@ -46,7 +57,9 @@ function SubmitReview({ productId }: { productId: string }) {
               labelText="feedback"
               defaultValue="Outstanding product"
             />
-            <SubmitButton className="m-6 bg-blue-600 hover:bg-blue-700 text-white rounded-none" />
+            <SubmitButton
+              className="m-6 bg-blue-600 hover:bg-blue-700 text-white rounded-none"
+            />
           </FormContainer>
         </Card>
       )}

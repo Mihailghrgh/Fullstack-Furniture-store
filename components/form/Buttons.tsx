@@ -16,14 +16,12 @@ type SubmitButtonProps = {
   className?: string;
   text?: string;
   size?: btnSize;
-
 };
 
 export function SubmitButton({
   className = "",
   text = "submit",
   size = "lg",
-
 }: SubmitButtonProps) {
   const { pending } = useFormStatus();
 

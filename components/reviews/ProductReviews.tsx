@@ -9,8 +9,7 @@ import { useUser } from "@clerk/nextjs";
 
 function ProductReviews({ productId }: { productId: string }) {
   const [reviews, setReviews] = useState<Review[]>([]);
-
-  const { user } = useUser();
+  const [refresh, setRefresh] = useState<boolean>(false);
 
   const fetchReviews = async () => {
     try {
@@ -19,14 +18,22 @@ function ProductReviews({ productId }: { productId: string }) {
       );
 
       setReviews(data);
+      setRefresh(false);
     } catch (error: any) {
       console.log(error?.error.message);
+      setRefresh(false);
     }
   };
 
   useEffect(() => {
     fetchReviews();
-  }, []);
+  }, [productId, refresh]);
+
+  const handleNewReview = () => {
+    console.log("true");
+
+    setRefresh(true);
+  };
 
   return (
     <div className="mt-16">
@@ -44,7 +51,7 @@ function ProductReviews({ productId }: { productId: string }) {
           return <ReviewCard key={review.id} reviewInfo={reviewInfo} />;
         })}
       </div>
-      <SubmitReview productId={productId} />
+      <SubmitReview productId={productId} handleRefetch={handleNewReview} />
     </div>
   );
 }

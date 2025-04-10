@@ -10,11 +10,13 @@ function FormContainer({
   type,
   productId,
   favoriteId,
+  handleRefetch,
 }: {
   children: React.ReactNode;
   type: string;
   productId?: string;
   favoriteId?: string | null;
+  handleRefetch: () => void;
 }) {
   const router = useRouter();
   const [state, formAction] = useActionState(
@@ -28,6 +30,10 @@ function FormContainer({
           }`,
           formData
         );
+
+        if (type === "createReview") {
+          handleRefetch();
+        }
 
         return { success: true, response: response.data.message };
       } catch (error: any) {
