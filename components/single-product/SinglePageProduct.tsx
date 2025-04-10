@@ -72,14 +72,14 @@ function SinglePageProduct({ params }: { params: string }) {
           <ProductRating productId={id} />
           <div className="mt-2">
             <p className="text-sm text-muted-foreground">
-              By <span className="font-medium text-foreground">{company}</span>
+              By <span className="font-bold text-foreground">{company}</span>
             </p>
           </div>
           <h4 className="mt-3 text-md inline-block rounded text-2xl font-bold">
             {dollarsAmount}
           </h4>
           <Separator className="my-2" />
-          <p className="mt-6 leading-8 text-muted-foreground">{description}</p>
+          <p className=" leading-8 text-muted-foreground">{description}</p>
 
           <AddToCart productId={id} />
         </div>

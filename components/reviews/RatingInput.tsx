@@ -14,12 +14,12 @@ function RatingInput({ name, labelText }: { name: string; labelText: string }) {
   }).reverse();
 
   return (
-    <div className="m-6 max-w-xs">
+    <div className="m-6 max-w-xl">
       <Label htmlFor={name} className="capitalize">
         {labelText || name}
       </Label>
       <Select defaultValue={numbers[0]} name={name} required>
-        <SelectTrigger className="mt-4">
+        <SelectTrigger className="mt-4 w-full">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>

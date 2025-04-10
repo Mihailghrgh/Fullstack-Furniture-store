@@ -10,13 +10,18 @@ type ReviewCardProps = {
     rating: number;
     name: string;
     image: string;
+    createdAt: Date;
   };
   children?: React.ReactNode;
 };
 
 function ReviewCard({ reviewInfo, children }: ReviewCardProps) {
+  const date = new Date(reviewInfo.createdAt).toDateString();
   return (
     <Card className="relative mt-8">
+      {/* <div className="absolute right-3 top-10 -translate-y-1/2">
+        <h1>{date}</h1>
+      </div> */}
       <CardHeader>
         <div className="flex items-center">
           <Image
@@ -27,10 +32,13 @@ function ReviewCard({ reviewInfo, children }: ReviewCardProps) {
             height={48}
             className="w-12 h-12 rounded-full object-cover"
           />
-          <div className="ml-4">
+
+          <div className="ml-4 ">
             <h3 className="text-sm capitalize mb-1 font-bold">
-              {reviewInfo.name}
+              {reviewInfo.name} -{" "}
+              <span className="text-sm font-light tracking-tight">{date}</span>
             </h3>
+
             <Rating rating={reviewInfo.rating} />
           </div>
         </div>
@@ -38,7 +46,7 @@ function ReviewCard({ reviewInfo, children }: ReviewCardProps) {
       <CardContent>
         <Comment comment={reviewInfo.comment} />
       </CardContent>
-      <div className="absolute top-3 right-3">{children}</div>
+      <div className="absolute top-14 md:top-3 right-3">{children}</div>
     </Card>
   );
 }

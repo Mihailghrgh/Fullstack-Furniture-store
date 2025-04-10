@@ -138,6 +138,7 @@ export async function GET(request: Request) {
       const result = await db.review.findMany({
         where: { clerkId: userId },
         select: {
+          createdAt: true,
           id: true,
           rating: true,
           comment: true,

@@ -30,7 +30,6 @@ function ProductReviews({ productId }: { productId: string }) {
   }, [productId, refresh]);
 
   const handleNewReview = () => {
-    console.log("true");
 
     setRefresh(true);
   };
@@ -38,12 +37,17 @@ function ProductReviews({ productId }: { productId: string }) {
   return (
     <div className="mt-16">
       <SectionTitle text="Product Reviews" text3="Super Fly" />
+      <p className="pt-2 text-center font-light">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corporis tempora illum aliquam possimus quidem odit officiis exercitationem consequuntur necessitatibus, ut, iure, recusandae facere iusto dolorum voluptas sint laborum voluptatibus. Soluta!</p>
+      <SubmitReview productId={productId} handleRefetch={handleNewReview} />
       <div className="grid md:grid-cols-2 gap-8">
         {reviews.map((review) => {
-          const { comment, rating, authorImageUrl, authorName } = review;
+          const { comment, rating, authorImageUrl, authorName, createdAt } =
+            review;
+
           const reviewInfo = {
             comment,
             rating,
+            createdAt,
             image: authorImageUrl,
             name: authorName,
           };
@@ -51,7 +55,6 @@ function ProductReviews({ productId }: { productId: string }) {
           return <ReviewCard key={review.id} reviewInfo={reviewInfo} />;
         })}
       </div>
-      <SubmitReview productId={productId} handleRefetch={handleNewReview} />
     </div>
   );
 }

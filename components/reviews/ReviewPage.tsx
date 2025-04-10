@@ -32,9 +32,9 @@ function ReviewPage() {
     fetchReviews();
   }, []);
 
-//   if (reviews.length === 0) {
-//     return <SectionTitle text="You have no reviews yet" />;
-//   }
+  if (reviews.length === 0) {
+    return <SectionTitle text="You have no reviews yet" />;
+  }
 
   async function DeleteReview({ reviewId }: { reviewId: string }) {
     await axios.post(`/api/products?type=deleteReview`, { data: reviewId });
@@ -46,10 +46,10 @@ function ReviewPage() {
       <SectionTitle text="You reviews" text3="Super Fly" />
       <section className="gird md:grid-cols-2 gap-8 mt-4">
         {reviews.map((review) => {
-          const { comment, rating, id } = review;
+          const { comment, rating, id, createdAt } = review;
           const { name, image } = review.product;
 
-          const reviewInfo = { comment, rating, name, image };
+          const reviewInfo = { comment, rating, name, image, createdAt };
           return (
             <ReviewCard key={review.id} reviewInfo={reviewInfo}>
               <Button
