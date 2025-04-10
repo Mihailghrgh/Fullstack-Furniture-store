@@ -10,7 +10,7 @@ async function ProductsPage({ searchParams }: searchParams) {
   const { search } = (await searchParams) || "";
   return (
     <>
-      <ProductsContainer layout={layout} search={search} />;
+      <ProductsContainer layout={layout} search={search} />
     </>
   );
 }

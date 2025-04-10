@@ -46,7 +46,7 @@ export async function GET(request: Request) {
       result = await db.product.findUnique({
         where: { id: id },
       });
-      break;
+      return NextResponse.json(result);
     }
 
     case "searching": {
@@ -152,7 +152,17 @@ export async function GET(request: Request) {
       return NextResponse.json(result);
     }
     case "findExistingReview": {
-      return NextResponse.json(" This is a return return return return ");
+      const { userId } = await auth();
+      const id = searchParams.get("id");
+
+      if (!userId || !id) {
+        return NextResponse.json("No userId detected to complete action");
+      }
+
+      const result = await db.review.findFirst({
+        where: { clerkId: userId, productId: id },
+      });
+      return NextResponse.json(result );
     }
     case "productRating": {
       const id = searchParams.get("id");
@@ -281,7 +291,7 @@ export async function POST(
       const { data } = await request.json();
       console.log(data);
       const reviewId = data;
-      
+
       await db.review.delete({
         where: {
           id: reviewId,

@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { Prisma } from "@prisma/client";
 import { Button } from "../ui/button";
 import { LuTrash2 } from "react-icons/lu";
+import { Suspense } from "react";
+import LoadingContainer from "../global/LoadingContainer";
 
 type ReviewWithProduct = Prisma.ReviewGetPayload<{
   include: { product: true };
@@ -20,8 +22,6 @@ function ReviewPage() {
         `/api/products?type=productReviewsByUser`
       );
 
-      console.log(data);
-
       setReviews(data);
     } catch (error: any) {
       console.log(error);
@@ -32,9 +32,9 @@ function ReviewPage() {
     fetchReviews();
   }, []);
 
-  if (reviews.length === 0) {
-    return <SectionTitle text="You have no reviews yet" />;
-  }
+//   if (reviews.length === 0) {
+//     return <SectionTitle text="You have no reviews yet" />;
+//   }
 
   async function DeleteReview({ reviewId }: { reviewId: string }) {
     await axios.post(`/api/products?type=deleteReview`, { data: reviewId });
@@ -42,7 +42,7 @@ function ReviewPage() {
   }
 
   return (
-    <>
+    <Suspense fallback={<LoadingContainer />}>
       <SectionTitle text="You reviews" text3="Super Fly" />
       <section className="gird md:grid-cols-2 gap-8 mt-4">
         {reviews.map((review) => {
@@ -63,7 +63,7 @@ function ReviewPage() {
           );
         })}
       </section>
-    </>
+    </Suspense>
   );
 }
 

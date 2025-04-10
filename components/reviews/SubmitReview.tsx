@@ -1,5 +1,5 @@
 "use client";
-import { Dispatch, useState, SetStateAction } from "react";
+import { useEffect, useState } from "react";
 import { SubmitButton } from "@/components/form/Buttons";
 import FormContainer from "@/components/form/FormContainer";
 import { Card } from "@/components/ui/card";
@@ -7,7 +7,6 @@ import RatingInput from "@/components/reviews/RatingInput";
 import TextAreaInput from "@/components/form/TextAreaInput";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@clerk/nextjs";
-import { Review } from "@prisma/client";
 
 function SubmitReview({ productId }: { productId: string }) {
   const [isReviewFormVisible, setIsReviewFormVisible] =
@@ -17,17 +16,19 @@ function SubmitReview({ productId }: { productId: string }) {
 
   return (
     <div>
-      <div className="flex justify-center my-2">
-        <Button
-          size="lg"
-          className="capitalize m-4 rounded-none"
-          onClick={() => {
-            setIsReviewFormVisible(!isReviewFormVisible);
-          }}
-        >
-          leave review
-        </Button>
-      </div>
+      {user && (
+        <div className="flex justify-center my-2">
+          <Button
+            size="lg"
+            className="capitalize m-4 rounded-none"
+            onClick={() => {
+              setIsReviewFormVisible(!isReviewFormVisible);
+            }}
+          >
+            leave review
+          </Button>
+        </div>
+      )}
 
       {isReviewFormVisible && (
         <Card className="relative mb-8">

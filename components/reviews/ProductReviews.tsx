@@ -5,16 +5,19 @@ import { useEffect, useState } from "react";
 import SectionTitle from "../global/SectionTitle";
 import ReviewCard from "./ReviewCard";
 import SubmitReview from "./SubmitReview";
+import { useUser } from "@clerk/nextjs";
 
 function ProductReviews({ productId }: { productId: string }) {
   const [reviews, setReviews] = useState<Review[]>([]);
+
+  const { user } = useUser();
 
   const fetchReviews = async () => {
     try {
       const { data } = await axios.get(
         ` /api/products?type=productReviews&id=${productId}`
       );
-      
+
       setReviews(data);
     } catch (error: any) {
       console.log(error?.error.message);
