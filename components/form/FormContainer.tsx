@@ -16,7 +16,7 @@ function FormContainer({
   type: string;
   productId?: string;
   favoriteId?: string | null;
-  handleRefetch: () => void;
+  handleRefetch?: () => void;
 }) {
   const router = useRouter();
   const [state, formAction] = useActionState(
@@ -24,14 +24,12 @@ function FormContainer({
       try {
         const response = await axios.post(
           `/api/products?type=${type}${productId && `&id=${productId}`}${
-            favoriteId === null
-              ? `&favoriteId=notFavorite`
-              : `&favoriteId=${favoriteId}`
+            favoriteId && `&favoriteId=${favoriteId}`
           }`,
           formData
         );
 
-        if (type === "createReview") {
+        if (type === "createReview" && handleRefetch) {
           handleRefetch();
         }
 

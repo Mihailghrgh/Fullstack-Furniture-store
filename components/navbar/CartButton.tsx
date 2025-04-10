@@ -1,9 +1,28 @@
+"use client";
+
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
+import axios from "axios";
 
 function CartButton() {
-  const numItemsInCart = 9;
+  const [numItemsInCart, setNumItemsInCart] = useState(0);
+
+  const fetchItemsInCart = async()=>{
+    try{
+      const { data } = await axios.get(
+        "/api/products?type=getNumberOfCartItems"
+      );
+      setNumItemsInCart(numItemsInCart)
+    }catch(error: any){
+      console.log(error);
+      
+    }
+  }
+  useEffect(()=>{
+    fetchItemsInCart();
+  },[])
   return (
     <Button
       asChild

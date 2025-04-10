@@ -19,6 +19,7 @@ import LoadingTable from "../global/LoadingTable";
 import { LuTrash2 } from "react-icons/lu";
 import { PenSquare, SquarePen } from "lucide-react";
 import { useTheme } from "next-themes";
+import { Separator } from "../ui/separator";
 
 function AdminProducts() {
   const [products, setProducts] = useState<Product[]>();
@@ -59,12 +60,12 @@ function AdminProducts() {
               <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
+          <TableBody className="outline">
             {products.map((item) => {
               const { id: productId, name, company, price } = item;
 
               return (
-                <TableRow key={productId}>
+                <TableRow key={productId} className="">
                   <TableCell>
                     <Link
                       href={`/product/${productId}`}
@@ -75,14 +76,14 @@ function AdminProducts() {
                   </TableCell>
                   <TableCell>{company}</TableCell>
                   <TableCell>{formatCurrency(price)}</TableCell>
-                  <TableCell>
+                  <TableCell className="flex justify-between">
                     <Link href={`/admin/products/${productId}/edit`}>
                       <Button variant="ghost">
                         <PenSquare className="text-yellow-400" />
                       </Button>
                     </Link>
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="flex justify-between">
                     <Button
                       variant="ghost"
                       onClick={() => DeleteProducts(productId)}

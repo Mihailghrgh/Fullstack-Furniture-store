@@ -8,7 +8,11 @@ import { Button } from "../ui/button";
 function SignOutLink() {
   const { toast } = useToast();
   const handleLogout = () => {
-    toast({ description: "Logout Successful!" });
+    toast({
+      description: "Logout Successful!",
+      className:
+        "fixed top-5 left-1/2 transform -translate-x-1/2 w-80 shadow-lg bg-primary-foreground text-center",
+    });
   };
   return (
     <SignOutButton>

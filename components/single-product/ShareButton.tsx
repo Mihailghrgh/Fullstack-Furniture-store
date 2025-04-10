@@ -28,7 +28,7 @@ function ShareButton({ productId, name }: { productId: string; name: string }) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" size="icon" className="p2">
+        <Button variant="outline" size="icon" className="p2 rounded-full">
           <LuShare2 />
         </Button>
       </PopoverTrigger>

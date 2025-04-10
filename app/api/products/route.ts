@@ -162,7 +162,7 @@ export async function GET(request: Request) {
       const result = await db.review.findFirst({
         where: { clerkId: userId, productId: id },
       });
-      return NextResponse.json(result );
+      return NextResponse.json(result);
     }
     case "productRating": {
       const id = searchParams.get("id");
@@ -190,6 +190,31 @@ export async function GET(request: Request) {
       };
 
       return NextResponse.json(data);
+    }
+
+    case "getNumberOfCartItems": {
+      const { userId } = await auth();
+
+      if (!userId) {
+        return NextResponse.json("No user Id present");
+      }
+
+      const result = await db.cart.findFirst({
+        where: {
+          clerkId: userId,
+        },
+        select: {
+          numItemsInCart: true,
+        },
+      });
+
+      console.log("Number of items in cart", result);
+
+      if (!result?.numItemsInCart) {
+        return NextResponse.json(0);
+      } else {
+        return NextResponse.json(result.numItemsInCart);
+      }
     }
 
     default: {
@@ -449,6 +474,13 @@ export async function POST(
 
         return NextResponse.json(error);
       }
+    }
+
+    //Cart Api requests
+    case "addToCartItems": {
+      console.log("API call");
+
+      return NextResponse.json({ message: "Product Added to the Cart" });
     }
   }
 

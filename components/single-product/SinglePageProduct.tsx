@@ -12,11 +12,11 @@ import ProductReviews from "@/components/reviews/ProductReviews";
 import { useEffect, useState } from "react";
 import { Product } from "@prisma/client";
 import LoadingContainer from "../global/LoadingContainer";
+import { Separator } from "@/components/ui/separator";
 
 function SinglePageProduct({ params }: { params: string }) {
   const [singleProduct, setSingleProduct] = useState<Product>();
   const [id, setId] = useState<string>("");
-  
 
   const handleFetchData = async () => {
     try {
@@ -32,8 +32,6 @@ function SinglePageProduct({ params }: { params: string }) {
   useEffect(() => {
     handleFetchData();
   }, [params]);
-
-  console.log(singleProduct);
 
   if (!singleProduct) {
     return <LoadingContainer />;
@@ -64,19 +62,25 @@ function SinglePageProduct({ params }: { params: string }) {
         </div>
         {/* PRODUCT INFO SECOND COL */}
         <div>
-          <div className="flex gap-x-8 items-center">
+          <div className="gap-x-8 flex justify-between">
             <h1 className="capitalize text-3xl font-bold">{name}</h1>
-            <div className="flex items-center gap-x-2 ">
+            <div className="gap-x-2 flex items-end">
               <FavoriteToggleButton productId={id} />
               <ShareButton productId={id} name={name} />
             </div>
           </div>
           <ProductRating productId={id} />
-          <h4 className="text-xl mt-2">{company}</h4>
-          <p className="mt-3 text-md inline-block p-2 rounded">
+          <div className="mt-2">
+            <p className="text-sm text-muted-foreground">
+              By <span className="font-medium text-foreground">{company}</span>
+            </p>
+          </div>
+          <h4 className="mt-3 text-md inline-block rounded text-2xl font-bold">
             {dollarsAmount}
-          </p>
+          </h4>
+          <Separator className="my-2" />
           <p className="mt-6 leading-8 text-muted-foreground">{description}</p>
+
           <AddToCart productId={id} />
         </div>
       </div>

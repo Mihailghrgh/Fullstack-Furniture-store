@@ -13,6 +13,7 @@ export default clerkMiddleware(async (auth, req) => {
   const { userId } = await auth();
 
   if (isAdminRoute(req) && userId !== process.env.ADMIN_USER_ID) {
+    
     return NextResponse.redirect(new URL("/", req.url));
   }
 

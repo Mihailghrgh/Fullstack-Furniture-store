@@ -110,9 +110,23 @@ export const CardSignInButton = () => {
         type="button"
         size="icon"
         variant="outline"
-        className="p-2 cursor-pointer"
+        className="p-2 cursor-pointer rounded-sm"
       >
         <FaRegHeart />
+      </Button>
+    </SignInButton>
+  );
+};
+
+export const ProductSignInButton = () => {
+  return (
+    <SignInButton mode="modal">
+      <Button
+        size="lg"
+        className="mt-8 w-full bg-blue-600 hover:bg-blue-700 text-white rounded-none"
+        type="button"
+      >
+        Sign In
       </Button>
     </SignInButton>
   );
@@ -132,7 +146,7 @@ export const CardSubmitButton = ({
       type="submit"
       size="icon"
       variant="outline"
-      className="p-2 cursor-pointer"
+      className="rounded-full p-2 cursor-pointer"
       onClick={handleToggle}
     >
       {pending ? (
