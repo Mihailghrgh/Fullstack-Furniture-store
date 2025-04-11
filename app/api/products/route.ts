@@ -10,6 +10,7 @@ import {
 } from "@/utils/schema";
 import { deleteImage, uploadImage } from "@/utils/supabase";
 import { Prisma } from "@prisma/client";
+import { cartSchema } from "@/utils/schema";
 
 ////Logic kept in here for switch cases of different search params
 ////Instead of action because of issues with accessing base code on a request keeping it simple as an api request after an axios get request
@@ -461,10 +462,8 @@ export async function POST(
           });
         }
         const newData = await request.formData();
-        console.log("new Data:", newData);
-
         const data = Object.fromEntries(newData);
-        console.log("new Data:", data);
+
         const validateFields = validateWithZodSchema(reviewSchema, data);
 
         await db.review.create({
@@ -479,7 +478,50 @@ export async function POST(
 
     //Cart Api requests
     case "addToCartItems": {
-      console.log("API call");
+      try {
+        const { userId } = await auth();
+
+        if (!userId) {
+          return NextResponse.json({
+            message: "no user detected to complete action",
+          });
+        }
+        const newData = await request.formData();
+        const data = Object.fromEntries(newData);
+        const amount = Number(data.amount);
+
+        const validateData = validateWithZodSchema(cartSchema, data);
+
+        const product = await db.product.findUnique({
+          where: {
+            id: validateData.productId,
+          },
+        });
+
+        if (!product) {
+          return NextResponse.json({
+            message: "Product not existing in the data base",
+          });
+        }
+
+        //Helper function 1: find existing cart and add new product to it
+        let cart = await db.cart.findFirst({
+          where: {
+            clerkId: userId,
+          },
+          include: {
+            cartItems: {
+              include: {
+                product: true,
+              },
+            },
+          },
+        });
+
+        //Helper function 2: if not cart found with the userId, create this new cart to include the fetched product
+      } catch (error: any) {
+        console.log(error);
+      }
 
       return NextResponse.json({ message: "Product Added to the Cart" });
     }
@@ -487,3 +529,41 @@ export async function POST(
 
   return NextResponse.json({ message: result });
 }
+
+const fetchOrCreateCart = async ({
+  userId,
+  errorOnFailure = false,
+}: {
+  userId: string;
+  errorOnFailure?: boolean;
+}) => {
+  let cart = await db.cart.findFirst({
+    where: {
+      clerkId: userId,
+    },
+    include: {
+      cartItems: {
+        include: {
+          product: true,
+        },
+      },
+    },
+  });
+
+  if (!cart) {
+    if (errorOnFailure) {
+      throw new Error("Cart not found");
+    }
+
+    cart = await db.cart.create({
+      data: { clerkId: userId },
+      include: {
+        cartItems: {
+          include: {
+            product: true,
+          },
+        },
+      },
+    });
+  }
+};

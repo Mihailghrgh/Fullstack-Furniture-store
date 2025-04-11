@@ -28,8 +28,8 @@ function ReviewCard({ reviewInfo, children }: ReviewCardProps) {
             src={reviewInfo.image}
             alt={reviewInfo.name}
             priority
-            width={48}
-            height={48}
+            width={120}
+            height={120}
             className="w-12 h-12 rounded-full object-cover"
           />
 
@@ -46,7 +46,7 @@ function ReviewCard({ reviewInfo, children }: ReviewCardProps) {
       <CardContent>
         <Comment comment={reviewInfo.comment} />
       </CardContent>
-      <div className="absolute top-14 md:top-3 right-3">{children}</div>
+      <div className="absolute top-1 md:top-3 right-3">{children}</div>
     </Card>
   );
 }

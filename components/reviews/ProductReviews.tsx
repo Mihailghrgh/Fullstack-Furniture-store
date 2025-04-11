@@ -37,7 +37,12 @@ function ProductReviews({ productId }: { productId: string }) {
   return (
     <div className="mt-16">
       <SectionTitle text="Product Reviews" text3="Super Fly" />
-      <p className="pt-2 text-center font-light">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Corporis tempora illum aliquam possimus quidem odit officiis exercitationem consequuntur necessitatibus, ut, iure, recusandae facere iusto dolorum voluptas sint laborum voluptatibus. Soluta!</p>
+      <p className="pt-2 text-center font-light">
+        We’d love to hear what you think! Share your honest thoughts about the
+        product — how it helped, what you enjoyed, or what could be better. Your
+        feedback makes a big difference for future customers and helps us
+        improve. Thank you for taking the time to leave a review!
+      </p>
       <SubmitReview productId={productId} handleRefetch={handleNewReview} />
       <div className="grid md:grid-cols-2 gap-8">
         {reviews.map((review) => {

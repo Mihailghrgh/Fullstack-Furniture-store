@@ -32,61 +32,6 @@ function SubmitReview({
   const { user } = useUser();
 
   return (
-    // <Dialog>
-    //   {user && (
-    //     <div className="flex justify-center my-2">
-    //       <DialogTrigger asChild>
-    //         <Button
-    //           size="lg"
-    //           className="capitalize m-4 rounded-none"
-    //           onClick={() => {
-    //             setIsReviewFormVisible(!isReviewFormVisible);
-    //           }}
-    //         >
-    //           leave review
-    //         </Button>
-    //       </DialogTrigger>
-    //     </div>
-    //   )}
-
-    //   {isReviewFormVisible && (
-    //     <DialogContent className="w-full max-w-md mx-auto">
-    //       <DialogHeader>
-    //         <DialogTitle className="text-center">Leave a review</DialogTitle>
-    //         <DialogDescription className="text-center">
-    //           Thank you for leaving a review for this product.
-    //         </DialogDescription>
-    //         <FormContainer
-    //           type="createReview"
-    //           productId=""
-    //           favoriteId=""
-    //           handleRefetch={handleRefetch}
-    //         >
-    //           <input type="hidden" name="productId" value={productId} />
-    //           <input
-    //             type="hidden"
-    //             name="authorName"
-    //             value={user?.firstName || "user"}
-    //           />
-    //           <input
-    //             type="hidden"
-    //             name="authorImageUrl"
-    //             value={user?.imageUrl}
-    //           />
-    //           <RatingInput name="rating" labelText="" />
-    //           <TextAreaInput
-    //             name="comment"
-    //             labelText="feedback"
-    //             defaultValue="Outstanding product"
-    //           />
-    //           <div className="flex justify-center">
-    //             <SubmitButton className="m-6 bg-blue-600 hover:bg-blue-700 text-white rounded-none items-center size-lg" />
-    //           </div>
-    //         </FormContainer>
-    //       </DialogHeader>
-    //     </DialogContent>
-    //   )}
-    // </Dialog>`
     <div className="flex items-center justify-center my-2">
       <Dialog>
         {user && (
