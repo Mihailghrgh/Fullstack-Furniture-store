@@ -28,10 +28,7 @@ export const productSchema = z.object({
 
 export const cartSchema = z.object({
   productId: z.string(),
-  name: z.string(),
-  company: z.string(),
-  price: z.coerce.number().int(),
-  description: z.string(),
+  amount: z.string(),
 });
 
 export const reviewSchema = z.object({

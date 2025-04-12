@@ -4,6 +4,8 @@ import { useActionState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useContext } from "react";
+import { useCart } from "@/utils/numItemsInCart";
 
 function FormContainer({
   children,
@@ -19,9 +21,14 @@ function FormContainer({
   handleRefetch?: () => void;
 }) {
   const router = useRouter();
+  const { numItemsInCart, setNumItemsInCart, fetchCartNumber } = useCart();
+
   const [state, formAction] = useActionState(
     async (prevState: any, formData: FormData) => {
       try {
+        const  data  = await fetchCartNumber();
+        console.log(data);
+
         const response = await axios.post(
           `/api/products?type=${type}${productId && `&id=${productId}`}${
             favoriteId && `&favoriteId=${favoriteId}`
@@ -29,6 +36,8 @@ function FormContainer({
           formData
         );
 
+        if (type === "addToCartItems") {
+        }
         if (type === "createReview" && handleRefetch) {
           handleRefetch();
         }

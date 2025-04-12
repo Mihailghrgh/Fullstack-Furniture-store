@@ -2,27 +2,16 @@
 
 import { Button } from "../ui/button";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
-import axios from "axios";
+import { useCart } from "@/utils/numItemsInCart";
+import { useEffect } from "react";
 
 function CartButton() {
-  const [numItemsInCart, setNumItemsInCart] = useState(0);
+  const { numItemsInCart, fetchCartNumber } = useCart();
 
-  const fetchItemsInCart = async()=>{
-    try{
-      const { data } = await axios.get(
-        "/api/products?type=getNumberOfCartItems"
-      );
-      setNumItemsInCart(numItemsInCart)
-    }catch(error: any){
-      console.log(error);
-      
-    }
-  }
-  useEffect(()=>{
-    fetchItemsInCart();
-  },[])
+  useEffect(() => {
+    fetchCartNumber();
+  }, [fetchCartNumber]);
   return (
     <Button
       asChild
