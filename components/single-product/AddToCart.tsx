@@ -10,7 +10,7 @@ import { ProductSignInButton } from "../form/Buttons";
 import { Separator } from "@/components/ui/separator";
 
 function AddToCart({ productId }: { productId: string }) {
-  const [amount, seTAmount] = useState(1);
+  const [amount, setAmount] = useState(1);
 
   const { user } = useUser();
 
@@ -23,7 +23,7 @@ function AddToCart({ productId }: { productId: string }) {
       <SelectProductAmount
         mode={Mode.SingleProduct}
         amount={amount}
-        setAmount={seTAmount}
+        setAmount={setAmount}
       />
 
       {user.id ? (

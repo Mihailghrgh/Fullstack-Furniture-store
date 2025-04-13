@@ -20,3 +20,8 @@ export type CartState = {
   tax: number;
   orderTotal: number;
 };
+
+export enum Mode {
+  SingleProduct = "singleProduct",
+  CartItem = "cartItem",
+}

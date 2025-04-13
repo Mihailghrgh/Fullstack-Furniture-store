@@ -3,6 +3,9 @@ import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { Prisma } from "@prisma/client";
+import SelectProductAmount from "../single-product/SelectProductAmount";
+import { Mode } from "@/utils/type";
+import { useState } from "react";
 
 type CartWithProduct = Prisma.CartGetPayload<{
   include: {
@@ -15,6 +18,8 @@ type CartWithProduct = Prisma.CartGetPayload<{
 }>;
 
 function CartItems({ cartItems }: { cartItems: CartWithProduct }) {
+  const [amount, setAmount] = useState(1);
+
   return (
     <Card className="w-full">
       <CardHeader>
@@ -36,7 +41,13 @@ function CartItems({ cartItems }: { cartItems: CartWithProduct }) {
               <div className="flex-1 space-y-1">
                 <h3 className="font-medium">{name}</h3>
                 <p className="text-sm text-muted-foreground">{price} each</p>
-                <div className="flex items-center space-x-2">Amount:</div>
+                <div className="flex items-center space-x-2">
+                  <SelectProductAmount
+                    mode={Mode.SingleProduct}
+                    amount={12}
+                    setAmount={setAmount}
+                  />
+                </div>
               </div>
               <div className="flex flex-col items-end space-y-2">
                 <span className="font-medium">{price}</span>

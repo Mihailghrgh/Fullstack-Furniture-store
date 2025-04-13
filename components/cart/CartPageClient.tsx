@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Prisma } from "@prisma/client";
 import CartItems from "./CartItems";
+import { Button } from "../ui/button";
 
 type CartWithProduct = Prisma.CartGetPayload<{
   include: {
@@ -56,6 +57,7 @@ function CartPageClient() {
           </div>
           <div className="lg:col-span-4">
             <CartTotals cart={cart} />
+            <Button className="w-full mt-4">Place Order</Button>
           </div>
         </div>
       )}
