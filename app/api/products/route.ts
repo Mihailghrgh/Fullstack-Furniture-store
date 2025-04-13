@@ -219,6 +219,18 @@ export async function GET(request: Request) {
         return NextResponse.json(result);
       }
     }
+    case "fetchOrCreateCart": {
+      const { userId } = await auth();
+
+      if (!userId) {
+        return NextResponse.json("No user Id presented");
+      }
+
+      const result = await fetchOrCreateCart({ userId });
+      console.log(result);
+      
+      return NextResponse.json(result);
+    }
 
     default: {
       result = await db.product.findMany();
@@ -489,7 +501,6 @@ export async function POST(
         }
         const newData = await request.formData();
         const data = Object.fromEntries(newData);
-        console.log(data);
         const amount = Number(data.amount);
 
         const validateData = validateWithZodSchema(cartSchema, data);

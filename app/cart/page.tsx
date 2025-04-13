@@ -1,6 +1,6 @@
-function CartPage() {
-  return (
-    <div>CartPage</div>
-  )
+import CartPageClient from "@/components/cart/CartPageClient";
+async function CartPage() {
+
+  return <CartPageClient />;
 }
-export default CartPage
+export default CartPage;

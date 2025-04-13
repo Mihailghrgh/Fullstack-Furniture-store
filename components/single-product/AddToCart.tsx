@@ -1,13 +1,11 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import { Button } from "../ui/button";
 import { useState } from "react";
 import SelectProductAmount from "./SelectProductAmount";
 import { Mode } from "./SelectProductAmount";
 import FormContainer from "../form/FormContainer";
 import { SubmitButton } from "../form/Buttons";
-import { useAuth } from "@clerk/nextjs";
 import { ProductSignInButton } from "../form/Buttons";
 import { Separator } from "@/components/ui/separator";
 
