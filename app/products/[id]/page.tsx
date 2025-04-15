@@ -1,5 +1,6 @@
 "use server";
 import SinglePageProduct from "@/components/single-product/SinglePageProduct";
+import axios from "axios";
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -10,7 +11,14 @@ async function SingleProduct({ params }: PageProps) {
   //// SERVER side safe for calling directly
   //// Client component ALWAYS AXIOS or API route for no leaks in the code base
 
+
   const { id } = await params;
-  return <SinglePageProduct />;
+  
+  //For the future of fetching product Data inside the server component first for better render time
+  // const {data} = await axios.get(
+  //   `https://furniture-shopping-eta.vercel.app/api/products?type=unique&id=${id}`
+  // );
+  
+  return <SinglePageProduct params={id} />;
 }
 export default SingleProduct;

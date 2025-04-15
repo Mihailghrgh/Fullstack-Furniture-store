@@ -213,11 +213,13 @@ export async function GET(request: Request) {
 
       console.log("Number of items in cart", result);
 
-      if (!result?.numItemsInCart) {
-        return NextResponse.json("No number of items in the cart");
-      } else {
-        return NextResponse.json(result);
-      }
+      return NextResponse.json(result);
+
+      // if (result?.numItemsInCart === 0) {
+      //   return NextResponse.json(result.numItemsInCart);
+      // } else {
+      //   return NextResponse.json(result);
+      // }
     }
     case "fetchOrCreateCart": {
       const { userId } = await auth();
@@ -314,7 +316,7 @@ export async function POST(
           where: { id: productId },
         });
 
-        result = "Product Delete";
+        return NextResponse.json({ message: "Product Delete" });
       } catch (error: any) {
         console.log(error);
         result = error.message;
@@ -538,9 +540,31 @@ export async function POST(
     }
     case "removeCartItemAction": {
       try {
-        return NextResponse.json({ message: "delete message" });
+        const { userId } = await auth();
+
+        if (!userId) {
+          return NextResponse.json({
+            message: "no user detected to complete action",
+          });
+        }
+
+        const data = await request.formData();
+        const formData = Object.fromEntries(data);
+        const id = formData.cartItemId as string;
+
+        const Cart = await fetchOrCreateCart({ userId, errorOnFailure: true });
+
+        await db.cartItem.delete({
+          where: { id: id, cartId: Cart.id },
+        });
+
+        await updateCart(Cart);
+        return NextResponse.json({ message: `Product ${id} has been deleted` });
       } catch (error: any) {
         console.log(error);
+        return NextResponse.json({
+          message: error,
+        });
       }
     }
   }

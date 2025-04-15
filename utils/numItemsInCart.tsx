@@ -33,11 +33,8 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
       const { data } = await axios.get(
         "/api/products?type=getNumberOfCartItems"
       );
-      if (data.numItemsInCart) {
-        setNumItemsInCart(data.numItemsInCart);
-      }
 
-      console.log(data);
+      setNumItemsInCart(data.numItemsInCart);
     } catch (error: any) {
       console.log(error);
       setNumItemsInCart(0);

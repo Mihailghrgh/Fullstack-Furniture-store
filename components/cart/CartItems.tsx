@@ -1,3 +1,4 @@
+"use client";
 import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 import Image from "next/image";
 import { Button } from "../ui/button";
@@ -8,6 +9,9 @@ import Link from "next/link";
 import FormContainer from "../form/FormContainer";
 import CartProductAmount from "./CartProductAmount";
 import { Separator } from "../ui/separator";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import SubmitButton from "../form/Buttons";
 
 type CartWithProduct = Prisma.CartGetPayload<{
   include: {
@@ -15,11 +19,15 @@ type CartWithProduct = Prisma.CartGetPayload<{
   };
 }>;
 
-function CartItems({ cartItems }: { cartItems: CartWithProduct }) {
-  const fetchCartData = () => {
-    console.log("this works");
-  };
+type refetchCartData = () => Promise<void>;
 
+function CartItems({
+  cartItems,
+  refetchCartData,
+}: {
+  cartItems: CartWithProduct;
+  refetchCartData: refetchCartData;
+}) {
   return (
     <Card className="w-full">
       <CardHeader>
@@ -28,6 +36,7 @@ function CartItems({ cartItems }: { cartItems: CartWithProduct }) {
       <CardContent className="space-y-20 md:space-y-10">
         {cartItems?.cartItems?.map((item) => {
           const { amount, id } = item;
+
           const { image, name, price, id: productId } = item.product;
 
           return (
@@ -41,7 +50,7 @@ function CartItems({ cartItems }: { cartItems: CartWithProduct }) {
                 />
               </div>
               <div className="flex-1 pb-2">
-                <Link href={`/products/${id}`}>
+                <Link href={`/products/${productId}`} prefetch={true}>
                   <h3 className="font-medium">{name}</h3>
                 </Link>
 
@@ -59,14 +68,12 @@ function CartItems({ cartItems }: { cartItems: CartWithProduct }) {
                   type="removeCartItemAction"
                   productId=""
                   favoriteId=""
+                  refetchCartData={refetchCartData}
                 >
-                  <input type="hidden" name="id" />
-                  <input type="hidden" name="cartId" />
+                  <input type="hidden" name="cartItemId" value={id} />
                   <Button
-                    size="icon"
                     variant="outline"
                     className="h-7 w-7 mt-8 hover:text-red-600"
-                    onClick={() => fetchCartData()}
                   >
                     <LuTrash2 />
                   </Button>

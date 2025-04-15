@@ -13,12 +13,14 @@ function FormContainer({
   productId,
   favoriteId,
   handleRefetch,
+  refetchCartData,
 }: {
   children: React.ReactNode;
   type: string;
   productId?: string;
   favoriteId?: string | null;
   handleRefetch?: () => void;
+  refetchCartData?: () => void;
 }) {
   const router = useRouter();
   const { numItemsInCart, setNumItemsInCart, fetchCartNumber } = useCart();
@@ -26,9 +28,6 @@ function FormContainer({
   const [state, formAction] = useActionState(
     async (prevState: any, formData: FormData) => {
       try {
-        const  data  = await fetchCartNumber();
-        console.log(data);
-
         const response = await axios.post(
           `/api/products?type=${type}${productId && `&id=${productId}`}${
             favoriteId && `&favoriteId=${favoriteId}`
@@ -36,12 +35,15 @@ function FormContainer({
           formData
         );
 
-        if (type === "addToCartItems") {
-        }
         if (type === "createReview" && handleRefetch) {
           handleRefetch();
         }
 
+        if (type === "removeCartItemAction" && refetchCartData) {
+          refetchCartData();
+          console.log("Here");
+        }
+        fetchCartNumber();
         return { success: true, response: response.data.message };
       } catch (error: any) {
         return {

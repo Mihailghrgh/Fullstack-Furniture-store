@@ -27,9 +27,8 @@ function ProductRating({ productId }: { productId: string }) {
     handleRating();
   }, []);
 
-
   const className = `flex gap-2 items-center text-md mt-1 mb-2`;
-  const countValue = `(${reviews?.count}) reviews`;
+  const countValue = `${reviews?.count ? `(${reviews?.count})` : "No"} reviews`;
   return (
     <span className={className}>
       <FaStar className="w-3 h-3" />

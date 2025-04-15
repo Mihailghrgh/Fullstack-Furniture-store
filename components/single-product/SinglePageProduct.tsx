@@ -13,23 +13,20 @@ import { useEffect, useState } from "react";
 import { Product } from "@prisma/client";
 import LoadingContainer from "../global/LoadingContainer";
 import { Separator } from "@/components/ui/separator";
-import { useParams } from "next/navigation";
 
-function SinglePageProduct() {
+function SinglePageProduct({ params }: { params: string }) {
   const [singleProduct, setSingleProduct] = useState<Product>();
   const [id, setId] = useState<string>("");
 
-  const params = useParams();
-  const productId = params.id as string;
-  console.log(productId);
-
   const handleFetchData = async () => {
     try {
-      const id = params;
+      if (!params) {
+        return;
+      }
       const { data } = await axios.get(
-        `/api/products?type=unique&id=${productId}`
+        `/api/products?type=unique&id=${params}`
       );
-      setId(productId);
+      setId(params);
       setSingleProduct(data);
     } catch (error: any) {
       console.log();
@@ -38,14 +35,15 @@ function SinglePageProduct() {
 
   useEffect(() => {
     handleFetchData();
-  }, [productId]);
+  }, [params]);
 
   if (!singleProduct) {
-    console.log(" here");
+    handleFetchData();
+
     return <LoadingContainer />;
   }
 
-  if (!id) {
+  if (!params) {
     console.log("here 2");
     return <LoadingContainer />;
   }
@@ -53,7 +51,7 @@ function SinglePageProduct() {
 
   const dollarsAmount = formatCurrency(price);
   return (
-    <section>
+    <section key={params}>
       <BreadCrumbs name={name} />
       <div className="mt-6 grid gap-y-8 lg:grid-cols-2 lg:gap-x-16">
         {/* IMAGE FIRST COL */}
