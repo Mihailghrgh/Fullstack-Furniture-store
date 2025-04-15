@@ -13,16 +13,23 @@ import { useEffect, useState } from "react";
 import { Product } from "@prisma/client";
 import LoadingContainer from "../global/LoadingContainer";
 import { Separator } from "@/components/ui/separator";
+import { useParams } from "next/navigation";
 
-function SinglePageProduct({ params }: { params: string }) {
+function SinglePageProduct() {
   const [singleProduct, setSingleProduct] = useState<Product>();
   const [id, setId] = useState<string>("");
+
+  const params = useParams();
+  const productId = params.id as string;
+  console.log(productId);
 
   const handleFetchData = async () => {
     try {
       const id = params;
-      const { data } = await axios.get(`/api/products?type=unique&id=${id}`);
-      setId(id);
+      const { data } = await axios.get(
+        `/api/products?type=unique&id=${productId}`
+      );
+      setId(productId);
       setSingleProduct(data);
     } catch (error: any) {
       console.log();
@@ -31,13 +38,15 @@ function SinglePageProduct({ params }: { params: string }) {
 
   useEffect(() => {
     handleFetchData();
-  }, [params]);
+  }, [productId]);
 
   if (!singleProduct) {
+    console.log(" here");
     return <LoadingContainer />;
   }
 
   if (!id) {
+    console.log("here 2");
     return <LoadingContainer />;
   }
   const { name, image, company, description, price } = singleProduct;

@@ -33,20 +33,23 @@ function SelectProductAmount(
 
   return (
     <>
-      <h4 className="my-2">Amount:</h4>
       <Select
         defaultValue={amount.toString()}
         onValueChange={(value) => setAmount(Number(value))}
         disabled={cartItems ? props.isLoading : false}
       >
-        <SelectTrigger className={cartItems ? "w-[100px]" : "w-[150px]"}>
+        <SelectTrigger className={cartItems ? "w-40" : "w-[150px]"}>
           <SelectValue placeholder={amount} />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="items-center text-center">
           {Array.from({ length: cartItems ? amount + 10 : 10 }, (_, index) => {
             const selectValue = (index + 1).toString();
             return (
-              <SelectItem key={index} value={selectValue}>
+              <SelectItem
+                className="text-center"
+                key={index}
+                value={selectValue}
+              >
                 {selectValue}
               </SelectItem>
             );

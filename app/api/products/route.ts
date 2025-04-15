@@ -228,7 +228,7 @@ export async function GET(request: Request) {
 
       const result = await fetchOrCreateCart({ userId });
       console.log(result);
-      
+
       return NextResponse.json(result);
     }
 
@@ -534,8 +534,14 @@ export async function POST(
       } catch (error: any) {
         console.log(error);
       }
-
       return NextResponse.json({ message: "Product Added to the Cart" });
+    }
+    case "removeCartItemAction": {
+      try {
+        return NextResponse.json({ message: "delete message" });
+      } catch (error: any) {
+        console.log(error);
+      }
     }
   }
 

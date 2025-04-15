@@ -19,7 +19,7 @@ function AddToCart({ productId }: { productId: string }) {
   }
   return (
     <div>
-      <Separator className="my-2" />
+      <Separator className="my-8" />
       <SelectProductAmount
         mode={Mode.SingleProduct}
         amount={amount}

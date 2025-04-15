@@ -5,7 +5,7 @@ import React from "react";
 function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <h2 className="text-2xl pl-4">Admin Dashboard</h2>
+      <h2 className="text-2xl pl-4 text-center mb-4">Admin Dashboard</h2>
       <Separator className="mt-2" />
       <section className="grid lg:grid-cols-12 gap-12 mt-12">
         <div className="lg:col-span-2">

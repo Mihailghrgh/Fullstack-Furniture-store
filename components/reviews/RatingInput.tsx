@@ -14,7 +14,7 @@ function RatingInput({ name, labelText }: { name: string; labelText: string }) {
   }).reverse();
 
   return (
-    <div className="m-6 max-w-xl">
+    <div className="pt-2 ">
       <Label htmlFor={name} className="capitalize">
         {labelText || name}
       </Label>

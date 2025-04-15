@@ -20,7 +20,7 @@ type CartWithProduct = Prisma.CartGetPayload<{
   };
 }>;
 
-type Cart = Prisma.CartGetPayload<{}>;
+type Cart = Prisma.CartGetPayload<{include:{cartItems:{include:{product:true}}}}>;
 
 function CartPageClient() {
   const { user } = useUser();
@@ -51,7 +51,7 @@ function CartPageClient() {
     <>
       <SectionTitle text="Shopping Cart" />
       {cart && (
-        <div className="mt-8 grid gap-4 lg:grid-cols-12">
+        <div className="mt-8 grid gap-y-4 lg:grid-cols-12 space-x-4">
           <div className="lg:col-span-8">
             <CartItems cartItems={cartItems!} />
           </div>

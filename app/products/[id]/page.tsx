@@ -11,6 +11,6 @@ async function SingleProduct({ params }: PageProps) {
   //// Client component ALWAYS AXIOS or API route for no leaks in the code base
 
   const { id } = await params;
-  return <SinglePageProduct params={id} />;
+  return <SinglePageProduct />;
 }
 export default SingleProduct;
