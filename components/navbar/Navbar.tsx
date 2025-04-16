@@ -6,13 +6,26 @@ import NavSearch from "./NavSearch";
 import CartButton from "./CartButton";
 import DarkMode from "./DarkMode";
 import LinksDropdown from "./LinksDropdown";
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
+import axios from "axios";
 
 function Navbar() {
   const { user } = useUser();
+  const [activeDashboard, setIsActiveDashboard] = useState<boolean>(false);
 
-  const isAdmin = user === null ? false : true;
+  const fetchActiveUser = async () => {
+    try {
+      const { data } = await axios.get("/api/products?type=isAdmin");
+      setIsActiveDashboard(data);
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchActiveUser();
+  }, []);
 
   return (
     <nav className="border-b-4">
@@ -25,7 +38,7 @@ function Navbar() {
         <div className="flex items-center justify-center gap-24 md:gap-8">
           <CartButton />
           <DarkMode />
-          <LinksDropdown isAdmin={isAdmin} />
+          <LinksDropdown isAdmin={activeDashboard} />
         </div>
       </Container>
     </nav>

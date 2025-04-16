@@ -51,14 +51,18 @@ function CartItems({
               </div>
               <div className="flex-1 pb-2">
                 <Link href={`/products/${productId}`} prefetch={true}>
-                  <h3 className="font-medium">{name}</h3>
+                  <h3 className="font-medium hover:underline">{name}</h3>
                 </Link>
 
                 <p className="text-sm text-muted-foreground ">
                   {formatCurrency(price)} each
                 </p>
                 <Separator className="my-2 bg-transparent" />
-                <CartProductAmount id={id} quantity={amount} />
+                <CartProductAmount
+                  cartItemId={id}
+                  quantity={amount}
+                  refetchCartData={refetchCartData}
+                />
               </div>
 
               <div className="flex flex-col items-end space-y-2">

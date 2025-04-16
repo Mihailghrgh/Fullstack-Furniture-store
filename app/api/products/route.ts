@@ -26,7 +26,9 @@ export async function GET(request: Request) {
 
   switch (type) {
     case "isAdmin": {
-      const userId = searchParams.get("userId");
+      // const userId = searchParams.get("userId");
+
+      const { userId } = await auth();
 
       const isAdmin = userId === process.env.ADMIN_USER_ID;
       console.log(isAdmin);
@@ -229,7 +231,7 @@ export async function GET(request: Request) {
       }
 
       const result = await fetchOrCreateCart({ userId });
-      console.log(result);
+      console.log("Data is here :", result);
 
       return NextResponse.json(result);
     }
@@ -331,7 +333,6 @@ export async function POST(
         });
       }
       const { data } = await request.json();
-      console.log(data);
       const reviewId = data;
 
       await db.review.delete({
@@ -567,6 +568,40 @@ export async function POST(
         });
       }
     }
+    case "editCartItemAction": {
+      try {
+        const { userId } = await auth();
+
+        if (!userId) {
+          return NextResponse.json({
+            message: "no user detected to complete action",
+          });
+        }
+
+        const data = await request.json();
+        console.log(data.cartItemId);
+
+        const productId = data.cartItemId;
+        const Cart = await fetchOrCreateCart({ userId, errorOnFailure: true });
+        console.log(productId);
+
+        await db.cartItem.update({
+          where: {
+            id: productId,
+          },
+          data: {
+            amount: data.value,
+          },
+        });
+
+        await updateCart(Cart);
+      } catch (error: any) {
+        console.log(error);
+        return NextResponse.json({
+          message: error,
+        });
+      }
+    }
   }
 
   return NextResponse.json({ message: result });
@@ -590,6 +625,7 @@ const fetchOrCreateCart = async ({
         include: {
           product: true,
         },
+        orderBy: { createdAt: "asc" },
       },
     },
   });
@@ -665,6 +701,7 @@ const updateCart = async (cart: Cart) => {
     include: {
       product: true,
     },
+    orderBy: { createdAt: "asc" },
   });
 
   let numItemsInCart = 0;
@@ -698,5 +735,5 @@ const updateCart = async (cart: Cart) => {
     },
   });
 
-  return currentCart;
+  return { cartItems, currentCart };
 };
