@@ -9,9 +9,6 @@ import Link from "next/link";
 import FormContainer from "../form/FormContainer";
 import CartProductAmount from "./CartProductAmount";
 import { Separator } from "../ui/separator";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import SubmitButton from "../form/Buttons";
 
 type CartWithProduct = Prisma.CartGetPayload<{
   include: {

@@ -1,5 +1,6 @@
 import { auth, createRouteMatcher } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import AdminOrderPage from "@/components/orders/AdminOrderPage";
 
 async function SalesPage() {
   ////Second way of doing it outside the MIDDLE WARE !!!!!
@@ -10,6 +11,6 @@ async function SalesPage() {
   //     return redirect("/");
   //   }
 
-  return <div>Sales Page</div>;
+  return <AdminOrderPage />;
 }
 export default SalesPage;

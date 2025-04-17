@@ -1,6 +1,6 @@
 import db from "@/utils/db";
 import { NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import {
   imageSchema,
@@ -234,6 +234,58 @@ export async function GET(request: Request) {
       console.log("Data is here :", result);
 
       return NextResponse.json(result);
+    }
+    case "fetchUserOrders": {
+      const { userId } = await auth();
+
+      if (!userId) {
+        return NextResponse.json("No user Id presented");
+      }
+
+      const orders = await db.order.findMany({
+        where: {
+          clerkId: userId,
+          isPaid: true,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        include: { orderItems: true },
+      });
+
+      return NextResponse.json(orders);
+    }
+    case "fetchAdminOrders": {
+      const { userId } = await auth();
+
+      if (!userId) {
+        return NextResponse.json("No user Id presented");
+      }
+
+      const orders = await db.order.findMany({
+        where: {
+          isPaid: true,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
+
+      return NextResponse.json(orders);
+    }
+    case "findMostRecentOrder": {
+      const { userId } = await auth();
+
+      if (!userId) {
+        return NextResponse.json("No user Id presented");
+      }
+
+      const order = await db.order.findFirst({
+        where: { clerkId: userId },
+        orderBy: { createdAt: "desc" },
+      });
+
+      return NextResponse.json(order);
     }
 
     default: {
@@ -602,10 +654,51 @@ export async function POST(
         });
       }
     }
+    case "createOrderAction": {
+      try {
+        const user = await currentUser();
+        const userId = user?.id;
+
+        if (!userId) {
+          return NextResponse.json({
+            message: "no user detected to complete action",
+          });
+        }
+
+        const Cart = await fetchOrCreateCart({ userId, errorOnFailure: false });
+
+        const order = await db.order.create({
+          data: {
+            clerkId: userId,
+            products: Cart.numItemsInCart,
+            orderTotal: Cart.orderTotal,
+            tax: Cart.shipping,
+            shipping: Cart.shipping,
+            email: user.emailAddresses[0].emailAddress,
+            orderItems: {
+              create: Cart.cartItems.map((item) => ({
+                quantity: item.amount,
+                product: { connect: { id: item.productId } },
+                price: item.product.price,
+              })),
+            },
+          },
+          include: { orderItems: { include: { product: true } } },
+        });
+
+        console.log("Order created: ", order);
+
+        await db.cart.delete({ where: { id: Cart.id } });
+      } catch (error: any) {
+        console.log(error);
+      }
+    }
   }
 
   return NextResponse.json({ message: result });
 }
+
+// const fetchOrCreateOrder = async({});
 
 //For creating a new Cart instance in DB
 const fetchOrCreateCart = async ({
@@ -650,6 +743,38 @@ const fetchOrCreateCart = async ({
 
   return cart;
 };
+
+/* THIS SECTION WILL BE FOR UPDATING THE CART AT THE MOMENT WORK IN PROGRESS */
+
+//For sending the Order Info to DB
+// const updateOrCreateCartItem = async ({
+//   orderId,
+//   productId,
+//   quantity,
+//   price,
+// }: {
+//   orderId: string;
+//   productId: string;
+//   quantity: number;
+//   price: number;
+// }) => {
+//   let orderItem = await db.orderItem.findFirst({
+//     where: {
+//       productId,
+//       orderId,
+//     },
+//   });
+
+//   /* THIS SECTION WILL BE FOR UPDATING THE CART AT THE MOMENT WORK IN PROGRESS */
+
+//   // if (!orderItem) {
+//   //   orderItem = await db.orderItem.create({
+//   //     data: { productId, quantity, price },
+//   //   });
+//   // }
+// };
+
+/* THIS SECTION WILL BE FOR UPDATING THE CART AT THE MOMENT WORK IN PROGRESS */
 
 //For sending the Cart info to DB
 const updateCartOrCreateCartItem = async ({
