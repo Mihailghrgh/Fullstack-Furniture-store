@@ -28,7 +28,7 @@ function OrderItemImage({ productId }: { productId: string }) {
       {loading || !product ? (
         <div className="w-full h-full bg-gray-200 animate-pulse rounded-md" />
       ) : (
-        <div>
+        <div >
           <Image
             src={product.image}
             alt={productId}

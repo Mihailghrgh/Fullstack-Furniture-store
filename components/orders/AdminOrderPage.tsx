@@ -9,9 +9,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import OrderItem from "./OrderItemProp";
 import { useEffect, useState } from "react";
-import { Order, Prisma } from "@prisma/client";
+import {  Prisma } from "@prisma/client";
 import errorMap from "zod/locales/en.js";
 import axios from "axios";
 import SectionTitle from "../global/SectionTitle";

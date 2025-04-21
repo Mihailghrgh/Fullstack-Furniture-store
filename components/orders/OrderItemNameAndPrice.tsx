@@ -30,16 +30,24 @@ function OrderItemNameAndPrice({
   }, []);
 
   return (
-    <div>
-      <div className="flex-1">
-        {/*ITEM NAME */}
-        <h4 className="font-medium">{product?.name}</h4>
-        {/*ITEM COMPANY */}
-        <p className="text-sm text-muted-foreground">{product?.company}</p>
-        {/*ITEM QUANTITY */}
-        <div className="flex items-center text-sm">
-          <span>Quantity: {quantity}</span>
-        </div>
+    <div className="flex-1 space-y-1">
+      {/* ITEM NAME */}
+      {product ? (
+        <h4 className="font-medium">{product.name}</h4>
+      ) : (
+        <div className="h-5 w-3/4 bg-gray-200 rounded animate-pulse" />
+      )}
+
+      {/* ITEM COMPANY */}
+      {product ? (
+        <p className="text-sm text-muted-foreground">{product.company}</p>
+      ) : (
+        <div className="h-4 w-1/2 bg-gray-200 rounded animate-pulse" />
+      )}
+
+      {/* ITEM QUANTITY */}
+      <div className="flex items-center text-sm">
+        <span>Quantity: {quantity}</span>
       </div>
     </div>
   );
