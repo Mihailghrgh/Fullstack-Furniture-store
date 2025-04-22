@@ -70,7 +70,7 @@ function AdminOrderPage() {
         </div>
       </div>
       {orders.map((item) => {
-        const { id, createdAt, orderTotal, orderItems, shipping } = item;
+        const { id, createdAt, orderTotal, shipping } = item;
         console.log(item);
 
         const orderItem = item.orderItems.map((newItem) => {

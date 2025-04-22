@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/select";
 import OrderItem from "./OrderItemProp";
 import { useEffect, useState } from "react";
-import errorMap from "zod/locales/en.js";
 import axios from "axios";
 import { Prisma } from "@prisma/client";
 import SectionTitle from "../global/SectionTitle";
@@ -25,7 +24,7 @@ function UserOrdersPage() {
       const { data } = await axios.get("/api/products?type=fetchUserOrders");
       setOrders(data);
     } catch (error: any) {
-      console.log(errorMap);
+      console.log(error);
     }
   };
 
@@ -69,7 +68,7 @@ function UserOrdersPage() {
         </div>
       </div>
       {orders.map((item) => {
-        const { id, createdAt, orderTotal, orderItems, shipping } = item;
+        const { id, createdAt, orderTotal, shipping } = item;
 
         const orderItem = item.orderItems.map((newItem) => {
           const productId = newItem.productId;

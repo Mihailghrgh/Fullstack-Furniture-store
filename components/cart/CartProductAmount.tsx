@@ -41,13 +41,13 @@ function CartProductAmount({ cartItemId, quantity, refetchCartData }: Payload) {
       description: "Product amount changed!",
     });
     refetchCartData();
-    setIsLoading(isLoading);
+    setIsLoading(!isLoading);
   };
   return (
     <div className="flex flex-col items-start">
       <SelectProductAmount
         mode={Mode.CartItem}
-        amount={quantity}
+        amount={value}
         setAmount={handleAmountChange}
         isLoading={false}
       />
