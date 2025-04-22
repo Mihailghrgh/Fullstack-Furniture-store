@@ -1,8 +1,8 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import db from "@/utils/db";
 
-export async function POST(request: NextResponse) {
+export async function POST(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const type = searchParams.get("type");
 
