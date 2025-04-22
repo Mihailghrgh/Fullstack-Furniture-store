@@ -1,5 +1,3 @@
-import { auth, createRouteMatcher } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
 import AdminOrderPage from "@/components/orders/AdminOrderPage";
 
 async function SalesPage() {

@@ -17,12 +17,10 @@ import { Product } from "@prisma/client";
 import { Button } from "../ui/button";
 import LoadingTable from "../global/LoadingTable";
 import { LuTrash2 } from "react-icons/lu";
-import { PenSquare, SquarePen } from "lucide-react";
-import { useTheme } from "next-themes";
+import { PenSquare } from "lucide-react";
 
 function AdminProducts() {
   const [products, setProducts] = useState<Product[]>();
-  const { theme, resolvedTheme } = useTheme();
 
   useEffect(() => {
     const getData = async () => {
