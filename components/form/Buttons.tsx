@@ -8,7 +8,6 @@ import { SignInButton } from "@clerk/nextjs";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { LuTrash2 } from "react-icons/lu";
 import { SquarePen } from "lucide-react";
-import { useTheme } from "next-themes";
 
 type btnSize = "default" | "lg" | "sm";
 

@@ -8,7 +8,6 @@ import { Prisma } from "@prisma/client";
 import CartItems from "./CartItems";
 import { Button } from "../ui/button";
 import { useCart } from "@/utils/numItemsInCart";
-import errorMap from "zod/locales/en.js";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 

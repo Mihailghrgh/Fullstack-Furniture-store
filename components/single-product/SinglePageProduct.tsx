@@ -29,7 +29,7 @@ function SinglePageProduct({ params }: { params: string }) {
       setId(params);
       setSingleProduct(data);
     } catch (error: any) {
-      console.log();
+      console.log(error);
     }
   };
 

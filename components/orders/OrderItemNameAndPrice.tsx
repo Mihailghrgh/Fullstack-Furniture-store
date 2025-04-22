@@ -22,7 +22,7 @@ function OrderItemNameAndPrice({
     } catch (error: any) {
       console.log(error);
     }
-    setLoading(false);
+    setLoading(!loading);
   };
 
   useEffect(() => {

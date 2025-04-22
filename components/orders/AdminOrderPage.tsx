@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/select";
 import { useEffect, useState } from "react";
 import {  Prisma } from "@prisma/client";
-import errorMap from "zod/locales/en.js";
 import axios from "axios";
 import SectionTitle from "../global/SectionTitle";
 import OrderItem from "./OrderItemProp";

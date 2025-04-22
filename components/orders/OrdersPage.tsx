@@ -70,7 +70,6 @@ function UserOrdersPage() {
       </div>
       {orders.map((item) => {
         const { id, createdAt, orderTotal, orderItems, shipping } = item;
-        console.log(item);
 
         const orderItem = item.orderItems.map((newItem) => {
           const productId = newItem.productId;
@@ -79,8 +78,6 @@ function UserOrdersPage() {
 
           return { productId, price, quantity };
         });
-
-        console.log(orderItem);
 
         const orderDate = new Date(createdAt).toDateString();
 
