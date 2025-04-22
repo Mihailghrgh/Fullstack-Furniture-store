@@ -11,6 +11,7 @@ import { useCart } from "@/utils/numItemsInCart";
 import errorMap from "zod/locales/en.js";
 import { useToast } from "@/hooks/use-toast";
 import { ThankYouDialog } from "./CartFinishDialogBox";
+import { useRouter } from "next/navigation";
 
 type Cart = Prisma.CartGetPayload<{
   include: { cartItems: { include: { product: true } } };
@@ -23,24 +24,30 @@ function CartPageClient() {
   const [cartItems, setCartItems] = useState<Cart>();
   const [cart, setCart] = useState<Cart>();
   const [open, setIsOpen] = useState<boolean>(false);
+  const router = useRouter();
 
   const { fetchCartNumber } = useCart();
   const { toast } = useToast();
 
   const createOrder = async () => {
     try {
-      await axios.post("/api/products?type=createOrderAction");
+      const { data } = await axios.post("/api/products?type=createOrderAction");
       toast({
         description: "Your order has been placed !",
         className: toastDesign,
       });
+
+      console.log(data);
+      console.log();
+
+      router.push(`/checkout?orderId=${data.orderId}&cartId=${data.cartId}`);
     } catch (error: any) {
       console.log(errorMap);
     }
 
-    fetchCartNumber();
-    refetchCartData();
-    setIsOpen(!open);
+    // fetchCartNumber();
+    // refetchCartData();
+    // setIsOpen(!open);
   };
 
   const refetchCartData = async () => {

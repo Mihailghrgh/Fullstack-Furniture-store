@@ -1,3 +1,4 @@
+"use server";
 import db from "@/utils/db";
 import { NextResponse } from "next/server";
 import { auth, currentUser } from "@clerk/nextjs/server";
@@ -11,7 +12,6 @@ import {
 import { deleteImage, uploadImage } from "@/utils/supabase";
 import { Cart, Prisma } from "@prisma/client";
 import { cartSchema } from "@/utils/schema";
-import { CartItem } from "@prisma/client";
 
 ////Logic kept in here for switch cases of different search params
 ////Instead of action because of issues with accessing base code on a request keeping it simple as an api request after an axios get request
@@ -299,7 +299,9 @@ export async function GET(request: Request) {
 
 export async function POST(
   request: Request
-): Promise<NextResponse<{ message: string }>> {
+): Promise<
+  NextResponse<{ message: string; orderId?: string; cartId?: string }>
+> {
   const { searchParams } = new URL(request.url);
   const type = searchParams.get("type");
   const id = searchParams.get("id");
@@ -659,6 +661,9 @@ export async function POST(
         const user = await currentUser();
         const userId = user?.id;
 
+        let orderId: null | string = null;
+        let cartId: null | string = null;
+
         if (!userId) {
           return NextResponse.json({
             message: "no user detected to complete action",
@@ -666,6 +671,12 @@ export async function POST(
         }
 
         const Cart = await fetchOrCreateCart({ userId, errorOnFailure: false });
+
+        cartId = Cart.id;
+
+        await db.order.deleteMany({
+          where: { clerkId: userId, isPaid: false },
+        });
 
         const order = await db.order.create({
           data: {
@@ -686,9 +697,14 @@ export async function POST(
           include: { orderItems: { include: { product: true } } },
         });
 
+        orderId = order.id;
         console.log("Order created: ", order);
 
-        await db.cart.delete({ where: { id: Cart.id } });
+        return NextResponse.json({
+          message: "Redirecting to checkout",
+          orderId: orderId,
+          cartId: cartId,
+        });
       } catch (error: any) {
         console.log(error);
       }
