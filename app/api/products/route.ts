@@ -368,7 +368,7 @@ export async function POST(
         const product = await request.json();
         const productId = product.data;
 
-        const deletedItems = await db.product.delete({
+        await db.product.delete({
           where: { id: productId },
         });
 

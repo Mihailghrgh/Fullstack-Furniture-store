@@ -19,7 +19,9 @@ function ProductRating({ productId }: { productId: string }) {
       );
 
       setReviews(data);
-    } catch (error: any) {}
+    } catch (error: any) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {

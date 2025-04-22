@@ -7,11 +7,9 @@ import CartButton from "./CartButton";
 import DarkMode from "./DarkMode";
 import LinksDropdown from "./LinksDropdown";
 import { Suspense, useEffect, useState } from "react";
-import { useUser } from "@clerk/nextjs";
 import axios from "axios";
 
 function Navbar() {
-  const { user } = useUser();
   const [activeDashboard, setIsActiveDashboard] = useState<boolean>(false);
 
   const fetchActiveUser = async () => {

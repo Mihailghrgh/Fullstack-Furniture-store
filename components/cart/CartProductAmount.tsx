@@ -41,7 +41,7 @@ function CartProductAmount({ cartItemId, quantity, refetchCartData }: Payload) {
       description: "Product amount changed!",
     });
     refetchCartData();
-    setIsLoading(false);
+    setIsLoading(isLoading);
   };
   return (
     <div className="flex flex-col items-start">

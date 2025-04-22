@@ -51,33 +51,18 @@ type actionType = "edit" | "delete";
 
 export const IconButton = ({
   actionType,
-  productId,
 }: {
   actionType: actionType;
-  productId: string;
 }) => {
   const { pending } = useFormStatus();
-  const { theme, resolvedTheme } = useTheme();
 
   const renderIcon = () => {
     switch (actionType) {
       case "edit":
-        return (
-          <SquarePen
-            className={
-              resolvedTheme === "light" ? "text-blue-600" : "text-yellow-400"
-            }
-          />
-        );
+        return <SquarePen className="text-yellow-400" />;
 
       case "delete":
-        return (
-          <LuTrash2
-            className={
-              resolvedTheme === "light" ? "text-blue-600" : "text-yellow-400"
-            }
-          />
-        );
+        return <LuTrash2 className="text-yellow-400" />;
       default:
         const never: never = actionType;
         throw new Error(`Invalid action type: ${never}`);

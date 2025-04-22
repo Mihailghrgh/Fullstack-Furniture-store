@@ -14,8 +14,9 @@ import {  Prisma } from "@prisma/client";
 import errorMap from "zod/locales/en.js";
 import axios from "axios";
 import SectionTitle from "../global/SectionTitle";
+import OrderItem from "./OrderItemProp";
 
-type Orders = Prisma.OrderGetPayload<{}>;
+type Orders = Prisma.OrderGetPayload<{ include: { orderItems: true } }>;
 
 function AdminOrderPage() {
   const [orders, setOrders] = useState<Orders[]>();
@@ -26,7 +27,7 @@ function AdminOrderPage() {
       console.log(data);
       setOrders(data);
     } catch (error: any) {
-      console.log(errorMap);
+      console.log(error);
     }
   };
 
@@ -70,34 +71,35 @@ function AdminOrderPage() {
         </div>
       </div>
       {orders.map((item) => {
-        return <SectionTitle text="Section title" />;
+        const { id, createdAt, orderTotal, orderItems, shipping } = item;
+        console.log(item);
+
+        const orderItem = item.orderItems.map((newItem) => {
+          const productId = newItem.productId;
+          const price = newItem.price;
+          const quantity = newItem.quantity;
+
+          return { productId, price, quantity };
+        });
+
+        console.log(orderItem);
+
+        const orderDate = new Date(createdAt).toDateString();
+
+        return (
+          <div key={id} className=" pb-8">
+            <OrderItem
+              id={id}
+              date={orderDate}
+              status="In progress"
+              shipping={shipping}
+              items={orderItem}
+              orderTotal={orderTotal}
+            />
+          </div>
+        );
+        // return <SectionTitle text="Section title" />;
       })}
-      <div className="space-y-6">
-        {/* <OrderItem
-          id="ORD-3429"
-          date="April 12, 2023"
-          status="Delivered"
-          items={[
-            {
-              id: "1",
-              name: "Wireless Noise-Cancelling Headphones",
-              company: "SoundWave",
-              price: 249.99,
-              image: "/placeholder.svg?height=80&width=80",
-              quantity: 1,
-            },
-            {
-              id: "2",
-              name: "Bluetooth Portable Speaker",
-              company: "SoundWave",
-              price: 129.99,
-              image: "/placeholder.svg?height=80&width=80",
-              quantity: 1,
-            },
-          ]}
-          shipping={8.99}
-        /> */}
-      </div>
     </div>
   );
 }

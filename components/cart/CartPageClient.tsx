@@ -10,7 +10,6 @@ import { Button } from "../ui/button";
 import { useCart } from "@/utils/numItemsInCart";
 import errorMap from "zod/locales/en.js";
 import { useToast } from "@/hooks/use-toast";
-import { ThankYouDialog } from "./CartFinishDialogBox";
 import { useRouter } from "next/navigation";
 
 type Cart = Prisma.CartGetPayload<{
@@ -23,7 +22,6 @@ const toastDesign =
 function CartPageClient() {
   const [cartItems, setCartItems] = useState<Cart>();
   const [cart, setCart] = useState<Cart>();
-  const [open, setIsOpen] = useState<boolean>(false);
   const router = useRouter();
 
   const { fetchCartNumber } = useCart();
@@ -42,12 +40,9 @@ function CartPageClient() {
 
       router.push(`/checkout?orderId=${data.orderId}&cartId=${data.cartId}`);
     } catch (error: any) {
-      console.log(errorMap);
+      console.log(error);
     }
 
-    // fetchCartNumber();
-    // refetchCartData();
-    // setIsOpen(!open);
   };
 
   const refetchCartData = async () => {
@@ -79,14 +74,6 @@ function CartPageClient() {
     fetchCart();
   }, []);
 
-  if (cart?.cartItems.length === 0) {
-    return (
-      <>
-        <SectionTitle text="Empty Cart" />
-        {open && <ThankYouDialog />}
-      </>
-    );
-  }
 
   return (
     <>

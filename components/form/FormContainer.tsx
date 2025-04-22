@@ -22,7 +22,7 @@ function FormContainer({
   refetchCartData?: () => void;
 }) {
   const router = useRouter();
-  const { numItemsInCart, setNumItemsInCart, fetchCartNumber } = useCart();
+  const { fetchCartNumber } = useCart();
 
   const [state, formAction] = useActionState(
     async (prevState: any, formData: FormData) => {

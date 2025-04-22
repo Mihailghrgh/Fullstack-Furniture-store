@@ -13,7 +13,7 @@ import OrderItem from "./OrderItemProp";
 import { useEffect, useState } from "react";
 import errorMap from "zod/locales/en.js";
 import axios from "axios";
-import { Order, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import SectionTitle from "../global/SectionTitle";
 type Orders = Prisma.OrderGetPayload<{ include: { orderItems: true } }>;
 
@@ -83,7 +83,7 @@ function UserOrdersPage() {
         console.log(orderItem);
 
         const orderDate = new Date(createdAt).toDateString();
-        
+
         return (
           <div key={id} className=" pb-8">
             <OrderItem
@@ -98,9 +98,8 @@ function UserOrdersPage() {
         );
         // return <SectionTitle text="Section title" />;
       })}
-     
     </div>
   );
 }
 
-export default UserOrdersPage
+export default UserOrdersPage;

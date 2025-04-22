@@ -22,9 +22,6 @@ function SubmitReview({
   productId: string;
   handleRefetch: () => void;
 }) {
-  const [isReviewFormVisible, setIsReviewFormVisible] =
-    useState<boolean>(false);
-
   const { user } = useUser();
 
   return (
