@@ -307,6 +307,12 @@ export async function POST(
   const id = searchParams.get("id");
   let result: string = "Empty message";
 
+  // try {
+  // } catch (error: any) {
+  //   console.error("Error parsing JSON:", error);
+  //   return NextResponse.json({ message: error });
+  // }
+
   switch (type) {
     case "create": {
       try {
@@ -314,12 +320,13 @@ export async function POST(
         const { userId } = await auth();
         if (!userId) {
           result = "Not allowed";
-          redirect("/");
+          return NextResponse.json({ message: "Not allowed" });
         }
 
         ////Formatting and Getting the key:data received in the request from the FormContainer
         const newData = await request.formData();
         const data = Object.fromEntries(newData);
+        console.log("Create data: ", data);
 
         ////This is the part where we check the image File as being correct
         // ---- correct size and file type with imageSchema
@@ -339,67 +346,55 @@ export async function POST(
             clerkId: userId,
           },
         });
-
-        // await db.product.create({
-        //   data: {
-        //     name,
-        //     company,
-        //     description,
-        //     price,
-        //     image: "/images/jacket.png",
-        //     featured,
-        //     clerkId: userId,
-        //   },
-        // });
         result = "New Product Created";
       } catch (error: any) {
         result = error.message;
       }
     }
 
-    case "delete": {
-      try {
-        const { userId } = await auth();
-        if (!userId) {
-          result = "Not allowed";
-          redirect("/");
-        }
-        ////Simple deleting process , passing the {data: data} and not {headers: } required
-        const product = await request.json();
-        const productId = product.data;
+    // case "delete": {
+    //   try {
+    //     const { userId } = await auth();
+    //     if (!userId) {
+    //       result = "Not allowed";
+    //       redirect("/");
+    //     }
+    //     ////Simple deleting process , passing the {data: data} and not {headers: } required
+    //     let bodyData = await request.json();
+    //     const productId = bodyData.data;
 
-        await db.product.delete({
-          where: { id: productId },
-        });
+    //     await db.product.delete({
+    //       where: { id: productId },
+    //     });
 
-        return NextResponse.json({ message: "Product Delete" });
-      } catch (error: any) {
-        console.log(error);
-        result = error.message;
-      }
-    }
-    case "deleteReview": {
-      const { userId } = await auth();
+    //     return NextResponse.json({ message: "Product Delete" });
+    //   } catch (error: any) {
+    //     console.log(error);
+    //     result = error.message;
+    //   }
+    // }
+    // case "deleteReview": {
+    //   const { userId } = await auth();
 
-      if (!userId) {
-        return NextResponse.json({
-          message: "No userId present to complete this action",
-        });
-      }
-      const { data } = await request.json();
-      const reviewId = data;
+    //   if (!userId) {
+    //     return NextResponse.json({
+    //       message: "No userId present to complete this action",
+    //     });
+    //   }
+    //   let bodyData = await request.json();
+    //   const reviewId = bodyData.data;
 
-      await db.review.delete({
-        where: {
-          id: reviewId,
-          clerkId: userId,
-        },
-      });
-      try {
-      } catch (error) {
-        console.log(error);
-      }
-    }
+    //   await db.review.delete({
+    //     where: {
+    //       id: reviewId,
+    //       clerkId: userId,
+    //     },
+    //   });
+    //   try {
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
 
     case "edit": {
       try {
@@ -631,11 +626,10 @@ export async function POST(
             message: "no user detected to complete action",
           });
         }
-
-        const data = await request.json();
-        console.log(data.cartItemId);
-
+        let bodyData = await request.json();
+        const data = bodyData;
         const productId = data.cartItemId;
+
         const Cart = await fetchOrCreateCart({ userId, errorOnFailure: true });
         console.log(productId);
 

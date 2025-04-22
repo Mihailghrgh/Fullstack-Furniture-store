@@ -34,6 +34,8 @@ function FormContainer({
           formData
         );
 
+        console.log(formData);
+        
         if (type === "createReview" && handleRefetch) {
           handleRefetch();
         }

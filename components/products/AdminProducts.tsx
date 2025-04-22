@@ -99,7 +99,7 @@ function AdminProducts() {
 }
 
 async function DeleteProducts(productId: string) {
-  await axios.post("/api/products?type=delete", { data: productId });
+  await axios.post("/api/deleteProduct?type=delete", { data: productId });
   window.location.reload();
 }
 export default AdminProducts;

@@ -24,15 +24,10 @@ function CartPageClient() {
   const router = useRouter();
 
   const { fetchCartNumber } = useCart();
-  const { toast } = useToast();
 
   const createOrder = async () => {
     try {
       const { data } = await axios.post("/api/products?type=createOrderAction");
-      toast({
-        description: "Your order has been placed !",
-        className: toastDesign,
-      });
 
       console.log(data);
       console.log();

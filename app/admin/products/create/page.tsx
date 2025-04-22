@@ -21,7 +21,7 @@ function CreateProductPage() {
           create product
         </h1>
         <div className="border p-8 rounded-md bg-primary-foreground">
-          <FormContainer type="create">
+          <FormContainer type="create" productId="" favoriteId="">
             <div className="grid gap-4 md:grid-cols-2 my-4">
               <FormInput
                 type="text"

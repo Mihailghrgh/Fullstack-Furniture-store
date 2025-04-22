@@ -37,7 +37,7 @@ function ReviewPage() {
   }
 
   async function DeleteReview({ reviewId }: { reviewId: string }) {
-    await axios.post(`/api/products?type=deleteReview`, { data: reviewId });
+    await axios.post(`/api/deleteReview?type=deleteReview`, { data: reviewId });
     fetchReviews();
   }
 
