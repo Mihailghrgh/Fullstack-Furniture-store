@@ -626,7 +626,7 @@ export async function POST(
             message: "no user detected to complete action",
           });
         }
-        let bodyData = await request.json();
+        const bodyData = await request.json();
         const data = bodyData;
         const productId = data.cartItemId;
 

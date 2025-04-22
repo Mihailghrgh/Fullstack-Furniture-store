@@ -8,15 +8,14 @@ import { Prisma } from "@prisma/client";
 import CartItems from "./CartItems";
 import { Button } from "../ui/button";
 import { useCart } from "@/utils/numItemsInCart";
-import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 
 type Cart = Prisma.CartGetPayload<{
   include: { cartItems: { include: { product: true } } };
 }>;
 
-const toastDesign =
-  "fixed top-5 left-1/2 transform -translate-x-1/2 w-80 shadow-lg bg-primary-foreground";
+// const toastDesign =
+//   "fixed top-5 left-1/2 transform -translate-x-1/2 w-80 shadow-lg bg-primary-foreground";
 
 function CartPageClient() {
   const [cartItems, setCartItems] = useState<Cart>();

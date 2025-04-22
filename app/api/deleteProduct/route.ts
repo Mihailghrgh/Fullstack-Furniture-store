@@ -14,7 +14,7 @@ export async function POST(request: NextResponse) {
           return NextResponse;
         }
         ////Simple deleting process , passing the {data: data} and not {headers: } required
-        let bodyData = await request.json();
+        const bodyData = await request.json();
         console.log(bodyData.data);
 
         const productId = bodyData.data;

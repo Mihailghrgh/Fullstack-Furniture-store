@@ -16,7 +16,7 @@ export async function POST(request: NextResponse) {
             message: "No userId present to complete this action",
           });
         }
-        let bodyData = await request.json();
+        const bodyData = await request.json();
         const reviewId = bodyData.data;
 
         await db.review.delete({
