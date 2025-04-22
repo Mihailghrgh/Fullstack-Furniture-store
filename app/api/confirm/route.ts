@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 
 import { NextRequest } from "next/server";
 import db from "@/utils/db";
-import { REFUSED } from "dns";
 
 export const GET = async (request: NextRequest) => {
   const { searchParams } = new URL(request.url);

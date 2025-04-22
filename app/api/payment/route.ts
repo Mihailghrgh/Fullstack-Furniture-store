@@ -3,7 +3,6 @@ import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 import { NextResponse, type NextRequest } from "next/server";
 import db from "@/utils/db";
-import { StripeElementLocale } from "@stripe/stripe-js";
 
 export const POST = async (request: NextRequest) => {
   const requestHeaders = new Headers(request.headers);
@@ -27,7 +26,7 @@ export const POST = async (request: NextRequest) => {
     return Response.json(null, { status: 404, statusText: "Not Found" });
   }
 
-  //line items at the end
+
   const line_items = cart.cartItems.map((item) => {
     return {
       quantity: item.amount,
@@ -37,7 +36,7 @@ export const POST = async (request: NextRequest) => {
           name: item.product.name,
           images: [item.product.image],
         },
-        unit_amount: item.product.price * 100, // price in cents
+        unit_amount: item.product.price * 100,
       },
     };
   });

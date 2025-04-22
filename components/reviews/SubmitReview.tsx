@@ -1,8 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SubmitButton } from "@/components/form/Buttons";
 import FormContainer from "@/components/form/FormContainer";
-import { Card } from "@/components/ui/card";
 import RatingInput from "@/components/reviews/RatingInput";
 import TextAreaInput from "@/components/form/TextAreaInput";
 import { Button } from "@/components/ui/button";
@@ -15,7 +14,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
 
 function SubmitReview({
   productId,

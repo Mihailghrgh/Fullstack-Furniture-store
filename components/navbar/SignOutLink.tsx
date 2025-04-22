@@ -3,7 +3,7 @@
 import { useToast } from "@/hooks/use-toast";
 import { SignOutButton } from "@clerk/nextjs";
 import Link from "next/link";
-import { Button } from "../ui/button";
+
 
 function SignOutLink() {
   const { toast } = useToast();

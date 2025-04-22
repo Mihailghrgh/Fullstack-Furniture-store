@@ -1,9 +1,5 @@
 "use client";
 
-import { FaHeart } from "react-icons/fa";
-import { Button } from "../ui/button";
-import { usePathname } from "next/navigation";
-import FormContainer from "../form/FormContainer";
 import { CardSignInButton, CardSubmitButton } from "../form/Buttons";
 import { useEffect, useState } from "react";
 import axios from "axios";

@@ -15,7 +15,6 @@ import errorMap from "zod/locales/en.js";
 import axios from "axios";
 import { Order, Prisma } from "@prisma/client";
 import SectionTitle from "../global/SectionTitle";
-import { productSchema } from "@/utils/schema";
 type Orders = Prisma.OrderGetPayload<{ include: { orderItems: true } }>;
 
 function UserOrdersPage() {

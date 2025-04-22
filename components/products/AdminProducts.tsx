@@ -19,7 +19,6 @@ import LoadingTable from "../global/LoadingTable";
 import { LuTrash2 } from "react-icons/lu";
 import { PenSquare, SquarePen } from "lucide-react";
 import { useTheme } from "next-themes";
-import { Separator } from "../ui/separator";
 
 function AdminProducts() {
   const [products, setProducts] = useState<Product[]>();

@@ -14,8 +14,8 @@ import {
 } from "@/components/ui/hover-card";
 import axios from "axios";
 import Image from "next/image";
-import SectionTitle from "../global/SectionTitle";
-import { Cart, Prisma } from "@prisma/client";
+
+import {  Prisma } from "@prisma/client";
 import { formatCurrency } from "@/utils/format";
 
 type CartItems = Prisma.CartGetPayload<{

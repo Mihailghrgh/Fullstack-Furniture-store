@@ -5,7 +5,7 @@ import TextAreaInput from "@/components/form/TextAreaInput";
 import { SubmitButton } from "@/components/form/Buttons";
 import CheckboxInput from "@/components/form/CheckboxInput";
 import axios from "axios";
-import Image from "next/image";
+
 import ImageInputContainer from "@/components/form/ImageInputContainer";
 import { Suspense } from "react";
 import LoadingTable from "@/components/global/LoadingTable";

@@ -9,7 +9,6 @@ import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { LuTrash2 } from "react-icons/lu";
 import { SquarePen } from "lucide-react";
 import { useTheme } from "next-themes";
-import { IconType } from "react-icons/lib";
 
 type btnSize = "default" | "lg" | "sm";
 

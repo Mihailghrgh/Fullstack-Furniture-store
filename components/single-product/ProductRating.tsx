@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
-import { Review } from "@prisma/client";
 import axios from "axios";
 
 type Reviews = {

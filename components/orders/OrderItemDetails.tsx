@@ -1,9 +1,5 @@
 import { Separator } from "../ui/separator";
-import Image from "next/image";
 import { formatCurrency } from "@/utils/format";
-import { useState } from "react";
-import { Product } from "@prisma/client";
-import axios from "axios";
 import OrderItemImage from "./OrderItemImage";
 import OrderItemNameAndPrice from "./OrderItemNameAndPrice";
 

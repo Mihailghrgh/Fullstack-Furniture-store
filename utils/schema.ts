@@ -1,4 +1,3 @@
-import { Value } from "@radix-ui/react-select";
 import { z, ZodSchema } from "zod";
 
 export const productSchema = z.object({
