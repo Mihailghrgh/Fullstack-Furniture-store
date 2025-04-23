@@ -22,14 +22,12 @@ function CartPageClient() {
   const [cart, setCart] = useState<Cart>();
   const router = useRouter();
 
+
   const { fetchCartNumber } = useCart();
 
   const createOrder = async () => {
     try {
       const { data } = await axios.post("/api/products?type=createOrderAction");
-
-      console.log(data);
-      console.log();
 
       router.push(`/checkout?orderId=${data.orderId}&cartId=${data.cartId}`);
     } catch (error: any) {
@@ -40,7 +38,6 @@ function CartPageClient() {
   const refetchCartData = async () => {
     try {
       const { data } = await axios.get("/api/products?type=fetchOrCreateCart");
-      console.log(data);
 
       setCartItems(data);
       setCart(data);
@@ -66,7 +63,7 @@ function CartPageClient() {
     fetchCart();
   }, []);
 
-  if (cart?.cartItems.length === 0) {
+  if (cart?.cartItems?.length === 0) {
     return (
       <>
         <SectionTitle text="Your cart is empty" />
