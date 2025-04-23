@@ -15,7 +15,7 @@ type ImageInputContainerProps = {
 };
 
 function ImageInputContainer(props: ImageInputContainerProps) {
-  const { image, name, text, productId } = props;
+  const { image, name, text, } = props;
   const [isUpdatedFormVisible, setUpdatedFormVisible] = useState(false);
 
   return (

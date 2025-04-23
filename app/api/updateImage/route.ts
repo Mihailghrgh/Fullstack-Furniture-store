@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import db from "@/utils/db";
 import { validateWithZodSchema, imageSchema } from "@/utils/schema";
-validateWithZodSchema;
 import { uploadImage } from "@/utils/supabase";
 import { deleteImage } from "@/utils/supabase";
 

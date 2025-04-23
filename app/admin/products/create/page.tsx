@@ -1,5 +1,4 @@
 "use server";
-import { faker } from "@faker-js/faker";
 import FormInput from "@/components/form/FormInput";
 import FormContainer from "@/components/form/FormContainer";
 import PriceInput from "@/components/form/PriceInput";

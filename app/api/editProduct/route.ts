@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import db from "@/utils/db";
 import { validateWithZodSchema, productSchema } from "@/utils/schema";
-validateWithZodSchema;
 
 export async function POST(
   request: NextRequest
