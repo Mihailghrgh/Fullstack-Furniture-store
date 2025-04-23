@@ -1,4 +1,3 @@
-"use server";
 import db from "@/utils/db";
 import { NextResponse } from "next/server";
 import { auth, currentUser } from "@clerk/nextjs/server";
@@ -55,11 +54,13 @@ export async function GET(request: Request) {
 
     case "searching": {
       if (!search) {
-        result = await db.product.findMany({
+        const data = await db.product.findMany({
           orderBy: { createdAt: "desc" },
         });
+
+        return NextResponse.json(data);
       } else {
-        result = await db.product.findMany({
+        const data = await db.product.findMany({
           where: {
             OR: [
               { name: { contains: search, mode: "insensitive" } },
@@ -68,8 +69,9 @@ export async function GET(request: Request) {
           },
           orderBy: { createdAt: "desc" },
         });
+
+        return NextResponse.json(data);
       }
-      break;
     }
     case "admin": {
       const { userId } = await auth();
@@ -190,8 +192,8 @@ export async function GET(request: Request) {
       });
 
       const data = {
-        rating: result[0]._avg.rating?.toFixed(1) ?? 0,
-        count: result[0]._count.rating ?? 0,
+        rating: result[0]?._avg.rating?.toFixed(1) ?? 0,
+        count: result[0]?._count.rating ?? 0,
       };
 
       return NextResponse.json(data);
@@ -213,8 +215,6 @@ export async function GET(request: Request) {
         },
       });
 
-      console.log("Number of items in cart", result);
-
       return NextResponse.json(result);
 
       // if (result?.numItemsInCart === 0) {
@@ -231,7 +231,6 @@ export async function GET(request: Request) {
       }
 
       const result = await fetchOrCreateCart({ userId });
-      console.log("Data is here :", result);
 
       return NextResponse.json(result);
     }

@@ -6,7 +6,7 @@ import axios from "axios";
 
 type Reviews = {
   rating: string;
-  count: string;
+  count: Number;
 };
 
 function ProductRating({ productId }: { productId: string }) {
@@ -29,12 +29,16 @@ function ProductRating({ productId }: { productId: string }) {
   }, []);
 
   const className = `flex gap-2 items-center text-md mt-1 mb-2`;
-  const countValue = `${reviews?.count ? `(${reviews?.count})` : "No"} reviews`;
+  const countValue = `${
+    reviews?.count === 0 ? "No reviews" : `${reviews?.count} reviews`
+  }`;
+
+  console.log(reviews?.count);
+
   return (
     <span className={className}>
       <FaStar className="w-3 h-3" />
-      {reviews?.rating}
-      {countValue}
+      {reviews?.count === 0 ? "No reviews" : `${reviews?.rating} (${reviews?.count}) reviews`}
     </span>
   );
 }

@@ -7,6 +7,8 @@ import Image from "next/image";
 import FavoriteToggleButton from "./FavoriteToggleButton";
 
 function ProductsGrid({ products }: { products: Product[] }) {
+  console.log(products);
+  
   return (
     <div className="pt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {products.map((item) => {
@@ -37,9 +39,9 @@ function ProductsGrid({ products }: { products: Product[] }) {
                 </CardContent>
               </Card>
             </Link>
-            <div className="absolute top-7 right-7 z-5">
+            {/* <div className="absolute top-7 right-7 z-5">
               <FavoriteToggleButton productId={productId} />
-            </div>
+            </div> */}
           </article>
         );
       })}

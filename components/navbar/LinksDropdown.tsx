@@ -18,7 +18,7 @@ function LinksDropdown({ isAdmin }: { isAdmin: boolean }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="flex gap-4 max-w-[100px]">
+        <Button variant="outline" className="flex gap-4 max-w-[100px] bg-secondary">
           <LuAlignLeft className="w-6 h-6" />
           <UserIcon />
         </Button>
@@ -44,7 +44,7 @@ function LinksDropdown({ isAdmin }: { isAdmin: boolean }) {
             }
             return (
               <Link href={item.href} key={item.href}>
-                <DropdownMenuItem className="capitalize focus:bg-secondary">
+                <DropdownMenuItem className="capitalize focus:bg-muted hover:cursor-pointer ">
                   {item.label}
                 </DropdownMenuItem>
               </Link>

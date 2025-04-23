@@ -6,6 +6,7 @@ import Navbar from "@/components/navbar/Navbar";
 import Providers from "./providers";
 import { ClerkProvider } from "@clerk/nextjs";
 import { CartProvider } from "@/utils/numItemsInCart";
+import QueryProvider from "./providers/QueryProvider";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -29,12 +30,14 @@ export default async function RootLayout({
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <body className={inter.className}>
-          <Providers>
-            <CartProvider>
-              <Navbar />
-              <Container className="py-20">{children}</Container>
-            </CartProvider>
-          </Providers>
+          <QueryProvider>
+            <Providers>
+              <CartProvider>
+                <Navbar />
+                <Container className="py-20">{children}</Container>
+              </CartProvider>
+            </Providers>
+          </QueryProvider>
         </body>
       </html>
     </ClerkProvider>

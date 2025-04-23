@@ -9,6 +9,7 @@ import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Product } from "@prisma/client";
+import { useQuery } from "@tanstack/react-query";
 
 function ProductsContainer({
   layout,
@@ -17,35 +18,67 @@ function ProductsContainer({
   layout: string | undefined;
   search: string | undefined;
 }) {
-  const [products, setProducts] = useState<Product[]>([]);
+  // const [products, setProducts] = useState<Product[]>([]);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      let url = `/api/products`;
-      const params = new URLSearchParams();
-      if (search) params.set("search", search);
-      if (layout) params.set("layout", layout);
-      if (search) params.set("type", "searching");
+  // const [_key, { search, layout }] = queryKey;
+  // let url = `/api/products`;
+  // const params = new URLSearchParams();
+  // if (search) params.set("search", search);
+  // if (layout) params.set("layout", layout);
+  // if (search) params.set("type", "searching");
 
-      url += `?${params.toString()}`;
-      const { data } = await axios.get(url);
-      setProducts(data);
-    };
+  // url += `?${params.toString()}`;
 
-    fetchProducts();
-  }, [search, layout]);
+  const fetchProductData = async (context: any) => {
+    const { data } = await axios.get("/api/products?type=searching");
 
-  const totalProducts = products.length;
+    return data;
+  };
+
+  const { data, isError, isLoading } = useQuery({
+    queryKey: ["products"],
+    queryFn: fetchProductData,
+    staleTime: 1000 * 60,
+    refetchOnReconnect: false,
+  });
+
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     let url = `/api/products`;
+  //     const params = new URLSearchParams();
+  //     if (search) params.set("search", search);
+  //     if (layout) params.set("layout", layout);
+  //     if (search) params.set("type", "searching");
+
+  //     url += `?${params.toString()}`;
+  //     const { data } = await axios.get(url);
+  //     setProducts(data);
+  //   };
+
+  //   fetchProducts();
+  // }, [search, layout]);
+
+  // const totalProducts = products.length;
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (isError) {
+    return <h1>isError....</h1>;
+  }
   const searchTerm = search ? `&search=${search}` : "";
+
+  console.log(data);
 
   return (
     <>
       {/* HEADER */}
       <section>
         <div className="flex justify-between items-center">
-          <h4 className="font-medium text-lg">
-            {totalProducts} product{totalProducts > 1 && "s"}
-          </h4>
+          {/* <h4 className="font-medium text-lg">
+            {products.length} product{products.length > 1 && "s"}
+          </h4> */}
           <div className="flex gap-x-4">
             {/* GRID BUTTON */}
             <Button
@@ -75,7 +108,7 @@ function ProductsContainer({
       </section>
       {/* PRODUCTS */}
       <div>
-        {totalProducts === 0 ? (
+        {/* {products.length === 0 ? (
           <h5 className="text-2xl mt-16">
             Sorry , no products matched your search
           </h5>
@@ -83,7 +116,8 @@ function ProductsContainer({
           <ProductsGrid products={products} />
         ) : (
           <ProductsList products={products} />
-        )}
+        )} */}
+        <ProductsGrid products={data} />
       </div>
     </>
   );

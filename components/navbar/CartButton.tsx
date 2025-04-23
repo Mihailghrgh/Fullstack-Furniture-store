@@ -6,7 +6,7 @@ import Link from "next/link";
 import { FaShoppingCart } from "react-icons/fa";
 import { useCart } from "@/utils/numItemsInCart";
 import { useEffect } from "react";
-import { useUser } from "@clerk/nextjs";
+import { SignInButton, useUser } from "@clerk/nextjs";
 import {
   HoverCard,
   HoverCardContent,
@@ -41,11 +41,25 @@ function CartButton() {
 
     fetchCartData();
   }, [fetchCartNumber]);
+
+  if (!user?.id) {
+    return (
+      <SignInButton mode="modal">
+        <Button variant="secondary">
+          <FaShoppingCart />
+
+          <span className=" rounded-full text-black  bg-primary w-6 h-6 flex items-center justify-center text-xs">
+            {user ? numItemsInCart : 0}
+          </span>
+        </Button>
+      </SignInButton>
+    );
+  }
   return (
     <Link href="/cart">
-      <HoverCard openDelay={100} closeDelay={100}>
+      <HoverCard openDelay={100} closeDelay={100} >
         <HoverCardTrigger asChild>
-          <Button variant="outline">
+          <Button variant='outline' className="bg-secondary">
             <FaShoppingCart />
 
             <span className=" rounded-full text-black  bg-primary w-6 h-6 flex items-center justify-center text-xs">
@@ -73,7 +87,7 @@ function CartButton() {
                       src={image}
                       className="w-[100px] h-[100px] rounded-md border object-cover"
                     />
-                    <div >
+                    <div>
                       <h4 className="text-sm font-semibold">
                         {item.product.name}
                       </h4>
