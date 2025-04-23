@@ -42,6 +42,7 @@ async function EditProductPage({ params }: searchParams) {
             type="edit"
             apiRoute="editProduct"
             productId={product.id}
+            favoriteId=""
           >
             <div className="grid gap-4 md:grid-cols-1 my-4">
               <input type="hidden" name="id" value={product.id} />

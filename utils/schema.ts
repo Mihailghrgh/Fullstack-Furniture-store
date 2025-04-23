@@ -17,13 +17,12 @@ export const productSchema = z.object({
   description: z.string().refine(
     (description) => {
       const wordCount = description.split(" ").length;
-      return wordCount >= 10 && wordCount <= 279;
+      return wordCount >= 5 && wordCount <= 300;
     },
     {
-      message: "Description must be between 10 and 279 words!",
+      message: "Description must be between 5 and 300 words!",
     }
   ),
-  id: z.string(),
 });
 
 export const cartSchema = z.object({

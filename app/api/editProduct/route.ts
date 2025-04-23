@@ -10,6 +10,7 @@ export async function POST(
 > {
   const { searchParams } = new URL(request.url);
   const type = searchParams.get("type");
+  const productId = searchParams.get("id");
 
   switch (type) {
     case "edit": {
@@ -29,13 +30,13 @@ export async function POST(
 
         const validateData = validateWithZodSchema(productSchema, formData);
 
-        if (!validateData.id) {
+        if (!productId) {
           return NextResponse.json({
             message: "Id not found for product , Action uncompleted",
           });
         }
         await db.product.update({
-          where: { id: validateData.id },
+          where: { id: productId },
           data: {
             ...validateData,
           },

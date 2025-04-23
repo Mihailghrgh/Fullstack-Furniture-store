@@ -319,7 +319,6 @@ export async function POST(
         ////Getting the ADMIN Id to check if we have the wrong user making requests
         const { userId } = await auth();
         if (!userId) {
-          result = "Not allowed";
           return NextResponse.json({ message: "Not allowed" });
         }
 
