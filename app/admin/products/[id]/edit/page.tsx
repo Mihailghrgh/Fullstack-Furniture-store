@@ -38,7 +38,11 @@ async function EditProductPage({ params }: searchParams) {
             <input type="hidden" name="url" value={id} />
           </ImageInputContainer>
 
-          <FormContainer type="edit" productId={product.id}>
+          <FormContainer
+            type="edit"
+            apiRoute="editProduct"
+            productId={product.id}
+          >
             <div className="grid gap-4 md:grid-cols-1 my-4">
               <input type="hidden" name="id" value={product.id} />
               <FormInput

@@ -35,7 +35,6 @@ function CartPageClient() {
     } catch (error: any) {
       console.log(error);
     }
-
   };
 
   const refetchCartData = async () => {
@@ -67,6 +66,13 @@ function CartPageClient() {
     fetchCart();
   }, []);
 
+  if (cart?.cartItems.length === 0) {
+    return (
+      <>
+        <SectionTitle text="Your cart is empty" />
+      </>
+    );
+  }
 
   return (
     <>

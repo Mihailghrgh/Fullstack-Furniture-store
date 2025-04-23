@@ -346,9 +346,12 @@ export async function POST(
             clerkId: userId,
           },
         });
-        result = "New Product Created";
+
+        return NextResponse.json({ message: "New Product Created" });
       } catch (error: any) {
-        result = error.message;
+        console.log("This is the error: ", error);
+
+        return NextResponse.json({ message: error.message });
       }
     }
 
@@ -396,41 +399,41 @@ export async function POST(
     //   }
     // }
 
-    case "edit": {
-      try {
-        const { userId } = await auth();
-        if (!userId) {
-          result = "Not allowed";
-          redirect("/");
-        }
-        //This way if you want to pass the data as { data: name, company, price , description , image}
-        // const { data } = await request.json();
-        // const { name, price, description, company, id } = data;
+    // case "edit": {
+    //   try {
+    //     const { userId } = await auth();
+    //     if (!userId) {
+    //       result = "Not allowed";
+    //       return NextResponse.json({ message: "Action not allowed" });
+    //     }
+    //     //This way if you want to pass the data as { data: name, company, price , description , image}
+    //     // const { data } = await request.json();
+    //     // const { name, price, description, company, id } = data;
 
-        //Post method using the Object form a form and extracting it
-        const newData = await request.formData();
-        const formData = Object.fromEntries(newData);
-        console.log(formData);
+    //     //Post method using the Object form a form and extracting it
+    //     const newData = await request.formData();
+    //     const formData = Object.fromEntries(newData);
+    //     console.log(formData);
 
-        const validateData = validateWithZodSchema(productSchema, formData);
+    //     const validateData = validateWithZodSchema(productSchema, formData);
 
-        if (!id) {
-          result = "Not allowed";
-          redirect("/");
-        }
-        await db.product.update({
-          where: { id: id },
-          data: {
-            ...validateData,
-          },
-        });
+    //     if (!id) {
+    //       result = "Not allowed";
+    //       redirect("/");
+    //     }
+    //     await db.product.update({
+    //       where: { id: id },
+    //       data: {
+    //         ...validateData,
+    //       },
+    //     });
 
-        break;
-      } catch (error: any) {
-        console.log(error);
-        result = error.message;
-      }
-    }
+    //     break;
+    //   } catch (error: any) {
+    //     console.log(error);
+    //     result = error.message;
+    //   }
+    // }
 
     case "updatedImage": {
       try {
@@ -534,10 +537,11 @@ export async function POST(
         await db.review.create({
           data: { ...validateFields, clerkId: userId },
         });
+        return NextResponse.json({ message: "Your review has been published" });
       } catch (error: any) {
         console.log(error);
 
-        return NextResponse.json(error);
+        return NextResponse.json({ message: error });
       }
     }
 
@@ -583,10 +587,12 @@ export async function POST(
         });
 
         await updateCart(newCart);
+
+        return NextResponse.json({ message: "Product added to Cart" });
       } catch (error: any) {
         console.log(error);
+        return NextResponse.json({ message: error });
       }
-      return NextResponse.json({ message: "Product Added to the Cart" });
     }
     case "removeCartItemAction": {
       try {
@@ -609,7 +615,9 @@ export async function POST(
         });
 
         await updateCart(Cart);
-        return NextResponse.json({ message: `Product ${id} has been deleted` });
+        return NextResponse.json({
+          message: "Product removed from your cart!",
+        });
       } catch (error: any) {
         console.log(error);
         return NextResponse.json({

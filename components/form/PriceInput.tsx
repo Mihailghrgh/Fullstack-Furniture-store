@@ -17,7 +17,7 @@ function PriceInput({ defaultValue }: FormInputNumberProps) {
         type="text"
         name="price"
         min={0}
-        defaultValue={defaultValue || "100"}
+        placeholder="$100"
         required
       />
     </div>

@@ -37,7 +37,12 @@ function ImageInputContainer(props: ImageInputContainerProps) {
       </Button>
       {isUpdatedFormVisible && (
         <div className="max-w-md mt-4">
-          <FormContainer type="updatedImage" productId={productId}>
+          <FormContainer
+            type="updateImage"
+            apiRoute="updateImage"
+            favoriteId=""
+            productId=""
+          >
             {props.children}
             <ImageInput />
             <SubmitButton size="sm" text={text}></SubmitButton>

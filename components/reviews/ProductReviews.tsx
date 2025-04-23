@@ -29,7 +29,6 @@ function ProductReviews({ productId }: { productId: string }) {
   }, [productId, refresh]);
 
   const handleNewReview = () => {
-
     setRefresh(true);
   };
 

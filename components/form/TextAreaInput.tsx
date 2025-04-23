@@ -19,6 +19,7 @@ function TextAreaInput({ name, labelText, defaultValue }: TextAreaInputProps) {
         defaultValue={defaultValue}
         required
         rows={6}
+        placeholder="Enter here your product description"
         className="leading-loose mt-4"
       />
     </div>

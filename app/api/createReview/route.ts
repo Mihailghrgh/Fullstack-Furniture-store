@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import db from "@/utils/db";
+import { validateWithZodSchema, reviewSchema } from "@/utils/schema";
 
 export async function POST(
   request: NextRequest
@@ -11,25 +12,27 @@ export async function POST(
   const type = searchParams.get("type");
 
   switch (type) {
-    case "delete": {
+    case "createReview": {
       try {
         const { userId } = await auth();
+
         if (!userId) {
-          return NextResponse.json({ message: "Error on delete" });
+          return NextResponse.json({
+            message: "No user active please login to create a review ",
+          });
         }
-        ////Simple deleting process , passing the {data: data} and not {headers: } required
-        const bodyData = await request.json();
-        console.log(bodyData.data);
+        const newData = await request.formData();
+        const data = Object.fromEntries(newData);
 
-        const productId = bodyData.data;
+        const validateFields = validateWithZodSchema(reviewSchema, data);
 
-        await db.product.delete({
-          where: { id: productId },
+        await db.review.create({
+          data: { ...validateFields, clerkId: userId },
         });
-
-        return NextResponse.json({ message: "Product Deleted" });
+        return NextResponse.json({ message: "Your review has been published" });
       } catch (error: any) {
         console.log(error);
+
         return NextResponse.json({ message: error });
       }
     }

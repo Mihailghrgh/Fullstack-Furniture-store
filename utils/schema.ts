@@ -4,25 +4,26 @@ export const productSchema = z.object({
   name: z
     .string()
     .min(2, {
-      message: "name must be at least 2 characters.",
+      message: "Name must be at least 2 characters!",
     })
-    .max(100, {
-      message: "name must be less than 100 characters.",
+    .max(50, {
+      message: "Name must be less than 50 characters!",
     }),
   company: z.string(),
   featured: z.coerce.boolean(),
   price: z.coerce.number().int().min(0, {
-    message: "price must be a positive number.",
+    message: "Price must be a positive number!",
   }),
   description: z.string().refine(
     (description) => {
       const wordCount = description.split(" ").length;
-      return wordCount >= 10 && wordCount <= 1000;
+      return wordCount >= 10 && wordCount <= 279;
     },
     {
-      message: "description must be between 10 and 1000 words.",
+      message: "Description must be between 10 and 279 words!",
     }
   ),
+  id: z.string(),
 });
 
 export const cartSchema = z.object({
@@ -79,7 +80,9 @@ export function validateWithZodSchema<T>(
   if (!response.success) {
     const error = response.error.errors.map((item) => item.message);
 
-    throw new Error(error.join(","));
+    console.log("This is the error ", response.error.errors);
+
+    throw new Error(error.join("\n"));
   }
 
   return response.data;

@@ -13,6 +13,7 @@ function FormContainer({
   favoriteId,
   handleRefetch,
   refetchCartData,
+  apiRoute = "products",
 }: {
   children: React.ReactNode;
   type: string;
@@ -20,32 +21,41 @@ function FormContainer({
   favoriteId?: string | null;
   handleRefetch?: () => void;
   refetchCartData?: () => void;
+  apiRoute?: string;
 }) {
   const router = useRouter();
   const { fetchCartNumber } = useCart();
+  const { toast } = useToast();
 
   const [state, formAction] = useActionState(
     async (prevState: any, formData: FormData) => {
       try {
         const response = await axios.post(
-          `/api/products?type=${type}${productId && `&id=${productId}`}${
+          `/api/${apiRoute}?type=${type}${productId && `&id=${productId}`}${
             favoriteId && `&favoriteId=${favoriteId}`
           }`,
           formData
         );
 
-        console.log(formData);
-        
         if (type === "createReview" && handleRefetch) {
           handleRefetch();
         }
 
         if (type === "removeCartItemAction" && refetchCartData) {
           refetchCartData();
-          console.log("Here");
         }
         fetchCartNumber();
-        return { success: true, response: response.data.message };
+
+        toast({
+          className:
+            "fixed top-5 bg-red-500 left-1/2 transform -translate-x-1/2 w-80 shadow-lg bg-primary-foreground",
+          style: { whiteSpace: "pre-line" },
+          description: response.data.message,
+        });
+        return {
+          success: true,
+          response: response.data.message,
+        };
       } catch (error: any) {
         return {
           message:
@@ -56,7 +66,6 @@ function FormContainer({
     },
     { message: "Sent" }
   );
-  const { toast } = useToast();
 
   useEffect(() => {
     if (state.success) {
@@ -64,17 +73,13 @@ function FormContainer({
     }
   }, [state.success]);
 
-  const handleSubmit = async () => {
-    toast({
-      className:
-        "fixed top-5 left-1/2 transform -translate-x-1/2 w-80 shadow-lg bg-primary-foreground",
-      description: "Form Submitted",
-    });
-  };
-  return (
-    <form action={formAction} onSubmit={handleSubmit}>
-      {children}
-    </form>
-  );
+  // const handleSubmit = async () => {
+  //   toast({
+  //     className:
+  //       "fixed top-5 bg-red-500 left-1/2 transform -translate-x-1/2 w-80 shadow-lg bg-primary-foreground",
+  //     description: state.response,
+  //   });
+  // };
+  return <form action={formAction}>{children}</form>;
 }
 export default FormContainer;

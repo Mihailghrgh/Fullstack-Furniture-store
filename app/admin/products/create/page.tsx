@@ -11,9 +11,6 @@ import { Suspense } from "react";
 import LoadingTable from "@/components/global/LoadingTable";
 
 function CreateProductPage() {
-  const name = faker.commerce.productName();
-  const company = faker.company.name();
-  const description = faker.lorem.paragraph({ min: 10, max: 12 });
   return (
     <Suspense fallback={<LoadingTable rows={10} />}>
       <section>
@@ -27,22 +24,18 @@ function CreateProductPage() {
                 type="text"
                 name="name"
                 label="product name"
-                defaultValue={name}
+                placeholder="Enter here the product name"
               />
               <FormInput
                 type="text"
                 name="company"
                 label="company"
-                defaultValue={company}
+                placeholder="Enter here the company name"
               />
               <PriceInput />
               <ImageInput />
             </div>
-            <TextAreaInput
-              name="description"
-              labelText="product description"
-              defaultValue={description}
-            />
+            <TextAreaInput name="description" labelText="product description" />
             <div>
               <CheckboxInput name="featured" label="featured" />
             </div>

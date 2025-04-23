@@ -65,13 +65,10 @@ function SubmitReview({
             />
             <SubmitButton className="mt-6 bg-blue-600 hover:bg-blue-700 text-white rounded-none size-lg w-full" />
           </FormContainer>
-
-          {/* <DialogFooter className="absolute right-40 top-96">
-            <SubmitButton className="m-6 bg-blue-600 hover:bg-blue-700 text-white rounded-none items-center size-lg w-full" />
-          </DialogFooter> */}
         </DialogContent>
       </Dialog>
     </div>
   );
 }
+
 export default SubmitReview;

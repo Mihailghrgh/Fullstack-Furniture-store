@@ -44,7 +44,6 @@ function SinglePageProduct({ params }: { params: string }) {
   }
 
   if (!params) {
-    console.log("here 2");
     return <LoadingContainer />;
   }
   const { name, image, company, description, price } = singleProduct;
