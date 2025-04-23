@@ -2,11 +2,8 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 
 const name = "price";
-type FormInputNumberProps = {
-  defaultValue?: number;
-};
 
-function PriceInput({ defaultValue }: FormInputNumberProps) {
+function PriceInput() {
   return (
     <div className="mb-2">
       <Label htmlFor={name} className="capitalize">

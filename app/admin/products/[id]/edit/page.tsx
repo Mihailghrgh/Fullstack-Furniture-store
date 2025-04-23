@@ -57,7 +57,7 @@ async function EditProductPage({ params }: searchParams) {
                 label="company name"
                 defaultValue={company}
               />
-              <PriceInput defaultValue={price} />
+              <PriceInput />
               <TextAreaInput
                 name="description"
                 labelText="product description"
