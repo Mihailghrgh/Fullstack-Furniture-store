@@ -19,7 +19,7 @@ async function EditProductPage({ params }: searchParams) {
   const { data } = await axios.get(
     `https://furniture-shopping-eta.vercel.app/api/products?type=unique&id=${product.id}`
   );
-  const { name, company, description, featured, price, image, id } = data;
+  const { name, company, description, featured, image, id } = data;
 
   return (
     <Suspense fallback={<LoadingTable />}>
