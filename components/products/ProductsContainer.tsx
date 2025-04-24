@@ -41,15 +41,13 @@ function ProductsContainer() {
     }
   };
 
-  const { data, isError, isLoading, error } = useQuery({
+  const { data, isError, isLoading } = useQuery({
     queryKey: ["products", searchTerm],
     queryFn: fetchProductData,
     staleTime: 1000 * 60,
   });
 
   if (isError) {
-    console.log(error);
-
     return <h1>isError....</h1>;
   }
 
