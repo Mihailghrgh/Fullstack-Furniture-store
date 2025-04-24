@@ -29,7 +29,7 @@ function Navbar() {
       <Container className="pb-5 lg:pb-0 flex flex-col justify-between items-center sm:flex-row flex-wrap gap-6">
         <Logo />
 
-        <div className="flex items-center justify-center gap-24 md:gap-8">
+        <div className="flex items-center justify-center gap-10 md:gap-8">
           <CartButton />
           <DarkMode />
           <LinksDropdown isAdmin={data} />
