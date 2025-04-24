@@ -45,9 +45,8 @@ function CartButton() {
   if (!user?.id) {
     return (
       <SignInButton mode="modal">
-        <Button variant="secondary">
+        <Button variant="outline" className="bg-secondary">
           <FaShoppingCart />
-
           <span className=" rounded-full text-black  bg-primary w-6 h-6 flex items-center justify-center text-xs">
             {user ? numItemsInCart : 0}
           </span>
@@ -57,9 +56,9 @@ function CartButton() {
   }
   return (
     <Link href="/cart">
-      <HoverCard openDelay={100} closeDelay={100} >
+      <HoverCard openDelay={100} closeDelay={100}>
         <HoverCardTrigger asChild>
-          <Button variant='outline' className="bg-secondary">
+          <Button variant="outline" className="bg-secondary">
             <FaShoppingCart />
 
             <span className=" rounded-full text-black  bg-primary w-6 h-6 flex items-center justify-center text-xs">
