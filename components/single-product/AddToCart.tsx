@@ -7,7 +7,6 @@ import { Mode } from "./SelectProductAmount";
 import FormContainer from "../form/FormContainer";
 import { SubmitButton } from "../form/Buttons";
 import { ProductSignInButton } from "../form/Buttons";
-import { Separator } from "@/components/ui/separator";
 
 function AddToCart({ productId }: { productId: string }) {
   const [amount, setAmount] = useState(1);

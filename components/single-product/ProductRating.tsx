@@ -6,7 +6,7 @@ import axios from "axios";
 
 type Reviews = {
   rating: string;
-  count: Number;
+  count: number;
 };
 
 function ProductRating({ productId }: { productId: string }) {
@@ -29,11 +29,6 @@ function ProductRating({ productId }: { productId: string }) {
   }, []);
 
   const className = `flex gap-2 items-center text-md mt-1 mb-2`;
-  const countValue = `${
-    reviews?.count === 0 ? "No reviews" : `${reviews?.count} reviews`
-  }`;
-
-  console.log(reviews?.count);
 
   return (
     <span className={className}>
