@@ -12,7 +12,7 @@ function SectionTitle({
   return (
     <div className="text-center">
       <Separator />
-      <h1 className="text-primary my-4">{text3}</h1>
+      <h1 className="text-destructive my-4 tracking-wider font-semibold text-lg">{text3}</h1>
       <h2 className="text-4xl font-bold tracking-wider mb-2 text-center">
         {text}
       </h2>

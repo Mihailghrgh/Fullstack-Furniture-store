@@ -11,8 +11,7 @@ import ShareButton from "@/components/single-product/ShareButton";
 import ProductReviews from "@/components/reviews/ProductReviews";
 import { useEffect, useState } from "react";
 import { Product } from "@prisma/client";
-import LoadingContainer from "../global/LoadingContainer";
-import { Separator } from "@/components/ui/separator";
+import LoadingContainer from "../global/LoadingContainer";;
 
 function SinglePageProduct({ params }: { params: string }) {
   const [singleProduct, setSingleProduct] = useState<Product>();
@@ -81,11 +80,10 @@ function SinglePageProduct({ params }: { params: string }) {
               By <span className="font-bold text-foreground">{company}</span>
             </p>
           </div>
-          <h4 className="mt-3 text-md inline-block rounded text-2xl font-bold">
+          <h4 className="mt-2 text-md inline-block rounded text-2xl font-bold">
             {dollarsAmount}
           </h4>
-          <Separator className="my-2" />
-          <p className=" leading-8 text-muted-foreground">{description}</p>
+          <p className=" leading-8 text-muted-foreground pt-10">{description}</p>
 
           <AddToCart productId={id} />
         </div>

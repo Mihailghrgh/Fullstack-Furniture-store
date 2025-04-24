@@ -1,123 +1,74 @@
 "use client";
 
 import ProductsGrid from "./ProductsGrid";
-import ProductsList from "./ProductsList";
-import { LuLayoutGrid, LuList } from "react-icons/lu";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import axios from "axios";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { Product } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
+import SectionTitle from "../global/SectionTitle";
+import { useSearchParams, useRouter } from "next/navigation";
+import { Input } from "../ui/input";
+import LoadingContainer from "../global/LoadingContainer";
+import { useDebouncedCallback } from "use-debounce";
 
-function ProductsContainer({
-  layout,
-  search,
-}: {
-  layout: string | undefined;
-  search: string | undefined;
-}) {
-  // const [products, setProducts] = useState<Product[]>([]);
+function ProductsContainer() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
-  // const [_key, { search, layout }] = queryKey;
-  // let url = `/api/products`;
-  // const params = new URLSearchParams();
-  // if (search) params.set("search", search);
-  // if (layout) params.set("layout", layout);
-  // if (search) params.set("type", "searching");
+  const searchTerm = searchParams.get("search") || "default";
 
-  // url += `?${params.toString()}`;
+  const handleInputChange = useDebouncedCallback((e: any) => {
+    e.preventDefault();
+    const value = e.target.value;
 
-  const fetchProductData = async (context: any) => {
-    const { data } = await axios.get("/api/products?type=searching");
+    const params = new URLSearchParams(searchParams);
+    if (value) {
+      params.set("search", value);
+    } else {
+      params.set("search", "");
+    }
 
-    return data;
+    router.push(`?${params.toString()}`);
+  }, 350);
+
+  const fetchProductData = async () => {
+    try {
+      const { data } = await axios.get("/api/products?type=searching", {
+        params: { searchTerm },
+      });
+
+      return data;
+    } catch (error: any) {
+      console.log();
+    }
   };
 
-  const { data, isError, isLoading } = useQuery({
-    queryKey: ["products"],
+  const { data, isError, isLoading, error } = useQuery({
+    queryKey: ["products", searchTerm],
     queryFn: fetchProductData,
     staleTime: 1000 * 60,
-    refetchOnReconnect: false,
   });
 
-  // useEffect(() => {
-  //   const fetchProducts = async () => {
-  //     let url = `/api/products`;
-  //     const params = new URLSearchParams();
-  //     if (search) params.set("search", search);
-  //     if (layout) params.set("layout", layout);
-  //     if (search) params.set("type", "searching");
-
-  //     url += `?${params.toString()}`;
-  //     const { data } = await axios.get(url);
-  //     setProducts(data);
-  //   };
-
-  //   fetchProducts();
-  // }, [search, layout]);
-
-  // const totalProducts = products.length;
-
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
-
   if (isError) {
+    console.log(error);
+
     return <h1>isError....</h1>;
   }
-  const searchTerm = search ? `&search=${search}` : "";
-
-  console.log(data);
 
   return (
     <>
-      {/* HEADER */}
-      <section>
-        <div className="flex justify-between items-center">
-          {/* <h4 className="font-medium text-lg">
-            {products.length} product{products.length > 1 && "s"}
-          </h4> */}
-          <div className="flex gap-x-4">
-            {/* GRID BUTTON */}
-            <Button
-              size="icon"
-              asChild
-              variant={layout === "grid" ? "default" : "outline"}
-              className="rounded-none"
-            >
-              <Link href={`/products?layout=grid${searchTerm}`}>
-                <LuLayoutGrid />
-              </Link>
-            </Button>
-            {/* LIST BUTTON */}
-            <Button
-              size="icon"
-              asChild
-              variant={layout === "list" ? "default" : "outline"}
-              className="rounded-none"
-            >
-              <Link href={`/products?layout=list${searchTerm}`}>
-                <LuList />
-              </Link>
-            </Button>
-          </div>
-        </div>
-        <Separator className="mt-4" />
-      </section>
-      {/* PRODUCTS */}
+      <div className="flex flex-col grid-cols-1 justify-center items-center">
+        <SectionTitle
+          text3="Super Fly"
+          text="Thank you visiting! Checkout out our products"
+        />
+
+        <Input
+          placeholder="Search products..."
+          className="bg-secondary text-center w-full md:w-96 mt-10 hover:shadow-lg transition duration-300"
+          onChange={handleInputChange}
+        />
+      </div>
       <div>
-        {/* {products.length === 0 ? (
-          <h5 className="text-2xl mt-16">
-            Sorry , no products matched your search
-          </h5>
-        ) : layout === "grid" ? (
-          <ProductsGrid products={products} />
-        ) : (
-          <ProductsList products={products} />
-        )} */}
-        <ProductsGrid products={data} />
+        {isLoading ? <LoadingContainer /> : <ProductsGrid products={data} />}
       </div>
     </>
   );

@@ -38,7 +38,9 @@ function SelectProductAmount(
         onValueChange={(value) => setAmount(Number(value))}
         disabled={cartItems ? props.isLoading : false}
       >
-        <SelectTrigger className={cartItems ? "w-40" : "w-[150px]"}>
+        <SelectTrigger
+          className={cartItems ? "w-40" : "w-[150px] bg-secondary"}
+        >
           <SelectValue placeholder={amount} />
         </SelectTrigger>
         <SelectContent className="items-center text-center">
@@ -46,7 +48,7 @@ function SelectProductAmount(
             const selectValue = (index + 1).toString();
             return (
               <SelectItem
-                className="text-center"
+                className="text-center hover:cursor-pointer focus:bg-muted"
                 key={index}
                 value={selectValue}
               >

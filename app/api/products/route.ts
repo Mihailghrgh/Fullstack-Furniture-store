@@ -18,7 +18,6 @@ import { cartSchema } from "@/utils/schema";
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const type = searchParams.get("type");
-  const search = searchParams.get("search");
   const id = searchParams.get("id");
 
   let result;
@@ -53,25 +52,61 @@ export async function GET(request: Request) {
     }
 
     case "searching": {
-      if (!search) {
-        const data = await db.product.findMany({
-          orderBy: { createdAt: "desc" },
-        });
+      try {
+        const { searchParams } = new URL(request.url);
+        const search = searchParams.get("searchTerm") || "default";
+        console.log(search);
 
-        return NextResponse.json(data);
-      } else {
-        const data = await db.product.findMany({
-          where: {
-            OR: [
-              { name: { contains: search, mode: "insensitive" } },
-              { company: { contains: search, mode: "insensitive" } },
-            ],
-          },
-          orderBy: { createdAt: "desc" },
-        });
+        if (search === "default") {
+          console.log("No search available", search);
 
-        return NextResponse.json(data);
+          const data = await db.product.findMany({
+            orderBy: { createdAt: "desc" },
+          });
+
+          return NextResponse.json(data);
+        } else {
+          console.log("Search available, searching....", search);
+
+          const data = await db.product.findMany({
+            where: {
+              OR: [
+                { name: { contains: search, mode: "insensitive" } },
+                { company: { contains: search, mode: "insensitive" } },
+              ],
+            },
+            orderBy: {
+              createdAt: "desc",
+            },
+          });
+
+          return NextResponse.json(data);
+        }
+      } catch (error: any) {
+        console.log(error);
+
+        return NextResponse.json(error);
       }
+
+      // if (!search) {
+      //   const data = await db.product.findMany({
+      //     orderBy: { createdAt: "desc" },
+      //   });
+
+      //   return NextResponse.json(data);
+      // } else {
+      //   const data = await db.product.findMany({
+      //     where: {
+      //       OR: [
+      //         { name: { contains: search, mode: "insensitive" } },
+      //         { company: { contains: search, mode: "insensitive" } },
+      //       ],
+      //     },
+      //     orderBy: { createdAt: "desc" },
+      //   });
+
+      //   return NextResponse.json(data);
+      // }
     }
     case "admin": {
       const { userId } = await auth();

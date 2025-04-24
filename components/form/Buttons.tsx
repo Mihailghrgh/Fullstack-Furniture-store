@@ -130,7 +130,7 @@ export const CardSubmitButton = ({
       type="submit"
       size="icon"
       variant="outline"
-      className="rounded-full p-2 cursor-pointer"
+      className="rounded-full p-2 cursor-pointer bg-secondary"
       onClick={handleToggle}
     >
       {pending ? (

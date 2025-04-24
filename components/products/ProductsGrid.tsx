@@ -1,47 +1,45 @@
-//! FIRST WAY TO IMport a type model with normal payload / parameters
 import { formatCurrency } from "@/utils/format";
 import { Product } from "@prisma/client";
 import Link from "next/link";
 import { Card, CardContent } from "../ui/card";
-import Image from "next/image";
-import FavoriteToggleButton from "./FavoriteToggleButton";
+import { CardHeader, CardFooter } from "../ui/card";
+import { Button } from "../ui/button";
 
 function ProductsGrid({ products }: { products: Product[] }) {
-  console.log(products);
-  
   return (
-    <div className="pt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div className="pt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {products.map((item) => {
         const { id: productId, name, image, description, price } = item;
-        const dollarsAmount = formatCurrency(price);
         return (
-          <article key={productId} className="group relative">
+          <article
+            key={productId}
+            className="group relative  hover:shadow-lg transition duration-300"
+          >
             <Link href={`/products/${productId}`}>
-              <Card className="transform group-hover:shadow-xl transition-shadow duration-300 bg-primary-foreground ">
-                <CardContent>
-                  <div className="relative h-64 md:h-48 rounded overflow-hidden">
-                    <Image
-                      src={image}
+              <Card className="h-full flex flex-col bg-primary-foreground">
+                <CardHeader className="p-4 pb-0">
+                  <div className="aspect-square relative overflow-hidden rounded-md mb-2">
+                    <img
+                      src={image || "/placeholder.svg"}
                       alt={name}
-                      fill
-                      sizes="(max-width:768px) 100vw , (max-width:1200px) , 50vw, 33vw"
-                      priority
-                      className="rounded w-full object-cover transform group hover:scale-110 transition-transform duration-300"
+                      className="object-cover w-full h-full transition-transform hover:scale-105"
                     />
                   </div>
-                  <div className="mt-4 text-center">
-                    <h2 className="capitalize text-lg">{name}</h2>
-                    <p className="mt-1 mb-1 text-accent-foreground">
-                      {dollarsAmount}
-                    </p>
-                    <p className="text-start">{description}</p>
-                  </div>
+                  <h3 className="font-semibold text-xl pl-2">{name}</h3>
+                </CardHeader>
+                <CardContent className="py-2 flex-grow">
+                  <p className="text-muted-foreground text-sm">{description}</p>
                 </CardContent>
+                <CardFooter className="flex justify-between items-center pt-0">
+                  <span className="font-bold text-lg">
+                    {formatCurrency(price)}
+                  </span>
+                  <Button className="rounded-none bg-blue-600 hover:bg-blue-700 transition text-white">
+                    Add to Cart
+                  </Button>
+                </CardFooter>
               </Card>
             </Link>
-            {/* <div className="absolute top-7 right-7 z-5">
-              <FavoriteToggleButton productId={productId} />
-            </div> */}
           </article>
         );
       })}

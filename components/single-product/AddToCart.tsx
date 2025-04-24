@@ -18,8 +18,7 @@ function AddToCart({ productId }: { productId: string }) {
     return <ProductSignInButton />;
   }
   return (
-    <div>
-      <Separator className="my-8" />
+    <div className="pt-10">
       <SelectProductAmount
         mode={Mode.SingleProduct}
         amount={amount}
