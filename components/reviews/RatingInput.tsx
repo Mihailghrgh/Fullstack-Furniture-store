@@ -25,7 +25,11 @@ function RatingInput({ name, labelText }: { name: string; labelText: string }) {
         <SelectContent>
           {numbers.map((number) => {
             return (
-              <SelectItem key={number} value={number}>
+              <SelectItem
+                className="focus:bg-muted hover:cursor-pointer"
+                key={number}
+                value={number}
+              >
                 {number}
               </SelectItem>
             );

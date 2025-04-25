@@ -190,6 +190,9 @@ export async function GET(request: Request) {
             },
           },
         },
+        orderBy: {
+          createdAt: "desc",
+        },
       });
       return NextResponse.json(result);
     }

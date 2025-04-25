@@ -1,71 +1,45 @@
 "use client";
-import { SubmitButton } from "@/components/form/Buttons";
-import FormContainer from "@/components/form/FormContainer";
-import RatingInput from "@/components/reviews/RatingInput";
-import TextAreaInput from "@/components/form/TextAreaInput";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@clerk/nextjs";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { Dispatch, SetStateAction } from "react";
+import SubmitReviewBox from "../reviewBox/SubmitReviewBox";
+import AfterReviewSubmissionBox from "../reviewBox/AfterReviewSubmissionBox";
 
 function SubmitReview({
   productId,
   handleRefetch,
+  showFirstBox,
+  setShowFirstBox,
 }: {
   productId: string;
   handleRefetch: () => void;
+  showFirstBox: boolean;
+  setShowFirstBox: Dispatch<SetStateAction<boolean>>;
 }) {
   const { user } = useUser();
-
   return (
-    <div className="flex items-center justify-center my-2">
+    <div className="flex items-center justify-center my-2 ">
       <Dialog>
         {user && (
           <DialogTrigger asChild>
-            <Button size="lg" className="flex items-center justify-center my-2">
+            <Button
+              size="lg"
+              className="flex items-center justify-center my-2"
+              onClick={() => setShowFirstBox(true)}
+            >
               Leave a Review
             </Button>
           </DialogTrigger>
         )}
-        <DialogContent className="w-full max-w-md mx-auto items">
-          <DialogHeader>
-            <DialogTitle className="text-center">
-              Share your thoughts!
-            </DialogTitle>
-            <DialogDescription className="text-center">
-              Let people know your experience with the product. Your opinion
-              counts!
-            </DialogDescription>
-          </DialogHeader>
-
-          <FormContainer
-            type="createReview"
-            productId=""
-            favoriteId=""
+        {showFirstBox === true ? (
+          <SubmitReviewBox
+            productId={productId}
             handleRefetch={handleRefetch}
-          >
-            <input type="hidden" name="productId" value={productId} />
-            <input
-              type="hidden"
-              name="authorName"
-              value={user?.firstName || "user"}
-            />
-            <input type="hidden" name="authorImageUrl" value={user?.imageUrl} />
-            <RatingInput name="rating" labelText="" />
-            <TextAreaInput
-              name="comment"
-              labelText="feedback"
-              defaultValue="Outstanding product"
-            />
-            <SubmitButton className="mt-6 bg-blue-600 hover:bg-blue-700 text-white rounded-none size-lg w-full" />
-          </FormContainer>
-        </DialogContent>
+          />
+        ) : (
+          <AfterReviewSubmissionBox />
+        )}
       </Dialog>
     </div>
   );

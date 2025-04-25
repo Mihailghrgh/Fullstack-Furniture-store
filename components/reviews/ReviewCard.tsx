@@ -17,7 +17,7 @@ type ReviewCardProps = {
 function ReviewCard({ reviewInfo, children }: ReviewCardProps) {
   const date = new Date(reviewInfo.createdAt).toDateString();
   return (
-    <Card className="relative mt-8">
+    <Card className="relative mt-8 bg-secondary hover:bg-muted">
       {/* <div className="absolute right-3 top-10 -translate-y-1/2">
         <h1>{date}</h1>
       </div> */}
