@@ -1,4 +1,4 @@
-import { Product } from "@prisma/client";
+"use client";
 import FavoriteToggleButton from "@/components/products/FavoriteToggleButton";
 import AddToCart from "@/components/single-product/AddToCart";
 import ProductRating from "@/components/single-product/ProductRating";
@@ -12,12 +12,11 @@ type Prop = {
   company: string;
   description: string;
   price: number;
-  id: string
+  id: string;
 };
 
 function ProductDetails({ data }: { data: Prop }) {
-
-  const { name, image, company, description, price ,id } = data;
+  const { name, image, company, description, price, id } = data;
 
   return (
     <div className="mt-6 grid gap-y-8 lg:grid-cols-2 lg:gap-x-16">

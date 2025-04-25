@@ -1,3 +1,4 @@
+"use client";
 import { Product } from "@prisma/client";
 import { useState } from "react";
 import axios from "axios";

@@ -1,3 +1,4 @@
+"use client";
 import { Separator } from "../ui/separator";
 import { formatCurrency } from "@/utils/format";
 import OrderItemImage from "./OrderItemImage";
@@ -20,7 +21,6 @@ function OrderItemDetails({
   subTotal,
   total,
 }: OrderItemDetailsProps) {
-    
   return (
     <div className="p-4 pt-0 mt-4">
       <div className="space-y-4">
