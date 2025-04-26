@@ -2,7 +2,7 @@
 import { Separator } from "../ui/separator";
 import { formatCurrency } from "@/utils/format";
 import OrderItemImage from "./OrderItemImage";
-import OrderItemNameAndPrice from "./OrderItemNameAndPrice";
+import OrderItemNameAndPrice from "./OrderItemPrice";
 
 interface OrderItemDetailsProps {
   items: {
