@@ -1,6 +1,9 @@
+"use server";
+
+import SingleOrderDetails from "@/components/orders/SingleOrderPage";
+
+
 function SingleOrderPage() {
-  return (
-    <div>WORKS</div>
-  )
+  return <SingleOrderDetails/>
 }
 export default SingleOrderPage;
