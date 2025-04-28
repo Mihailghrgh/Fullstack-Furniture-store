@@ -26,7 +26,6 @@ export const POST = async (request: NextRequest) => {
     return Response.json(null, { status: 404, statusText: "Not Found" });
   }
 
-
   const line_items = cart.cartItems.map((item) => {
     return {
       quantity: item.amount,
@@ -99,7 +98,9 @@ export const POST = async (request: NextRequest) => {
     "zh",
   ]);
 
-  const stripeLocale = validStripeLocales.has(localLanguage) ? localLanguage : 'en'
+  const stripeLocale = validStripeLocales.has(localLanguage)
+    ? localLanguage
+    : "en";
 
   try {
     const session = await stripe.checkout.sessions.create({

@@ -16,6 +16,7 @@ interface OrderItemProps {
   }[];
   shipping: number;
   orderTotal: number;
+  StripeId: string;
 }
 
 function OrderItem({
@@ -25,11 +26,8 @@ function OrderItem({
   items,
   shipping,
   orderTotal,
+  StripeId,
 }: OrderItemProps) {
-  console.log(id, date, status, items, shipping);
-
-  console.log();
-
   return (
     <Card>
       <CardContent className="p-0">

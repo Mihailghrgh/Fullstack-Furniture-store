@@ -1,7 +1,6 @@
 import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 import { redirect } from "next/navigation";
-
 import { NextRequest } from "next/server";
 import db from "@/utils/db";
 
@@ -13,11 +12,17 @@ export const GET = async (request: NextRequest) => {
   try {
     const session = await stripe.checkout.sessions.retrieve(session_id);
 
+    console.log("Payment intent here : ", session.payment_intent);
+
     const orderId = session.metadata?.orderId;
     const cartId = session.metadata?.cartId;
+    const StripeId = session.payment_intent as string;
 
     if (session.status === "complete") {
-      await db.order.update({ where: { id: orderId }, data: { isPaid: true } });
+      await db.order.update({
+        where: { id: orderId },
+        data: { isPaid: true, StripeId },
+      });
     }
 
     await db.cart.delete({ where: { id: cartId } });

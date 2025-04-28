@@ -55,7 +55,6 @@ export async function GET(request: Request) {
       try {
         const { searchParams } = new URL(request.url);
         const search = searchParams.get("searchTerm") || "default";
-        console.log(search);
 
         if (search === "default") {
           console.log("No search available", search);
@@ -719,9 +718,10 @@ export async function POST(
         const order = await db.order.create({
           data: {
             clerkId: userId,
+            StripeId: "",
             products: Cart.numItemsInCart,
             orderTotal: Cart.orderTotal,
-            tax: Cart.shipping,
+            tax: Cart.tax,
             shipping: Cart.shipping,
             email: user.emailAddresses[0].emailAddress,
             orderItems: {
