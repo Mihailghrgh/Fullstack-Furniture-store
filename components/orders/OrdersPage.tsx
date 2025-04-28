@@ -69,7 +69,7 @@ function UserOrdersPage() {
         </div>
       </div>
       {orders.map((item) => {
-        const { id, createdAt, orderTotal, shipping, StripeId } = item;
+        const { id, createdAt, orderTotal, shipping } = item;
 
         const orderItem = item.orderItems.map((newItem) => {
           const productId = newItem.productId;
