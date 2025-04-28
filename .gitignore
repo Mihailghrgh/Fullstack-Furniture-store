@@ -17,7 +17,7 @@
 /.next/
 /out/
 
-README.mdgit add README.md
+
 # production
 /build
 
@@ -35,7 +35,7 @@ yarn-error.log*
 .env*
 .env
 .env*.local
-
+README.md
 # vercel
 .vercel
 
