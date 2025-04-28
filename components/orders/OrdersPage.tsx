@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Prisma } from "@prisma/client";
 import SectionTitle from "../global/SectionTitle";
+
 type Orders = Prisma.OrderGetPayload<{ include: { orderItems: true } }>;
 
 function UserOrdersPage() {
@@ -89,7 +90,6 @@ function UserOrdersPage() {
               shipping={shipping}
               items={orderItem}
               orderTotal={orderTotal}
-              StripeId={StripeId}
             />
           </div>
         );
