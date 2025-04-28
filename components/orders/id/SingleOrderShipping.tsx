@@ -1,41 +1,6 @@
+"use client";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { Truck } from "lucide-react";
-
-const orderDetails = {
-  id: "#123123123",
-  date: "April 12, 2023",
-  status: "Delivered",
-  deliveryDate: "April 15, 2023",
-  shippingAddress: {
-    name: "John Doe",
-    street: "123 Main St",
-    city: "San Francisco",
-    state: "CA",
-    zip: "94105",
-    country: "United States",
-  },
-  paymentMethod: "Visa ending in 4242",
-  items: [
-    {
-      id: "1",
-      name: "Wireless Noise-Cancelling Headphones",
-      company: "SoundWave",
-      price: 249.99,
-      image: "/placeholder.svg?height=80&width=80",
-      quantity: 1,
-    },
-    {
-      id: "2",
-      name: "Bluetooth Portable Speaker",
-      company: "SoundWave",
-      price: 129.99,
-      image: "/placeholder.svg?height=80&width=80",
-      quantity: 1,
-    },
-  ],
-  shipping: 8.99,
-  tax: 38.0,
-};
 
 function SingleOrderShipping() {
   return (

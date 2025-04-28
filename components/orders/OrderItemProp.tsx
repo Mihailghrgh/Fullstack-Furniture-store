@@ -16,7 +16,6 @@ interface OrderItemProps {
   }[];
   shipping: number;
   orderTotal: number;
-  StripeId: string;
 }
 
 function OrderItem({
@@ -26,7 +25,6 @@ function OrderItem({
   items,
   shipping,
   orderTotal,
-  StripeId,
 }: OrderItemProps) {
   return (
     <Card>
