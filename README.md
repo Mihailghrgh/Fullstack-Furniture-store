@@ -1,4 +1,4 @@
-Furnihub is a full-stack e-commerce web application for selling furniture products online.
+Superfly is a full-stack e-commerce web application for selling furniture products online.
 It features user authentication, secure Stripe checkout, admin product management, and a modern, fast frontend built with React.
 
 🚀 Tech Stack
