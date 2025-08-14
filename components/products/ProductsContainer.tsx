@@ -58,7 +58,7 @@ function ProductsContainer() {
       <div className="flex flex-col grid-cols-1 justify-center items-center">
         <SectionTitle
           text3="Super Fly"
-          text="Thank you for visiting! Checkout out our products."
+          text="Thank you for visiting! Checkout our products."
         />
 
         <Input
