@@ -8,7 +8,6 @@ import LoadingTable from "../global/LoadingTable";
 import { useQueryClient } from "@tanstack/react-query";
 import { Review } from "@prisma/client";
 import { useState } from "react";
-import { Button } from "../ui/button";
 
 function ProductReviews({ productId }: { productId: string }) {
   const [showFirstBox, setShowFirstBox] = useState(true);
